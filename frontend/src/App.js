@@ -1,5 +1,8 @@
+import React, { useState } from 'react';
+import { socket } from './index';
 
-function App() {
+const App = () => {
+
   return (
     <h1 className='text-3xl font-bold'>App.js</h1>
   );

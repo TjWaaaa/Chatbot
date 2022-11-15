@@ -8,21 +8,18 @@ import { Server, Socket } from 'socket.io';
 const app: Application = express();
 
 const httpServer = createServer(app);
-const io = new Server(httpServer);
+const io = new Server(httpServer, {
+	cors: {
+		origin: 'http://localhost:3000',
+		methods: ["GET", "POST"],
+		credentials: true 
+	}
+});
 
 dotenv.config();
 
-io.on('connection', (socket: Socket) => {
-	console.log('A user connected');
-
-	//Whenever someone disconnects this piece of code executed
-	socket.on('disconnect', function () {
-		console.log('A user disconnected');
-	});
-});
-
-app.use(cors({ origin: true }));
-app.use(cors({ origin: 'http://localhost:3000' }));
+// app.use(cors({ origin: true }));
+// app.use(cors({ origin: 'http://localhost:3000', methods: ["GET", "POST"], credentials: true }));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -31,8 +28,18 @@ app.get('/', (req: Request, res: Response) => {
 	res.send('Healthy');
 });
 
+io.on('connection', (socket: Socket) => {
+	console.log('A user connected');
+
+	//Whenever someone disconnects this piece of code executed
+	socket.on('disconnect', function () {
+		console.log('A user disconnected');
+	});
+
+});
+
 const PORT = process.env.PORT || 8000;
 
-app.listen(PORT, () => {
+httpServer.listen(PORT, () => {
 	console.log(`Server is running on PORT ${PORT}`);
 });
