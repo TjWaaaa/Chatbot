@@ -21,12 +21,12 @@ dotenv.config();
 // app.use(cors({ origin: true }));
 // app.use(cors({ origin: 'http://localhost:3000', methods: ["GET", "POST"], credentials: true }));
 
-// app.use(bodyParser.json());
-// app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-// app.get('/', (req: Request, res: Response) => {
-// 	res.send('Healthy');
-// });
+app.get('/', (req: Request, res: Response) => {
+	res.send('Healthy');
+});
 
 io.on('connection', (socket: Socket) => {
 	console.log('A user connected');
@@ -38,7 +38,6 @@ io.on('connection', (socket: Socket) => {
 
 	socket.on("message", (message) => {
 		console.log(message)
-		socket.emit("answer", "Server Answer")
 	})
 });
 
