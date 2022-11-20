@@ -3,22 +3,35 @@ import React from "react";
 export default function LoginView() {
   return (
     <div className="grid grid-cols-1 h-screen w-full">
-      <div className="bg-gray-800 flex flex-col justify-center bg-gradient-to-t from-cyan-500 to-blue-800">
-        <form className="max-w-[400px] w-full mx-auto bg-gray-900 p-8 px-8 rounded-lg">
-          <h2 className="text-4xl dark:text-white font-bold text-center">SIGN IN</h2>
-          <div className="flex flex-col text-gray-400 py-2">
-            <label>User Name</label>
-            <input className="rounded-lg bg-gray-700 mt-2 p-2 focus:border-blue-500 focus:bg-gray-800 focus:outline-none" type="text"></input>
+      <div className="flex flex-col justify-center">
+        <form className="max-w-[400px] w-full mx-auto p-8 px-8 rounded-lg">
+          <h2 className="text-4xl dark:text-white font-bold text-center py-6">
+            <div className="flex justify-center">
+              <img className="w-20 py-4" src="chatbotLogo.png" alt=""/>
+            </div>
+            <span className="text-slate-900">
+              CHAT
+            </span>
+            <span className="text-indigo-600">
+              BOT
+            </span>
+          </h2>
+          
+          <div className="flex flex-col text-gray-800 py-2">
+            <label>Benutzer/E-Mail</label>
+            <input className="rounded-lg mt-2 p-2 border border-gray-500 focus:border-indigo-600" type="text"></input>
           </div>
-          <div className="flex flex-col text-gray-400 py-2">
-            <label>Password</label>
-            <input className="rounded-lg bg-gray-700 mt-2 p-2 focus:border-blue-500 focus:bg-gray-800 focus:outline-none"  type="password"></input>
+          <div className="flex flex-col text-gray-800 py-2">
+            <label>Passwort</label>
+            <input className="rounded-lg mt-2 p-2 border border-gray-500 focus:border-indigo-600"  type="password"></input>
           </div>
-          <div className="flex justify-between text-gray-400 py-2">
-            <p className="flex items-center"><input className="mr-2" type="checkbox" />Remember Me</p>
-            <p>Forgot Password</p>
+          <div className="flex justify-center text-gray-800 py-2">
+            <a href="#">Passwort vergessen?</a>
           </div>
-          <button className="w-full my-5 py-2 bg-blue-500 shadow-lg shadow-blue-500/50 hover:shadow-blue-500/40 text-white font-semibold rounded-lg">Sign In</button>
+          <button className="w-full my-5 py-2 bg-indigo-600 shadow-lg shadow-indigo-600/50 hover:shadow-indigo-600/40 text-white font-semibold rounded-lg">Login</button>
+          <div className="flex justify-center ">
+            <p>Noch keinen Account? <a href="" className="text-indigo-600">Hier registrieren</a></p>
+          </div>
         </form>
       </div>
     </div>
