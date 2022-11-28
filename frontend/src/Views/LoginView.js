@@ -1,7 +1,9 @@
-import React, {Component} from "react";
+import React, { Component } from 'react'
 
 export default class LoginView extends Component {
   render() {
-    return <div>LoginVieww</div>;
+    return (
+      <div>LoginView</div>
+    )
   }
 }
