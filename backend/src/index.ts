@@ -11,8 +11,8 @@ const httpServer = createServer(app);
 const io = new Server(httpServer, {
 	cors: {
 		origin: 'http://localhost:3000',
-		credentials: true 
-	}
+		credentials: true,
+	},
 });
 
 dotenv.config();
@@ -35,10 +35,10 @@ io.on('connection', (socket: Socket) => {
 		console.log('A user disconnected');
 	});
 
-	socket.on("message", (message) => {
-		console.log(message)
-		socket.emit("answer", "Server Answer")
-	})
+	socket.on('message', (message) => {
+		console.log(message);
+		socket.emit('answer', 'Server Answer');
+	});
 });
 
 const PORT = process.env.PORT || 8000;
