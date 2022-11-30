@@ -18,12 +18,12 @@ export default function LoginView() {
           </h2>
           
           <div className="flex flex-col text-gray-800 py-2">
-            <label>Benutzer/E-Mail</label>
-            <input className="rounded-lg mt-2 p-2 border border-gray-500 focus:border-indigo-600" type="text"></input>
+            <label>E-Mail</label>
+            <input className="rounded-lg mt-2 p-2 border border-gray-500 focus:border-indigo-600" type="email" required></input>
           </div>
           <div className="flex flex-col text-gray-800 py-2">
             <label>Passwort</label>
-            <input className="rounded-lg mt-2 p-2 border border-gray-500 focus:border-indigo-600"  type="password"></input>
+            <input className="rounded-lg mt-2 p-2 border border-gray-500 focus:border-indigo-600"  type="password" required ></input>
           </div>
           <div className="flex justify-center text-gray-800 py-2">
             <a href="#">Passwort vergessen?</a>
