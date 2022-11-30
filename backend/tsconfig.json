@@ -1,18 +1,18 @@
 {
-    "compilerOptions": {
-        "target": "es6",
-        "module": "commonjs",
-        "outDir": "dist",
-        "rootDir": "src",
-        "strict": true,
-        "moduleResolution": "node",
-        "esModuleInterop": true,
-        "incremental": true,
-        "baseUrl": ".",
-        "paths": {
-            "~/*": ["./src/*"]
-        }
-    },
-    "include": ["src"],
-    "exclude": ["node_modules"]
+	"compilerOptions": {
+		"target": "es6",
+		"module": "commonjs",
+		"outDir": "dist",
+		"rootDir": ".",
+		"strict": true,
+		"moduleResolution": "node",
+		"esModuleInterop": true,
+		"incremental": true,
+		"baseUrl": ".",
+		"paths": {
+			"~/*": ["./src/*"]
+		}
+	},
+	"include": ["src", "prisma"],
+	"exclude": ["node_modules"]
 }

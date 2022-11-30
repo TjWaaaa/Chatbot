@@ -1,9 +1,13 @@
 import {Outlet, Link} from "react-router-dom";
 
 const Layout = () => {
-  return (
-    <>
-      <nav>
+  return <Outlet />;
+};
+
+export default Layout;
+
+/*
+<nav>
         <ul className="flex flex-row justify-between pr-8 pl-8 pt-2 pb-2 bg-blue-200">
           <li>
             <Link to="/">AllChats</Link>
@@ -23,8 +27,4 @@ const Layout = () => {
         </ul>
       </nav>
       <Outlet />
-    </>
-  );
-};
-
-export default Layout;
+*/
