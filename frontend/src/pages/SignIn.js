@@ -1,7 +1,30 @@
-import React from "react";
-import SignUp from "./SignUp";
+import React, { useState } from 'react'
+import PropTypes from "prop-types";
 
-export default function SignIn() {
+async function loginUser(credentials) {
+  return fetch('http://localhost:8080/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(credentials)
+  })
+    .then(data => data.json())
+ }
+
+export default function SignIn({ setToken }) {
+  const [username, setUserName] = useState();
+  const [password, setPassword] = useState();
+
+  const handleSubmit = async e => {
+    e.preventDefault();
+    const token = await loginUser({
+      username,
+      password
+    });
+    setToken(token);
+  }
+
   return (
     <div className="grid grid-cols-1 h-screen w-full">
       <div className="flex flex-col justify-center">
@@ -19,6 +42,7 @@ export default function SignIn() {
             <input
               className="rounded-lg mt-2 p-2 border border-gray-500 focus:border-indigo-600"
               type="email"
+              onChange={e => setUserName(e.target.value)}
               required
             ></input>
           </div>
@@ -27,22 +51,25 @@ export default function SignIn() {
             <input
               className="rounded-lg mt-2 p-2 border border-gray-500 focus:border-indigo-600"
               type="password"
+              onChange={e => setPassword(e.target.value)}
               required
             ></input>
           </div>
-          <button className="w-full my-5 py-2 bg-indigo-600 shadow-lg shadow-indigo-600/50 hover:shadow-indigo-600/40 text-white font-semibold rounded-lg">
-            Login
+          <button className="w-full my-5 py-2 bg-indigo-600 shadow-lg shadow-indigo-600/50 hover:shadow-indigo-600/40 text-white font-semibold rounded-lg" onclick={handleSubmit}>
+            Anmelden
           </button>
           <div className="flex justify-center ">
             <p>
               Noch keinen Account?{" "}
-              <link to={SignUp} className="text-indigo-600">
-                Hier registrieren
-              </link>
+              <link className="text-indigo-600">Hier registrieren</link>
             </p>
           </div>
         </form>
       </div>
     </div>
   );
+}
+
+SignIn.propTypes = {
+  setToken: PropTypes.func.isRequired
 }

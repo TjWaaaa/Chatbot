@@ -1,9 +1,29 @@
-import React, { useRef } from 'react'
+import React, { useState } from 'react'
+import PropTypes from "prop-types";
 
-export default function SignUp() {
-    const emailRef = useRef()
-    const passwordRef = useRef()
-    const passwordConfimRef = useRef()
+async function loginUser(credentials) {
+  return fetch('http://localhost:8080/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(credentials)
+  })
+    .then(data => data.json())
+ }
+
+export default function SignUp({ setToken }) {
+  const [username, setUserName] = useState();
+  const [password, setPassword] = useState();
+
+  const handleSubmit = async e => {
+    e.preventDefault();
+    const token = await loginUser({
+      username,
+      password
+    });
+    setToken(token);
+  }
 
   return (
     <div className="grid grid-cols-1 h-screen w-full">
@@ -23,19 +43,23 @@ export default function SignUp() {
             
             <div className="flex flex-col text-gray-800 py-2">
               <label>E-Mail</label>
-              <input className="rounded-lg mt-2 p-2 border border-gray-500 focus:border-indigo-600" type="email" ref={emailRef} required></input>
+              <input className="rounded-lg mt-2 p-2 border border-gray-500 focus:border-indigo-600" type="email" onChange={e => setUserName(e.target.value)} required></input>
             </div>
             <div className="flex flex-col text-gray-800 py-2">
               <label>Passwort</label>
-              <input className="rounded-lg mt-2 p-2 border border-gray-500 focus:border-indigo-600"  type="password" ref={passwordRef} required ></input>
+              <input className="rounded-lg mt-2 p-2 border border-gray-500 focus:border-indigo-600"  type="password" onChange={e => setPassword(e.target.value)} required ></input>
             </div>
             <div className="flex flex-col text-gray-800 py-2">
               <label>Passwort wiederholen</label>
-              <input className="rounded-lg mt-2 p-2 border border-gray-500 focus:border-indigo-600"  type="password" ref={passwordConfimRef} required ></input>
+              <input className="rounded-lg mt-2 p-2 border border-gray-500 focus:border-indigo-600"  type="password" required ></input>
             </div>
-            <button className="w-full my-5 py-2 bg-indigo-600 shadow-lg shadow-indigo-600/50 hover:shadow-indigo-600/40 text-white font-semibold rounded-lg">Registrieren</button>
+            <button className="w-full my-5 py-2 bg-indigo-600 shadow-lg shadow-indigo-600/50 hover:shadow-indigo-600/40 text-white font-semibold rounded-lg" onclick={handleSubmit}>Registrieren</button>
           </form>
         </div>
       </div>
   )
+}
+
+SignUp.propTypes = {
+  setToken: PropTypes.func.isRequired
 }
