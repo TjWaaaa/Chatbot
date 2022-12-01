@@ -1,23 +1,31 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import { io } from 'socket.io-client';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import reportWebVitals from "./reportWebVitals";
+import {io} from "socket.io-client";
+
+import {BrowserRouter, Routes, Route} from "react-router-dom";
+
+import Layout from "./pages/Layout";
+
+import AllChats from "./pages/AllChats";
+import SingleChat from "./pages/SingleChat";
+import ErrorPage from "./pages/ErrorPage";
 
 export const socket = io("http://localhost:8000/", {
   reconnectionDelayMax: 10000,
   withCredentials: true,
 });
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+  <BrowserRouter>
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route index element={<AllChats />} />
+        <Route path="singleChat" element={<SingleChat />} />
+        <Route path="*" element={<ErrorPage />} />
+      </Route>
+    </Routes>
+  </BrowserRouter>
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
