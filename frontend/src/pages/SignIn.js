@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import PropTypes from "prop-types";
+import {Outlet, Link} from "react-router-dom";
 
 async function loginUser(credentials) {
   return fetch('http://localhost:8080/login', {
@@ -12,10 +13,12 @@ async function loginUser(credentials) {
     .then(data => data.json())
  }
 
-export default function SignIn({ setToken }) {
+export default function SignIn() {
+
   const [username, setUserName] = useState();
   const [password, setPassword] = useState();
 
+  /*
   const handleSubmit = async e => {
     e.preventDefault();
     const token = await loginUser({
@@ -24,6 +27,7 @@ export default function SignIn({ setToken }) {
     });
     setToken(token);
   }
+  */
 
   return (
     <div className="grid grid-cols-1 h-screen w-full">
@@ -55,13 +59,13 @@ export default function SignIn({ setToken }) {
               required
             ></input>
           </div>
-          <button className="w-full my-5 py-2 bg-indigo-600 shadow-lg shadow-indigo-600/50 hover:shadow-indigo-600/40 text-white font-semibold rounded-lg" onclick={handleSubmit}>
+          <button className="w-full my-5 py-2 bg-indigo-600 shadow-lg shadow-indigo-600/50 hover:shadow-indigo-600/40 text-white font-semibold rounded-lg"> 
             Anmelden
           </button>
           <div className="flex justify-center ">
             <p>
               Noch keinen Account?{" "}
-              <link className="text-indigo-600">Hier registrieren</link>
+              <Link to="/register"className="text-indigo-600">Hier registrieren</Link>
             </p>
           </div>
         </form>
@@ -70,6 +74,8 @@ export default function SignIn({ setToken }) {
   );
 }
 
+/*
 SignIn.propTypes = {
   setToken: PropTypes.func.isRequired
 }
+*/
