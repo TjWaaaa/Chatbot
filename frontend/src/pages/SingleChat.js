@@ -1,16 +1,26 @@
-import React, {useEffect, useRef} from "react";
+import React, { useEffect, useRef } from 'react';
 
-import NavigationChat from "../components/NavigationChat";
-import MessageBot from "../components/MessageBot";
-import MessageUser from "../components/MessageUser";
-import InputChat from "../components/InputChat";
+import NavigationChat from '../components/NavigationChat';
+import MessageBot from '../components/MessageBot';
+import MessageUser from '../components/MessageUser';
+import InputChat from '../components/InputChat';
+import { socket } from '..';
 
 function Index() {
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({behavior: "smooth"});
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
+
+  const handleSendMessage = (message) => {
+    scrollToBottom();
+    socket.emit('message', message, 'businessMan');
+  };
+
+  socket.on('answer', (message) => {
+    console.log(message);
+  });
 
   useEffect(() => {
     scrollToBottom();
@@ -37,7 +47,7 @@ function Index() {
       <MessageBot text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. " />
       <MessageBot text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. " />
       <MessageBot text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. " />
-      <InputChat sendMessage={() => scrollToBottom()} />
+      <InputChat sendMessage={handleSendMessage} />
       <div ref={messagesEndRef} />
     </div>
   );

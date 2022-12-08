@@ -4,6 +4,12 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import { createServer } from 'http';
 import { Server, Socket } from 'socket.io';
+var request = require('request');
+
+enum chatBotId {
+	TRANSLATOR = 'translator',
+	BUSINESSMAN = 'businessMan',
+}
 
 const app: Application = express();
 
@@ -27,6 +33,36 @@ app.get('/', (req: Request, res: Response) => {
 	res.send('Healthy');
 });
 
+const getTranslation = (message: string, socket: Socket) => {
+	console.log(message);
+
+	var options = {
+		method: 'POST',
+		url: 'https://api-free.deepl.com/v2/translate',
+		headers: {
+			Authorization: 'DeepL-Auth-Key c2177cb9-06b8-ef5e-84b9-e4925ec1e935:fx',
+		},
+		formData: {
+			text: JSON.stringify(message),
+			target_lang: 'EN',
+		},
+	};
+	request(options, function (error: any, response: any) {
+		if (error) throw new Error(error);
+
+		const answer = JSON.parse(response.body).translations[0].text.replaceAll('"', '');
+		console.log(answer);
+		socket.emit('answer', answer, chatBotId.TRANSLATOR);
+	});
+};
+
+const getBusinessAdvice = (message: string, socket: Socket) => {
+	const advices = ['Advide 1', 'Advice 2', 'Advide 3'];
+
+	const answer = advices[Math.floor(Math.random() * advices.length)];
+	socket.emit('answer', answer, chatBotId.BUSINESSMAN);
+};
+
 io.on('connection', (socket: Socket) => {
 	console.log('A user connected');
 
@@ -35,9 +71,15 @@ io.on('connection', (socket: Socket) => {
 		console.log('A user disconnected');
 	});
 
-	socket.on('message', (message) => {
+	socket.on('message', (message, chatId: chatBotId) => {
 		console.log(message);
-		socket.emit('answer', 'Server Answer');
+
+		switch (chatId) {
+			case chatBotId.TRANSLATOR:
+				getTranslation(message, socket);
+			case chatBotId.BUSINESSMAN:
+				getBusinessAdvice(message, socket);
+		}
 	});
 });
 
