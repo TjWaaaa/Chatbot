@@ -9,6 +9,7 @@ var request = require('request');
 enum chatBotId {
 	TRANSLATOR = 'translator',
 	BUSINESSMAN = 'businessMan',
+	JOKE = 'joke',
 }
 
 const app: Application = express();
@@ -63,6 +64,15 @@ const getBusinessAdvice = (message: string, socket: Socket) => {
 	socket.emit('answer', answer, chatBotId.BUSINESSMAN);
 };
 
+const getJoke = (message: string, socket: Socket) => {
+	request('https://witzapi.de/api/joke', (error: any, response: any) => {
+		if (error) throw new Error(error);
+
+		const answer = JSON.parse(response.body)[0].text;
+		socket.emit('answer', answer, chatBotId.JOKE);
+	});
+};
+
 io.on('connection', (socket: Socket) => {
 	console.log('A user connected');
 
@@ -71,7 +81,7 @@ io.on('connection', (socket: Socket) => {
 		console.log('A user disconnected');
 	});
 
-	socket.on('message', (message, chatId: chatBotId) => {
+	socket.on('message', (message: string, chatId: chatBotId) => {
 		console.log(message);
 
 		switch (chatId) {
@@ -79,6 +89,8 @@ io.on('connection', (socket: Socket) => {
 				getTranslation(message, socket);
 			case chatBotId.BUSINESSMAN:
 				getBusinessAdvice(message, socket);
+			case chatBotId.JOKE:
+				getJoke(message, socket);
 		}
 	});
 });

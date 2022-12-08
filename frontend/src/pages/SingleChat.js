@@ -1,10 +1,10 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import NavigationChat from '../components/NavigationChat';
 import MessageBot from '../components/MessageBot';
 import MessageUser from '../components/MessageUser';
 import InputChat from '../components/InputChat';
-import { socket } from '..';
+import { socket } from '../index';
 
 function Index() {
   const messagesEndRef = useRef(null);
@@ -15,7 +15,7 @@ function Index() {
 
   const handleSendMessage = (message) => {
     scrollToBottom();
-    socket.emit('message', message, 'businessMan');
+    socket.emit('message', message, 'joke');
   };
 
   socket.on('answer', (message) => {
