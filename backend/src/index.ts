@@ -6,7 +6,6 @@ import { createServer } from 'http';
 import { Server, Socket } from 'socket.io';
 import { chatBotId } from './enums/chatBotId';
 import { getTranslation } from './handlers/translationHandler';
-var request = require('request');
 
 const app: Application = express();
 
