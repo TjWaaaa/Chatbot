@@ -13,6 +13,7 @@ import SingleChat from "./pages/SingleChat";
 import ErrorPage from "./pages/ErrorPage";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
+import Settings from "./pages/Settings";
 
 export const socket = io("http://localhost:8000/", {
   reconnectionDelayMax: 10000,
@@ -28,6 +29,7 @@ root.render(
         <Route path="singleChat" element={<SingleChat />} />
         <Route path="login" element={<SignIn />} />
         <Route path="register" element={<SignUp />} />
+        <Route path="settings" element={<Settings />} />
         <Route path="*" element={<ErrorPage />} />
       </Route>
     </Routes>
