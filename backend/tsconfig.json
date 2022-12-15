@@ -10,8 +10,11 @@
 		"incremental": true,
 		"baseUrl": ".",
 		"paths": {
-			"~/*": ["./src/*"]
+			"~/*": ["src/*"]
 		}
+	},
+	"ts-node": {
+		"transpileOnly": true
 	},
 	"include": ["src", "prisma"],
 	"exclude": ["node_modules"]
