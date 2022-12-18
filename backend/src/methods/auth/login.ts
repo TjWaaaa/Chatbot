@@ -3,6 +3,7 @@ import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
+import { regenerateSession } from '../../utils/session';
 
 export default async (req: express.Request, res: express.Response, next: express.NextFunction) => {
 	try {
@@ -24,7 +25,7 @@ export default async (req: express.Request, res: express.Response, next: express
 			if (!result) {
 				res.status(401).send('Password is wrong');
 			}
-			res.status(200).send('User successfully logged in');
+			regenerateSession(req, res, next, { id: user.id });
 		});
 	} catch (err) {
 		res.status(404).send('User not found');

@@ -1,6 +1,7 @@
 import express from 'express';
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcrypt';
+import { regenerateSession } from '../../utils/session';
 
 const saltRounds = 10;
 const prisma = new PrismaClient();
@@ -12,16 +13,18 @@ export default async (req: express.Request, res: express.Response, next: express
 		}
 
 		try {
-			await prisma.user.create({
+			const user = await prisma.user.create({
 				data: {
 					email: req.body.email,
 					hashedPassword,
 				},
+				select: {
+					id: true,
+				},
 			});
+			regenerateSession(req, res, next, user);
 		} catch (err) {
 			return next(err);
 		}
-
-		res.status(200).send('User Registered successfully');
 	});
 };

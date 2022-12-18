@@ -5,7 +5,12 @@ import dotenv from 'dotenv';
 import { createServer } from 'http';
 import { Server, Socket } from 'socket.io';
 import authRouter from './router/auth';
-var request = require('request');
+import request from 'request';
+import session from 'express-session';
+import helmet from 'helmet';
+import { PrismaSessionStore } from '@quixo3/prisma-session-store';
+import { PrismaClient } from '@prisma/client';
+import csrfTokenVerification from './middleware/csrfTokenVerification';
 
 enum chatBotId {
 	TRANSLATOR = 'translator',
@@ -13,9 +18,41 @@ enum chatBotId {
 	JOKE = 'joke',
 }
 
+dotenv.config();
+
 const app: Application = express();
+app.use(helmet());
+
+const oneWeek = 7 * 1000 * 60 * 60 * 24;
+
+app.use(cors({ origin: 'http://localhost:3000', methods: ['GET', 'POST', 'OPTIONS'], credentials: true }));
+
+const sess = session({
+	store: new PrismaSessionStore(new PrismaClient(), {
+		checkPeriod: 2 * 60 * 1000, //ms
+		dbRecordIdIsSessionId: true,
+		dbRecordIdFunction: undefined,
+	}),
+	secret: 'thisismysecrctekeyfhrgfgrfrty84fwir767',
+	saveUninitialized: false,
+	cookie: {
+		maxAge: oneWeek,
+		secure: false,
+	},
+	resave: false,
+});
+
+if (app.get('env') === 'production') {
+	app.set('trust proxy', 1);
+	sess.cookie.secure = true;
+}
+
+app.use(sess);
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 const httpServer = createServer(app);
+
 const io = new Server(httpServer, {
 	cors: {
 		origin: 'http://localhost:3000',
@@ -23,7 +60,21 @@ const io = new Server(httpServer, {
 	},
 });
 
-dotenv.config();
+const wrap = (middleware) => (socket, next) => middleware(socket.request, {}, next);
+
+io.use(wrap(sess));
+
+// only allow authenticated users
+io.use((socket, next) => {
+	const session = socket.request.session;
+	if (session && session.user) {
+		console.log('authenticated');
+		next();
+	} else {
+		console.log('unauthorized');
+		next(new Error('unauthorized'));
+	}
+});
 
 io.on('connection', (socket: Socket) => {
 	console.log('A user connected');
@@ -39,11 +90,9 @@ io.on('connection', (socket: Socket) => {
 	});
 });
 
-app.use(cors({ origin: true }));
-app.use(cors({ origin: 'http://localhost:3000', methods: ['GET', 'POST'], credentials: true }));
-
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use((req, res, next) => {
+	csrfTokenVerification(req, res, next);
+});
 
 app.use('/auth', authRouter);
 
@@ -54,7 +103,7 @@ app.get('/', (req: Request, res: Response) => {
 const getTranslation = (message: string, socket: Socket) => {
 	console.log(message);
 
-	var options = {
+	const options = {
 		method: 'POST',
 		url: 'https://api-free.deepl.com/v2/translate',
 		headers: {
@@ -104,8 +153,10 @@ io.on('connection', (socket: Socket) => {
 		switch (chatId) {
 			case chatBotId.TRANSLATOR:
 				getTranslation(message, socket);
+				break;
 			case chatBotId.BUSINESSMAN:
 				getBusinessAdvice(message, socket);
+				break;
 			case chatBotId.JOKE:
 				getJoke(message, socket);
 		}
