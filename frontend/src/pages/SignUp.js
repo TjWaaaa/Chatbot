@@ -13,7 +13,7 @@ export default function SignUp(props) {
 			.then((res) => {
 				navigate('/'); //todo reload page
 			})
-			.catch((res) => console.log(res.response.data)); //todo handle password/email invalid and user already exists
+			.catch((res) => console.log(res.response.data)); //todo handle invalid password/email and user already exists
 	}
 
 	return (
@@ -65,9 +65,3 @@ export default function SignUp(props) {
 		</div>
 	);
 }
-
-/*
-SignUp.propTypes = {
-  setToken: PropTypes.func.isRequired
-}
-*/

@@ -3,6 +3,7 @@ import { userSchema } from '../schemas/user';
 import { validate } from '../utils/validate';
 import login from '../methods/auth/login';
 import signup from '../methods/auth/signup';
+import { destroySession } from '../utils/session';
 const authRouter: express.Router = express.Router();
 
 /**
@@ -48,5 +49,16 @@ authRouter.post('/signup', validate(userSchema), signup);
  * - 404 User not found
  */
 authRouter.post('/login', validate(userSchema), login);
+
+/**
+ * @api {post} /auth/logout Logout
+ * @apiName Logout
+ * @apiGroup Auth
+ * @apiDescription To logout from your account
+ *
+ * @apiSuccessExample
+ * - 200 User successfully logged out
+ */
+authRouter.post('/logout', destroySession);
 
 export default authRouter;

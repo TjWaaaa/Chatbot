@@ -14,7 +14,7 @@ export default function SignIn() {
 			.then(() => {
 				navigate('/'); //todo reload page
 			})
-			.catch((res) => console.log(res.response.data)); //todo handle password wrong and email not found
+			.catch((res) => console.log(res.response.data)); //todo handle wrong password and email not found
 	}
 
 	return (
@@ -66,9 +66,3 @@ export default function SignIn() {
 		</div>
 	);
 }
-
-/*
-SignIn.propTypes = {
-  setToken: PropTypes.func.isRequired
-}
-*/

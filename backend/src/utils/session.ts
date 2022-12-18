@@ -16,8 +16,20 @@ export function regenerateSession(
 		req.session.user = user;
 
 		req.session.save(function (err) {
-			if (err) return next(err);
-			return res.send();
+			if (err) next(err);
+			res.status(200).send('Session generated');
+		});
+	});
+}
+
+export function destroySession(req: express.Request, res: express.Response, next: express.NextFunction) {
+	req.session.user = null;
+	req.session.save(function (err) {
+		if (err) next(err);
+
+		req.session.regenerate(function (err) {
+			if (err) next(err);
+			res.status(200).send('User successfully logged out');
 		});
 	});
 }
