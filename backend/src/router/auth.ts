@@ -1,8 +1,8 @@
 import express from 'express';
 import { userSchema } from '../schemas/user';
 import { validate } from '../utils/validate';
-import login from '../methods/auth/login';
-import signup from '../methods/auth/signup';
+import login from '../services/auth/login';
+import signup from '../services/auth/signup';
 import { destroySession } from '../utils/session';
 const authRouter: express.Router = express.Router();
 

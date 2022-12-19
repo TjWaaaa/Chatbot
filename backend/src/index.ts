@@ -6,11 +6,9 @@ import { createServer } from 'http';
 import { Server, Socket } from 'socket.io';
 import authRouter from './router/auth';
 import request from 'request';
-import session from 'express-session';
 import helmet from 'helmet';
-import { PrismaSessionStore } from '@quixo3/prisma-session-store';
-import { PrismaClient } from '@prisma/client';
 import csrfTokenVerification from './middleware/csrfTokenVerification';
+import { sessionOptions } from './utils/session';
 
 enum chatBotId {
 	TRANSLATOR = 'translator',
@@ -23,31 +21,14 @@ dotenv.config();
 const app: Application = express();
 app.use(helmet());
 
-const oneWeek = 7 * 1000 * 60 * 60 * 24;
-
 app.use(cors({ origin: 'http://localhost:3000', methods: ['GET', 'POST', 'OPTIONS'], credentials: true }));
-
-const sess = session({
-	store: new PrismaSessionStore(new PrismaClient(), {
-		checkPeriod: 2 * 60 * 1000, //ms
-		dbRecordIdIsSessionId: true,
-		dbRecordIdFunction: undefined,
-	}),
-	secret: 'thisismysecrctekeyfhrgfgrfrty84fwir767',
-	saveUninitialized: false,
-	cookie: {
-		maxAge: oneWeek,
-		secure: false,
-	},
-	resave: false,
-});
 
 if (app.get('env') === 'production') {
 	app.set('trust proxy', 1);
-	sess.cookie.secure = true;
+	sessionOptions.cookie.secure = true;
 }
 
-app.use(sess);
+app.use(sessionOptions);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -60,9 +41,9 @@ const io = new Server(httpServer, {
 	},
 });
 
-const wrap = (middleware) => (socket, next) => middleware(socket.request, {}, next);
+const wrap = (middleware: any) => (socket: Socket, next: any) => middleware(socket.request, {}, next);
 
-io.use(wrap(sess));
+io.use(wrap(sessionOptions));
 
 // only allow authenticated users
 io.use((socket, next) => {
