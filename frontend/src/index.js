@@ -1,15 +1,18 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import reportWebVitals from "./reportWebVitals";
 import {io} from "socket.io-client";
+
+import {Provider} from "react-redux";
+import {createStore, combineReducers} from "redux";
+
+import chatReducer from "./store/reducers/Chatbot";
 
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 
 import Layout from "./pages/Layout";
 
 import AllChats from "./pages/AllChats";
-import SingleChat from "./pages/SingleChat";
 import ErrorPage from "./pages/ErrorPage";
 
 export const socket = io("http://localhost:8000/", {
@@ -17,15 +20,22 @@ export const socket = io("http://localhost:8000/", {
   withCredentials: true,
 });
 
+const rootReducer = combineReducers({
+  chatState: chatReducer,
+});
+
+const store = createStore(rootReducer);
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <BrowserRouter>
-    <Routes>
-      <Route path="/" element={<Layout />}>
-        <Route index element={<AllChats />} />
-        <Route path="singleChat" element={<SingleChat />} />
-        <Route path="*" element={<ErrorPage />} />
-      </Route>
-    </Routes>
-  </BrowserRouter>
+  <Provider store={store}>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<AllChats />} />
+          <Route path="*" element={<ErrorPage />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  </Provider>
 );
