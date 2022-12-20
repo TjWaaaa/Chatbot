@@ -54,3 +54,21 @@ export function removeLanguageSentence(input: string) {
 	}
 	return result;
 }
+
+export function getTranslationBotOnboardingMessages() {
+	return [
+		{
+			bot: true,
+			message:
+				"Hallo, ich bin ein Dolemtscher in Rente und verdiene mir ein paar Kröten als ChatBot. Frag mich nicht wie ich hier her gekommen bin, sondern was 'Chinesisch ist die einfachste Sprache' auf Japanisch heißt.",
+		},
+		{
+			bot: true,
+			message: 'Frag mich einfach: Übersetze mir das ins Englische: Guten Tag.',
+		},
+		{
+			bot: true,
+			message: 'Wenn dir das zu umständlich ist schreib einfach: Spanisch. Ich mag Pizza!',
+		},
+	];
+}

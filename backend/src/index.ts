@@ -6,9 +6,10 @@ import { createServer } from 'http';
 import { Server, Socket } from 'socket.io';
 import authRouter from './router/auth';
 
-import { chatBotId } from './bots/botTypes';
+import { chatBotId, getBotPreset } from './bots/botTypes';
 import { getTranslation } from './bots/translationBot';
 import { getJoke } from './bots/jokeBot';
+import { getBusinessAdvice } from './bots/businessBot';
 
 const app: Application = express();
 
@@ -47,13 +48,9 @@ app.use('/auth', authRouter);
 app.get('/', (req: Request, res: Response) => {
 	res.send('Healthy');
 });
-
-const getBusinessAdvice = (message: string, socket: Socket) => {
-	const advices = ['Advide 1', 'Advice 2', 'Advide 3'];
-
-	const answer = advices[Math.floor(Math.random() * advices.length)];
-	socket.emit('answer', answer, chatBotId.BUSINESSMAN);
-};
+app.get('/bots', (req: Request, res: Response) => {
+	res.send(JSON.stringify(getBotPreset()));
+});
 
 io.on('connection', (socket: Socket) => {
 	console.log('A user connected');

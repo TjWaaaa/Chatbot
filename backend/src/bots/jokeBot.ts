@@ -9,3 +9,21 @@ export const getJoke = (message: string, socket: Socket) => {
 		socket.emit('answer', answer, chatBotId.JOKE);
 	});
 };
+
+export function getJokeBotOnboardingMessages() {
+	return [
+		{
+			bot: true,
+			message:
+				'Hallo, ich bin Moe! Manche würden sagen, ich bin der unlustigste Commedian, den Sie je gesehen haben. Naja immerhin bin ich ein Commedian, oder?',
+		},
+		{
+			bot: true,
+			message: 'Frag mich nach nem Witz.',
+		},
+		{
+			bot: true,
+			message: 'Komm schon, frag einfach!',
+		},
+	];
+}
