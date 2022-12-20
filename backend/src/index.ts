@@ -5,13 +5,10 @@ import dotenv from 'dotenv';
 import { createServer } from 'http';
 import { Server, Socket } from 'socket.io';
 import authRouter from './router/auth';
-var request = require('request');
 
-enum chatBotId {
-	TRANSLATOR = 'translator',
-	BUSINESSMAN = 'businessMan',
-	JOKE = 'joke',
-}
+import { chatBotId } from './bots/botTypes';
+import { getTranslation } from './bots/translationBot';
+import { getJoke } from './bots/jokeBot';
 
 const app: Application = express();
 
@@ -51,43 +48,11 @@ app.get('/', (req: Request, res: Response) => {
 	res.send('Healthy');
 });
 
-const getTranslation = (message: string, socket: Socket) => {
-	console.log(message);
-
-	var options = {
-		method: 'POST',
-		url: 'https://api-free.deepl.com/v2/translate',
-		headers: {
-			Authorization: 'DeepL-Auth-Key c2177cb9-06b8-ef5e-84b9-e4925ec1e935:fx',
-		},
-		formData: {
-			text: JSON.stringify(message),
-			target_lang: 'EN',
-		},
-	};
-	request(options, function (error: any, response: any) {
-		if (error) throw new Error(error);
-
-		const answer = JSON.parse(response.body).translations[0].text.replaceAll('"', '');
-		console.log(answer);
-		socket.emit('answer', answer, chatBotId.TRANSLATOR);
-	});
-};
-
 const getBusinessAdvice = (message: string, socket: Socket) => {
 	const advices = ['Advide 1', 'Advice 2', 'Advide 3'];
 
 	const answer = advices[Math.floor(Math.random() * advices.length)];
 	socket.emit('answer', answer, chatBotId.BUSINESSMAN);
-};
-
-const getJoke = (message: string, socket: Socket) => {
-	request('https://witzapi.de/api/joke', (error: any, response: any) => {
-		if (error) throw new Error(error);
-
-		const answer = JSON.parse(response.body)[0].text;
-		socket.emit('answer', answer, chatBotId.JOKE);
-	});
 };
 
 io.on('connection', (socket: Socket) => {
