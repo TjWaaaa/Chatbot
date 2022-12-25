@@ -7,8 +7,10 @@ import { Server, Socket } from 'socket.io';
 import authRouter from './router/auth';
 import request from 'request';
 import helmet from 'helmet';
-import csrfTokenVerification from './middleware/csrfTokenVerification';
+import csrfTokenVerification from './middleware/csrf-token-verification';
 import { sessionOptions } from './utils/session';
+import { wrap } from './middleware/add-session-to-socketio';
+import { authenticationHandler } from './middleware/is-authenticated-socketio';
 
 enum chatBotId {
 	TRANSLATOR = 'translator',
@@ -22,6 +24,7 @@ const app: Application = express();
 app.use(helmet());
 
 app.use(cors({ origin: 'http://localhost:3000', methods: ['GET', 'POST', 'OPTIONS'], credentials: true }));
+app.use(csrfTokenVerification);
 
 if (app.get('env') === 'production') {
 	app.set('trust proxy', 1);
@@ -41,21 +44,8 @@ const io = new Server(httpServer, {
 	},
 });
 
-const wrap = (middleware: any) => (socket: Socket, next: any) => middleware(socket.request, {}, next);
-
 io.use(wrap(sessionOptions));
-
-// only allow authenticated users
-io.use((socket, next) => {
-	const session = socket.request.session;
-	if (session && session.user) {
-		console.log('authenticated');
-		next();
-	} else {
-		console.log('unauthorized');
-		next(new Error('unauthorized'));
-	}
-});
+io.use(authenticationHandler);
 
 io.on('connection', (socket: Socket) => {
 	console.log('A user connected');
@@ -69,10 +59,6 @@ io.on('connection', (socket: Socket) => {
 		console.log(message);
 		socket.emit('answer', 'Server Answer');
 	});
-});
-
-app.use((req, res, next) => {
-	csrfTokenVerification(req, res, next);
 });
 
 app.use('/auth', authRouter);

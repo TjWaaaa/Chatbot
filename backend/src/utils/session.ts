@@ -2,9 +2,7 @@ import express from 'express';
 import session from 'express-session';
 import { PrismaSessionStore } from '@quixo3/prisma-session-store';
 import { PrismaClient } from '@prisma/client';
-interface UserId {
-	id: string;
-}
+import { UserId } from '~/types/session-user-id';
 
 const oneWeek = 7 * 1000 * 60 * 60 * 24;
 
@@ -42,7 +40,7 @@ export function regenerateSession(
 }
 
 export function destroySession(req: express.Request, res: express.Response, next: express.NextFunction) {
-	req.session.user = null;
+	req.session.user = undefined;
 	req.session.save(function (err) {
 		if (err) next(err);
 
