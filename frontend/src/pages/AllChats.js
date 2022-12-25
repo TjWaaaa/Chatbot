@@ -1,17 +1,30 @@
-import Chat from "../components/Chat";
-import NavigationAllChats from "../components/NavigationAllChats";
+import React, {useState, useLayoutEffect} from "react";
+
+import ChatsDesktop from "../components/ChatsDesktop";
+import ChatsMobile from "../components/ChatsMobile";
+
+import {chatData} from "../demoData/chatDemo";
 
 function Index() {
+  const [isMobile, setIsMobile] = useState(true);
+
+  useLayoutEffect(() => {
+    function updateSize() {
+      setIsMobile(window.innerWidth <= 800);
+    }
+    window.addEventListener("resize", updateSize);
+    updateSize();
+    return () => window.removeEventListener("resize", updateSize);
+  }, []);
+
   return (
-    <div>
-      <NavigationAllChats />
-      <Chat
-        name="Business Mann 42"
-        img="https://sp-ao.shortpixel.ai/client/q_glossy,ret_img,w_700,h_700/https://www.corporatephotographerslondon.com/wp-content/uploads/2021/06/professional-LinkedIn-profile-photo-London-1.jpg"
-        text="Zeit ist Geld, komm zum Punkt!"
-        time="Gestern"
-      />
-    </div>
+    <>
+      {isMobile ? (
+        <ChatsMobile chatData={chatData} />
+      ) : (
+        <ChatsDesktop chatData={chatData} />
+      )}
+    </>
   );
 }
 
