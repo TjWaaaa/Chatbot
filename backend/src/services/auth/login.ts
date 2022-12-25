@@ -23,11 +23,11 @@ export default async (req: express.Request, res: express.Response, next: express
 			}
 
 			if (!result) {
-				res.status(401).send('Password is wrong');
+				return res.status(401).send('Password is wrong');
 			}
 			regenerateSession(req, res, next, { id: user.id });
 		});
 	} catch (err) {
-		res.status(404).send('User not found');
+		return res.status(404).send('User not found');
 	}
 };
