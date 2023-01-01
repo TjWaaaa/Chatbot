@@ -1,7 +1,8 @@
 import express from 'express';
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcrypt';
-import { regenerateSession } from '../../utils/session';
+import logger from '~/utils/logger';
+import { regenerateSession } from './session';
 
 const SALT_ROUNDS = 10;
 const prisma = new PrismaClient();
@@ -36,6 +37,7 @@ export default async (req: express.Request, res: express.Response, next: express
 					id: true,
 				},
 			});
+			logger.info(`User ${newUser.id} created`);
 			regenerateSession(req, res, next, newUser);
 			return res.status(200).json({ message: 'User successfully created and logged in' });
 		});

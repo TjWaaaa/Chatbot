@@ -1,7 +1,7 @@
+import { PrismaClient } from '@prisma/client';
+import { PrismaSessionStore } from '@quixo3/prisma-session-store';
 import express from 'express';
 import session from 'express-session';
-import { PrismaSessionStore } from '@quixo3/prisma-session-store';
-import { PrismaClient } from '@prisma/client';
 import { UserId } from '~/types/session-user-id';
 
 const ONE_WEEK = 7 * 1000 * 60 * 60 * 24;
