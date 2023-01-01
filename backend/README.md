@@ -9,3 +9,13 @@ Runs the server in the development mode on port :8000.\
 ### Run a migration to create your database tables
 
 `yarn migrate`
+
+"
+
+### CSRF Token
+
+In order for the rest api endpoints to be used, an authorization header must be provided.
+For this, the following values must be set in the header:
+
+-   **key**: `csrf-token`
+-   **value**: `cbacb`
