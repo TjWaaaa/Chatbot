@@ -14,6 +14,30 @@ model User {
   id             String    @id @default(uuid())
   email          String    @unique
   hashedPassword String
+  chats          Chat[]
+  Message        Message[]
 }
 
+model Session {
+  id        String   @id
+  sid       String   @unique
+  data      String
+  expiresAt DateTime
+}
 
+model Chat {
+  id       String    @id @default(uuid())
+  User     User?     @relation(fields: [userId], references: [id])
+  userId   String?
+  messages Message[] @relation("message")
+}
+
+model Message {
+  id        String   @id @default(uuid())
+  text      String
+  message   Chat     @relation(name: "message", fields: [chatId], references: [id])
+  chatId    String
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  timeStamp DateTime @db.Date
+}
