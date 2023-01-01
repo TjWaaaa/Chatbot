@@ -6,28 +6,36 @@ const prisma = new PrismaClient();
 import { regenerateSession } from '../../utils/session';
 
 export default async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+	const { email, password } = req.body;
+
 	try {
 		const user = await prisma.user.findUnique({
 			where: {
-				email: req.body.email,
+				email,
 			},
 		});
 
 		if (!user) {
-			throw new Error();
+			return res.status(400).json({
+				message: 'User does not exist',
+			});
 		}
 
-		bcrypt.compare(req.body.password, user.hashedPassword, function (err, result) {
+		bcrypt.compare(password, user.hashedPassword, function (err, result) {
 			if (err) {
 				return next(err);
 			}
 
 			if (!result) {
-				return res.status(401).send('Password is wrong');
+				return res.status(401).json({
+					message: 'Password is incorrect',
+				});
 			}
 			regenerateSession(req, res, next, { id: user.id });
 		});
 	} catch (err) {
-		return res.status(404).send('User not found');
+		return res.status(400).json({
+			message: 'Login user failed',
+		});
 	}
 };

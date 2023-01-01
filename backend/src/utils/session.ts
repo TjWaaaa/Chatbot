@@ -4,7 +4,7 @@ import { PrismaSessionStore } from '@quixo3/prisma-session-store';
 import { PrismaClient } from '@prisma/client';
 import { UserId } from '~/types/session-user-id';
 
-const oneWeek = 7 * 1000 * 60 * 60 * 24;
+const ONE_WEEK = 7 * 1000 * 60 * 60 * 24;
 
 export const sessionOptions = session({
 	store: new PrismaSessionStore(new PrismaClient(), {
@@ -15,7 +15,7 @@ export const sessionOptions = session({
 	secret: 'thisismysecrctekeyfhrgfgrfrty84fwir767',
 	saveUninitialized: false,
 	cookie: {
-		maxAge: oneWeek,
+		maxAge: ONE_WEEK,
 		secure: false,
 	},
 	resave: false,
@@ -34,19 +34,20 @@ export function regenerateSession(
 
 		req.session.save(function (err) {
 			if (err) next(err);
-			res.status(200).send('Session generated');
+			res.status(200).json({ message: 'Session generated' });
 		});
 	});
 }
 
 export function destroySession(req: express.Request, res: express.Response, next: express.NextFunction) {
 	req.session.user = undefined;
+
 	req.session.save(function (err) {
 		if (err) next(err);
 
 		req.session.regenerate(function (err) {
 			if (err) next(err);
-			res.status(200).send('User successfully logged out');
+			return res.status(200).json({ message: 'User successfully logged out' });
 		});
 	});
 }

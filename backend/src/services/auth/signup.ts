@@ -3,17 +3,31 @@ import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcrypt';
 import { regenerateSession } from '../../utils/session';
 
-const saltRounds = 10;
+const SALT_ROUNDS = 10;
 const prisma = new PrismaClient();
 
 export default async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-	bcrypt.hash(req.body.password, saltRounds, async function (err, hashedPassword: string) {
-		if (err) {
-			return next(err);
+	const { email, password } = req.body;
+
+	try {
+		const user = await prisma.user.findUnique({
+			where: {
+				email,
+			},
+		});
+
+		if (user) {
+			return res.status(400).json({
+				message: 'User already exists',
+			});
 		}
 
-		try {
-			const user = await prisma.user.create({
+		bcrypt.hash(password, SALT_ROUNDS, async function (err, hashedPassword: string) {
+			if (err) {
+				return next(err);
+			}
+
+			const newUser = await prisma.user.create({
 				data: {
 					email: req.body.email,
 					hashedPassword,
@@ -22,9 +36,11 @@ export default async (req: express.Request, res: express.Response, next: express
 					id: true,
 				},
 			});
-			regenerateSession(req, res, next, user);
-		} catch (err) {
-			return next(err);
-		}
-	});
+			regenerateSession(req, res, next, newUser);
+		});
+	} catch (err) {
+		return res.status(400).json({
+			message: 'Signup user failed',
+		});
+	}
 };
