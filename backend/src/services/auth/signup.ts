@@ -37,6 +37,7 @@ export default async (req: express.Request, res: express.Response, next: express
 				},
 			});
 			regenerateSession(req, res, next, newUser);
+			return res.status(200).json({ message: 'User successfully created and logged in' });
 		});
 	} catch (err) {
 		return res.status(400).json({

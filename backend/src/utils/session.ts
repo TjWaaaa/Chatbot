@@ -34,7 +34,6 @@ export function regenerateSession(
 
 		req.session.save(function (err) {
 			if (err) next(err);
-			res.status(200).json({ message: 'Session generated' });
 		});
 	});
 }

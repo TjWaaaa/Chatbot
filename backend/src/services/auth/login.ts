@@ -32,6 +32,7 @@ export default async (req: express.Request, res: express.Response, next: express
 				});
 			}
 			regenerateSession(req, res, next, { id: user.id });
+			return res.status(200).json({ message: 'User successfully logged in' });
 		});
 	} catch (err) {
 		return res.status(400).json({
