@@ -27,16 +27,22 @@ export function wsServer() {
 			logger.info('Disconnected');
 		});
 
-		socket.on(ChatBotId.TRANSLATOR, (message: string) => {
-			getTranslation(message, socket);
-		});
+		socket.on('message', ({ userId, chatBotId, message }) => {
+			logger.info('message', { userId, chatBotId, message });
 
-		socket.on(ChatBotId.BUSINESSMAN, (message: string) => {
-			getBusinessAdvice(message, socket);
-		});
-
-		socket.on(ChatBotId.JOKE, (message: string) => {
-			getJoke(message, socket);
+			switch (chatBotId) {
+				case ChatBotId.TRANSLATOR:
+					getTranslation(message, socket);
+					break;
+				case ChatBotId.BUSINESSMAN:
+					getBusinessAdvice(message, socket);
+					break;
+				case ChatBotId.JOKE:
+					getJoke(message, socket);
+					break;
+				default:
+					logger.info('no fitting ChatBotId', chatBotId);
+			}
 		});
 	});
 }
