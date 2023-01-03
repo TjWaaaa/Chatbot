@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Chat from './ChatBots';
 import NavigationAllChatsWeb from './NavigationAllChatsWeb';
 
@@ -9,18 +9,19 @@ import InputChat from './InputChat';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { AddChatValue } from '../store/actions/Chatbot';
+import { socket } from '..';
 
 function Index({ chatData }) {
 	const dispatch = useDispatch();
 
 	const currentChats = useSelector((state) => state.chatState.Chats);
 	const currentChatID = useSelector((state) => state.chatState.ChatID);
+	const [waitingForMessage, setWaitingForMessage] = useState(false);
+	const messagesEndRef = useRef(null);
 
 	const changeChatValue = (number) => {
 		dispatch(AddChatValue(number));
 	};
-
-	const messagesEndRef = useRef(null);
 
 	const scrollToBottom = () => {
 		messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -45,6 +46,7 @@ function Index({ chatData }) {
 								event={() => {
 									changeChatValue([...element.chatData]);
 								}}
+								waitingForMessage={waitingForMessage}
 							/>
 						);
 					})}
@@ -67,6 +69,8 @@ function Index({ chatData }) {
 									message: text,
 								},
 							]);
+							// TODO muss noch angepasst werden !!!11!
+							socket.emit('message', { message: text, chatBotId: 'businessMan' });
 							setTimeout(() => {
 								scrollToBottom();
 							}, 400);

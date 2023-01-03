@@ -2,6 +2,7 @@ import { Socket } from 'socket.io';
 import { ChatBotId } from '../../enums/chat-bot-id';
 import axios from 'axios';
 import logger from '~/utils/logger';
+import { sendMessage } from '../sendMessage';
 
 export const getTranslation = (message: string, socket: Socket) => {
 	logger.info(`Message: ${message}`);
@@ -22,7 +23,7 @@ export const getTranslation = (message: string, socket: Socket) => {
 		.then((res) => {
 			const answer = res.data.translations[0].text;
 			logger.info(`Translation: ${answer}`);
-			socket.emit('answer', answer, ChatBotId.TRANSLATOR);
+			sendMessage(answer, ChatBotId.TRANSLATOR, socket);
 		})
 		.catch((err) => {
 			throw new Error(err);

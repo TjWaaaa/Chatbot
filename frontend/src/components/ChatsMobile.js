@@ -9,6 +9,7 @@ import InputChat from './InputChat';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { AddChatValue, ClearChat, ChangeChatID } from '../store/actions/Chatbot';
+import { socket } from '..';
 
 function Index({ chatData }) {
 	const dispatch = useDispatch();
@@ -84,6 +85,8 @@ function Index({ chatData }) {
 									message: text,
 								},
 							]);
+							// TODO muss noch angepasst werden !!!11!
+							socket.emit('message', { message: text, chatBotId: 'joke' });
 							setTimeout(() => {
 								scrollToBottom();
 							}, 400);

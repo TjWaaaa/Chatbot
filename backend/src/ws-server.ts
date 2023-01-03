@@ -27,8 +27,8 @@ export function wsServer() {
 			logger.info('Disconnected');
 		});
 
-		socket.on('message', ({ userId, chatBotId, message }) => {
-			logger.info('message', { userId, chatBotId, message });
+		socket.on('message', ({ chatBotId, message }) => {
+			logger.info(`ws-server: MESSAGE: ${message}, CHAT_BOT_ID: ${chatBotId}`);
 
 			switch (chatBotId) {
 				case ChatBotId.TRANSLATOR:
