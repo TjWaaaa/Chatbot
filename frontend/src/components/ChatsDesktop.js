@@ -1,29 +1,30 @@
-import React, {useRef} from "react";
-import Chat from "./ChatBots";
-import NavigationAllChatsWeb from "./NavigationAllChatsWeb";
+import React, { useEffect, useRef, useState } from 'react';
+import Chat from './ChatBots';
+import NavigationAllChatsWeb from './NavigationAllChatsWeb';
 
-import MessageBot from "./MessageBot";
-import MessageUser from "./MessageUser";
+import MessageBot from './MessageBot';
+import MessageUser from './MessageUser';
 
-import InputChat from "./InputChat";
+import InputChat from './InputChat';
 
-import {useSelector, useDispatch} from "react-redux";
-import {AddChatValue} from "../store/actions/Chatbot";
+import { useSelector, useDispatch } from 'react-redux';
+import { AddChatValue } from '../store/actions/Chatbot';
+import { socket } from '..';
 
-function Index({chatData}) {
+function Index({ chatData }) {
   const dispatch = useDispatch();
 
-  const currentChats = useSelector(state => state.chatState.Chats);
-  const currentChatID = useSelector(state => state.chatState.ChatID);
+  const currentChats = useSelector((state) => state.chatState.Chats);
+  const currentChatID = useSelector((state) => state.chatState.ChatID);
+  const [waitingForMessage, setWaitingForMessage] = useState(false);
+  const messagesEndRef = useRef(null);
 
-  const changeChatValue = number => {
+  const changeChatValue = (number) => {
     dispatch(AddChatValue(number));
   };
 
-  const messagesEndRef = useRef(null);
-
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({behavior: "smooth"});
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
@@ -32,7 +33,7 @@ function Index({chatData}) {
       <div className="flex flex-row">
         <div
           className="w-2xl overflow-y-scroll border-r border-slate-300"
-          style={{height: "calc(100vh - 60px)"}}
+          style={{ height: 'calc(100vh - 60px)' }}
         >
           {chatData.map((element, Index) => {
             return (
@@ -45,15 +46,16 @@ function Index({chatData}) {
                 event={() => {
                   changeChatValue([...element.chatData]);
                 }}
+                waitingForMessage={waitingForMessage}
               />
             );
           })}
         </div>
         <div
           className="bg-slate-100 flex-1 overflow-y-scroll"
-          style={{height: "calc(100vh - 60px)"}}
+          style={{ height: 'calc(100vh - 60px)' }}
         >
-          {currentChats.map(element => {
+          {currentChats.map((element) => {
             if (element.bot) {
               return (
                 <MessageBot
@@ -68,13 +70,15 @@ function Index({chatData}) {
           <div className="h-16" />
           <InputChat
             isMobile={false}
-            sendMessage={text => {
+            sendMessage={(text) => {
               changeChatValue([
                 {
                   bot: false,
                   message: text,
                 },
               ]);
+              // TODO muss noch angepasst werden !!!11!
+              socket.emit('message', text, 'businessMan');
               setTimeout(() => {
                 scrollToBottom();
               }, 400);
