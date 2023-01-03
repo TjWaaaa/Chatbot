@@ -31,8 +31,7 @@ export default async (req: express.Request, res: express.Response, next: express
 					message: 'Password is incorrect',
 				});
 			}
-			regenerateSession(req, res, next, { id: user.id });
-			return res.status(200).json({ message: 'User successfully logged in' });
+			regenerateSession(req, res, next, user);
 		});
 	} catch (err) {
 		return res.status(400).json({
