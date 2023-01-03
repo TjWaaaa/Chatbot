@@ -8,92 +8,104 @@ import MessageUser from './MessageUser';
 import InputChat from './InputChat';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { AddChatValue, ClearChat, ChangeChatID } from '../store/actions/Chatbot';
+import {
+  AddChatValue,
+  ClearChat,
+  ChangeChatID,
+} from '../store/actions/Chatbot';
+import { socket } from '..';
 
 function Index({ chatData }) {
-	const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-	const currentChats = useSelector((state) => state.chatState.Chats);
-	const currentChatID = useSelector((state) => state.chatState.ChatID);
+  const currentChats = useSelector((state) => state.chatState.Chats);
+  const currentChatID = useSelector((state) => state.chatState.ChatID);
 
-	const changeChatValue = (number) => {
-		dispatch(AddChatValue(number));
-	};
+  const changeChatValue = (number) => {
+    dispatch(AddChatValue(number));
+  };
 
-	const clearChat = (number) => {
-		dispatch(ClearChat(number));
-	};
+  const clearChat = (number) => {
+    dispatch(ClearChat(number));
+  };
 
-	const changeChatID = (number) => {
-		dispatch(ChangeChatID(number));
-	};
+  const changeChatID = (number) => {
+    dispatch(ChangeChatID(number));
+  };
 
 	const messagesEndRef = useRef(null);
 
-	const scrollToBottom = () => {
-		messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-	};
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
 
 	useEffect(() => {
 		scrollToBottom();
 	}, []);
 
-	return (
-		<>
-			{currentChatID === -1 ? (
-				<div>
-					<NavigationAllChatsMobile />
-					{chatData.map((element, Index) => {
-						return (
-							<Chat
-								name={element.name}
-								img={element.img}
-								text={element.text}
-								time={element.time}
-								id={Index}
-								event={() => {
-									changeChatValue([...element.chatData]);
-								}}
-							/>
-						);
-					})}
-				</div>
-			) : (
-				<div className="bg-slate-100 min-h-screen pb-24">
-					<NavigationChat
-						name={chatData[currentChatID].name}
-						img={chatData[currentChatID].img}
-						event={() => {
-							changeChatID(-1);
-							clearChat();
-						}}
-					/>
-					{currentChats.map((element) => {
-						if (element.bot) {
-							return <MessageBot img={chatData[currentChatID].img} text={element.message} />;
-						}
+  return (
+    <>
+      {currentChatID === -1 ? (
+        <div>
+          <NavigationAllChatsMobile />
+          {chatData.map((element, Index) => {
+            return (
+              <Chat
+                name={element.name}
+                img={element.img}
+                text={element.text}
+                time={element.time}
+                id={Index}
+                event={() => {
+                  changeChatValue([...element.chatData]);
+                }}
+              />
+            );
+          })}
+        </div>
+      ) : (
+        <div className="bg-slate-100 min-h-screen pb-24">
+          <NavigationChat
+            name={chatData[currentChatID].name}
+            img={chatData[currentChatID].img}
+            event={() => {
+              changeChatID(-1);
+              clearChat();
+            }}
+          />
+          {currentChats.map((element) => {
+            if (element.bot) {
+              return (
+                <MessageBot
+                  img={chatData[currentChatID].img}
+                  text={element.message}
+                />
+              );
+            }
 
-						return <MessageUser text={element.message} />;
-					})}
-					<InputChat
-						isMobile={true}
-						sendMessage={(text) => {
-							changeChatValue([
-								{
-									bot: false,
-									message: text,
-								},
-							]);
-							setTimeout(() => {
-								scrollToBottom();
-							}, 400);
-						}}
-					/>
-					<div ref={messagesEndRef} />
-				</div>
-			)}
-		</>
-	);
+            return <MessageUser text={element.message} />;
+          })}
+          <InputChat
+            isMobile={true}
+            sendMessage={(text) => {
+              changeChatValue([
+                {
+                  bot: false,
+                  message: text,
+                },
+              ]);
+              // TODO muss noch angepasst werden !!!11!
+              socket.emit('message', text, 'joke');
+              setTimeout(() => {
+                scrollToBottom();
+              }, 400);
+            }}
+          />
+          <div ref={messagesEndRef} />
+        </div>
+      )}
+    </>
+  );
 }
 
 export default Index;

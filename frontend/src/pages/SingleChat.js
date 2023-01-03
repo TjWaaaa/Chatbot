@@ -18,10 +18,6 @@ function Index() {
     socket.emit('message', message, 'joke');
   };
 
-  socket.on('answer', (message) => {
-    console.log(message);
-  });
-
   useEffect(() => {
     scrollToBottom();
   }, []);
