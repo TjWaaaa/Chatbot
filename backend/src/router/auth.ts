@@ -1,5 +1,6 @@
 import express from 'express';
 import { userSchema } from '~/schemas/user';
+import isAuthenticated from '~/services/auth/isAuthenticated';
 import login from '~/services/auth/login';
 import { destroySession } from '~/services/auth/session';
 import signup from '~/services/auth/signup';
@@ -61,5 +62,19 @@ authRouter.post('/login', validate(userSchema), login);
  * - 200 User successfully logged out
  */
 authRouter.post('/logout', destroySession);
+
+/**
+ * @api {post} /auth/isAuthenticated isAuthenticated
+ * @apiName isAuthenticated
+ * @apiGroup Auth
+ * @apiDescription To check if user is authenticated
+ *
+ * @apiSuccessExample
+ * - 200 User is authenticated
+ *
+ * @apiError
+ * - 401 User is not authenticated
+ */
+authRouter.post('/isAuthenticated', isAuthenticated);
 
 export default authRouter;
