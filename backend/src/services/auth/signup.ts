@@ -19,7 +19,7 @@ export default async (req: express.Request, res: express.Response, next: express
 
 		if (user) {
 			return res.status(400).json({
-				message: 'User already exists',
+				message: 'Ein Benutzer mit dieser E-Mail Adresse existiert bereits. Bitte melde dich an.',
 			});
 		}
 
@@ -42,7 +42,7 @@ export default async (req: express.Request, res: express.Response, next: express
 		});
 	} catch (err) {
 		return res.status(400).json({
-			message: 'Signup user failed',
+			message: 'Die Registierung ist fehlgeschlagen. Versuche es erneut oder kontaktiere den Support.',
 		});
 	}
 };
