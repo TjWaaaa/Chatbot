@@ -10,18 +10,19 @@ import InputChat from "./InputChat";
 
 import { useSelector, useDispatch } from "react-redux";
 import { AddChatValue } from "../store/actions/Chatbot";
+import { socket } from "..";
 
 function Index({ chatData }) {
 	const dispatch = useDispatch();
 
 	const currentChats = useSelector((state) => state.chatState.Chats);
 	const currentChatID = useSelector((state) => state.chatState.ChatID);
+	const [waitingForMessage, setWaitingForMessage] = useState(false);
+	const messagesEndRef = useRef(null);
 
 	const changeChatValue = (number) => {
 		dispatch(AddChatValue(number));
 	};
-
-	const messagesEndRef = useRef(null);
 
 	const scrollToBottom = () => {
 		messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -43,6 +44,7 @@ function Index({ chatData }) {
 								event={() => {
 									changeChatValue([...element.chatData]);
 								}}
+								waitingForMessage={waitingForMessage}
 							/>
 						);
 					})}
@@ -55,7 +57,7 @@ function Index({ chatData }) {
 
 						return <MessageUser text={element.message} />;
 					})}
-					<MessageBotTyping img={chatData[currentChatID].img} />
+					{waitingForMessage ? <MessageBotTyping img={chatData[currentChatID].img} /> : <></>}
 					<div className="h-16" />
 					<InputChat
 						isMobile={false}
@@ -66,6 +68,8 @@ function Index({ chatData }) {
 									message: text,
 								},
 							]);
+							// TODO muss noch angepasst werden !!!11!
+							socket.emit("message", text, "businessMan");
 							setTimeout(() => {
 								scrollToBottom();
 							}, 400);

@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import { createServer } from 'http';
 import { Server, Socket } from 'socket.io';
 import authRouter from './router/auth';
+import { setTimeout } from 'timers/promises';
 
 import { chatBotId, getBotPreset } from './bots/botTypes';
 import { getTranslation } from './bots/translationBot';
@@ -23,20 +24,6 @@ const io = new Server(httpServer, {
 
 dotenv.config();
 
-io.on('connection', (socket: Socket) => {
-	console.log('A user connected');
-
-	//Whenever someone disconnects this piece of code executed
-	socket.on('disconnect', function () {
-		console.log('A user disconnected');
-	});
-
-	socket.on('message', (message) => {
-		console.log(message);
-		socket.emit('answer', 'Server Answer');
-	});
-});
-
 app.use(cors({ origin: true }));
 app.use(cors({ origin: 'http://localhost:3000', methods: ['GET', 'POST'], credentials: true }));
 
@@ -48,6 +35,14 @@ app.use('/auth', authRouter);
 app.get('/', (req: Request, res: Response) => {
 	res.send('Healthy');
 });
+
+const sendMessage = async (answer: string, chatBotId: chatBotId, socket: Socket) => {
+	socket.emit('startsTyping');
+
+	await setTimeout(2000);
+	socket.emit('answer', answer, chatBotId);
+};
+
 app.get('/bots', (req: Request, res: Response) => {
 	res.send(JSON.stringify(getBotPreset()));
 });
@@ -66,10 +61,13 @@ io.on('connection', (socket: Socket) => {
 		switch (chatId) {
 			case chatBotId.TRANSLATOR:
 				getTranslation(message, socket);
+				break;
 			case chatBotId.BUSINESSMAN:
 				getBusinessAdvice(message, socket);
+				break;
 			case chatBotId.JOKE:
 				getJoke(message, socket);
+				break;
 		}
 	});
 });
