@@ -69,9 +69,8 @@ function Index({ chatData }) {
 									message: text,
 								},
 							]);
-							// TODO muss noch angepasst werden !!!11!
 							socket.emit('message', {
-								userId: 'fdce72dd-3d9a-4b81-8e53-f8b40769ec31',
+								userId: 'c3b2c89d-5f33-4eb5-bdf0-7c0d1b215ca1',
 								chatBotId: 'joke',
 								message: text,
 							});

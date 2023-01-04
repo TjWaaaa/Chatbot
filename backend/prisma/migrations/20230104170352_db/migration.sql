@@ -31,6 +31,7 @@ CREATE TABLE "Message" (
     "text" TEXT NOT NULL,
     "timeStamp" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "chatId" TEXT,
+    "sentByUser" BOOLEAN NOT NULL,
 
     CONSTRAINT "Message_pkey" PRIMARY KEY ("id")
 );

@@ -1,4 +1,3 @@
-import express from 'express';
 import { PrismaClient } from '@prisma/client';
 import { UserId } from '~/types/session-user-id';
 import { ChatBotId } from '~/enums/chat-bot-id';
@@ -6,10 +5,10 @@ import logger from '~/utils/logger';
 
 const prisma = new PrismaClient();
 
-export const saveMessageToDB = async (userId: UserId, chatId: ChatBotId, message: string) => {
+export const saveMessageToDB = async (userId: UserId, chatId: ChatBotId, message: string, sentByUser: boolean) => {
 	logger.info(`saveChats - uId: ${userId}, cId: ${chatId}, m: ${message}`);
 
-	const chat = await prisma.chat.upsert({
+	await prisma.chat.upsert({
 		where: {
 			id: chatId.toString(),
 		},
@@ -24,9 +23,10 @@ export const saveMessageToDB = async (userId: UserId, chatId: ChatBotId, message
 		},
 	});
 
-	const newMessage = await prisma.message.create({
+	await prisma.message.create({
 		data: {
 			text: message,
+			sentByUser: sentByUser,
 			Chat: {
 				connect: {
 					id: chatId,

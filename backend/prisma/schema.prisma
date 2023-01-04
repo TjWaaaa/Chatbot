@@ -32,9 +32,10 @@ model Chat {
 }
 
 model Message {
-  id        String   @id @unique @default(uuid())
-  text      String
-  timeStamp DateTime @default(now())
-  Chat      Chat?    @relation(fields: [chatId], references: [id])
-  chatId    String?
+  id         String   @id @unique @default(uuid())
+  text       String
+  timeStamp  DateTime @default(now())
+  Chat       Chat?    @relation(fields: [chatId], references: [id])
+  chatId     String?
+  sentByUser Boolean
 }

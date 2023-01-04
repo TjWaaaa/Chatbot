@@ -3,7 +3,7 @@ import { ChatBotId } from '../../enums/chat-bot-id';
 import axios from 'axios';
 import logger from '~/utils/logger';
 
-export const getTranslation = (message: string, socket: Socket) => {
+export const getTranslation = async (message: string) => {
 	logger.info(`Message: ${message}`);
 
 	const body = {
@@ -17,12 +17,12 @@ export const getTranslation = (message: string, socket: Socket) => {
 		},
 	};
 
-	axios
+	return axios
 		.post('https://api-free.deepl.com/v2/translate', body, headers)
 		.then((res) => {
 			const answer = res.data.translations[0].text;
 			logger.info(`Translation: ${answer}`);
-			socket.emit('answer', answer, ChatBotId.TRANSLATOR);
+			return answer;
 		})
 		.catch((err) => {
 			throw new Error(err);
