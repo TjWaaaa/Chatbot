@@ -6,7 +6,7 @@ import MessageBot from "./MessageBot";
 import MessageUser from "./MessageUser";
 import MessageBotTyping from "./MessageBotTyping";
 
-import InputChat from "./InputChat";
+import InputChat from './InputChat';
 
 import { useSelector, useDispatch } from "react-redux";
 import { AddChatValue } from "../store/actions/Chatbot";

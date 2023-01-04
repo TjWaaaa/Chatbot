@@ -1,37 +1,42 @@
-import React, {useRef, useEffect} from "react";
-import Chat from "./ChatBots";
-import NavigationAllChatsMobile from "./NavigationAllChatsMobile";
+import React, { useRef, useEffect } from 'react';
+import Chat from './ChatBots';
+import NavigationAllChatsMobile from './NavigationAllChatsMobile';
 
-import NavigationChat from "./NavigationChatDetailMobile";
-import MessageBot from "./MessageBot";
-import MessageUser from "./MessageUser";
-import InputChat from "./InputChat";
+import NavigationChat from './NavigationChatDetailMobile';
+import MessageBot from './MessageBot';
+import MessageUser from './MessageUser';
+import InputChat from './InputChat';
 
-import {useSelector, useDispatch} from "react-redux";
-import {AddChatValue, ClearChat, ChangeChatID} from "../store/actions/Chatbot";
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  AddChatValue,
+  ClearChat,
+  ChangeChatID,
+} from '../store/actions/Chatbot';
+import { socket } from '..';
 
-function Index({chatData}) {
+function Index({ chatData }) {
   const dispatch = useDispatch();
 
-  const currentChats = useSelector(state => state.chatState.Chats);
-  const currentChatID = useSelector(state => state.chatState.ChatID);
+  const currentChats = useSelector((state) => state.chatState.Chats);
+  const currentChatID = useSelector((state) => state.chatState.ChatID);
 
-  const changeChatValue = number => {
+  const changeChatValue = (number) => {
     dispatch(AddChatValue(number));
   };
 
-  const clearChat = number => {
+  const clearChat = (number) => {
     dispatch(ClearChat(number));
   };
 
-  const changeChatID = number => {
+  const changeChatID = (number) => {
     dispatch(ChangeChatID(number));
   };
 
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({behavior: "smooth"});
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
   useEffect(() => {
@@ -68,7 +73,7 @@ function Index({chatData}) {
               clearChat();
             }}
           />
-          {currentChats.map(element => {
+          {currentChats.map((element) => {
             if (element.bot) {
               return (
                 <MessageBot
@@ -82,13 +87,15 @@ function Index({chatData}) {
           })}
           <InputChat
             isMobile={true}
-            sendMessage={text => {
+            sendMessage={(text) => {
               changeChatValue([
                 {
                   bot: false,
                   message: text,
                 },
               ]);
+              // TODO muss noch angepasst werden !!!11!
+              socket.emit('message', text, 'joke');
               setTimeout(() => {
                 scrollToBottom();
               }, 400);
