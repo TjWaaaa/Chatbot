@@ -17,7 +17,7 @@ export default async (req: express.Request, res: express.Response, next: express
 
 		if (!user) {
 			return res.status(400).json({
-				message: 'User does not exist',
+				message: 'Es existiert kein Benutzer mit dieser E-Mail Adresse. Bitte registriere dich zuerst.',
 			});
 		}
 
@@ -28,14 +28,14 @@ export default async (req: express.Request, res: express.Response, next: express
 
 			if (!result) {
 				return res.status(401).json({
-					message: 'Password is incorrect',
+					message: 'Passwort ist falsch.',
 				});
 			}
 			regenerateSession(req, res, next, user);
 		});
 	} catch (err) {
 		return res.status(400).json({
-			message: 'Login user failed',
+			message: 'Ein Fehler beim Login ist passiert. Versuche es erneut oder kontaktiere den Support.',
 		});
 	}
 };
