@@ -2,6 +2,7 @@ import axios from 'axios';
 import { Socket } from 'socket.io';
 import { ChatBotId } from '~/enums/chat-bot-id';
 import logger from '~/utils/logger';
+import { sendMessage } from '../sendMessage';
 
 export const getJoke = async () => {
 	return axios
