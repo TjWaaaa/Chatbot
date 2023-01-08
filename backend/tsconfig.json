@@ -10,8 +10,12 @@
 		"incremental": true,
 		"baseUrl": ".",
 		"paths": {
-			"~/*": ["./src/*"]
+			"~/*": ["src/*"]
 		}
+	},
+	"ts-node": {
+		"transpileOnly": true,
+		"require": ["tsconfig-paths/register"]
 	},
 	"include": ["src", "prisma"],
 	"exclude": ["node_modules"]
