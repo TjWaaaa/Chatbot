@@ -9,6 +9,7 @@ import { getJoke } from './services/joke/get-joke';
 import { saveMessageToDB } from './services/prismaApi/dbHandler';
 import { sendMessage } from './services/socketApi/socketHandler';
 import { getTranslation } from './services/translation/get-translation';
+import { IncomingMessageWS } from './types/override-types';
 import logger from './utils/logger';
 
 export function wsServer() {
@@ -29,11 +30,11 @@ export function wsServer() {
 			logger.info('Disconnected');
 		});
 
+		const userId = (socket.request as IncomingMessageWS).session.userId!;
+
 		socket.on('message', async ({ chatBotId, message }) => {
-			logger.info(
-				`ws-server: MESSAGE: ${message}, USER_ID: ${socket.request.session.userId}, CHAT_BOT_ID: ${chatBotId}`,
-			);
-			saveMessageToDB(socket.request.session.userId!, chatBotId, message, true);
+			logger.info(`ws-server: MESSAGE: ${message}, USER_ID: ${userId}, CHAT_BOT_ID: ${chatBotId}`);
+			saveMessageToDB(userId, chatBotId, message, true);
 
 			let answer = '';
 			switch (chatBotId) {
@@ -54,7 +55,7 @@ export function wsServer() {
 				throw new Error('Empty Answer');
 			}
 
-			saveMessageToDB(socket.request.session.userId!, chatBotId, answer, false);
+			saveMessageToDB(userId, chatBotId, answer, false);
 			sendMessage(socket, answer, chatBotId);
 		});
 	});

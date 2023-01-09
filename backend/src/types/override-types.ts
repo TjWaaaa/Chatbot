@@ -1,4 +1,5 @@
 import { Cookie, Session } from 'express-session';
+import { IncomingMessage } from 'http';
 
 declare module 'express-session' {
 	interface Session {
@@ -15,8 +16,6 @@ declare module 'express' {
 	}
 }
 
-declare module 'http' {
-	interface IncomingMessage {
-		session: Session;
-	}
+export interface IncomingMessageWS extends IncomingMessage {
+	session: Session;
 }
