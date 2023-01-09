@@ -33,9 +33,6 @@ export default async (req: express.Request, res: express.Response, next: express
 					email: req.body.email,
 					hashedPassword,
 				},
-				select: {
-					id: true,
-				},
 			});
 			logger.info(`User ${newUser.id} created`);
 			regenerateSession(req, res, next, newUser);
