@@ -1,8 +1,5 @@
-import { Socket } from 'socket.io';
-import { ChatBotId } from '../../enums/chat-bot-id';
 import axios from 'axios';
 import logger from '~/utils/logger';
-import { sendMessage } from '../sendMessage';
 
 export const getTranslation = async (message: string) => {
 	logger.info(`Message: ${message}`);

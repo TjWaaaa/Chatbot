@@ -33,9 +33,9 @@ export function wsServer() {
 			logger.info(
 				`ws-server: MESSAGE: ${message}, USER_ID: ${socket.request.session.userId}, CHAT_BOT_ID: ${chatBotId}`,
 			);
-			saveMessageToDB(socket.request.session.userId, chatBotId, message, true);
+			saveMessageToDB(socket.request.session.userId!, chatBotId, message, true);
 
-			let answer: string = '';
+			let answer = '';
 			switch (chatBotId) {
 				case ChatBotId.TRANSLATOR:
 					answer = await getTranslation(message);
@@ -54,7 +54,7 @@ export function wsServer() {
 				throw new Error('Empty Answer');
 			}
 
-			saveMessageToDB(socket.request.session.userId, chatBotId, answer, false);
+			saveMessageToDB(socket.request.session.userId!, chatBotId, answer, false);
 			sendMessage(socket, answer, chatBotId);
 		});
 	});
