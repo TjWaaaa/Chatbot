@@ -32,7 +32,7 @@ export default function Settings(props) {
 				{open && (
 					<div className="absolute top-20 right-4 bg-white rounded-lg p-3 w-52 shadow-lg">
 						<h3 className="w-full text-center text-sm font-small">Angemeldet als:</h3>
-						<h2 className="w-full text-center text-md font-medium pb-5">marvin.pfau@gmx.de</h2>
+						<h2 className="w-full text-center text-md font-medium pb-5">coole.mail@gmx.de</h2>
 						<ul>
 							<li className="flex m-auto pl-7 p-2.5 border-t hover:text-indigo-600 hover:cursor-pointer">
 								<img src="settings/darkmode.png" alt="" className="h-7 mr-2.5" />
