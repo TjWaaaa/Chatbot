@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,15 +8,31 @@ datasource db {
 }
 
 model User {
-  id             String    @id @default(uuid())
-  email          String    @unique
+  id             String @id @default(uuid())
+  email          String @unique
   hashedPassword String
+  chats          Chat[]
 }
+
 model Session {
   id        String   @id
   sid       String   @unique
   data      String
-  expiresAt   DateTime
+  expiresAt DateTime
 }
 
+model Chat {
+  id       String    @id @unique
+  userId   String?
+  User     User?     @relation(fields: [userId], references: [id])
+  messages Message[]
+}
 
+model Message {
+  id         String   @id @unique @default(uuid())
+  text       String
+  timeStamp  DateTime @default(now())
+  chatId     String?
+  sentByUser Boolean
+  Chat       Chat?    @relation(fields: [chatId], references: [id])
+}
