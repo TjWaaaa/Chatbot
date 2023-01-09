@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { UserCircleIcon } from '@heroicons/react/24/solid';
+import { SunIcon, UserCircleIcon } from '@heroicons/react/24/solid';
+import { ArrowLeftOnRectangleIcon } from '@heroicons/react/24/solid';
 import { Link } from 'react-router-dom';
 
 export default function Settings(props) {
@@ -35,12 +36,12 @@ export default function Settings(props) {
 						<h2 className="w-full text-center text-md font-medium pb-5">coole.mail@gmx.de</h2>
 						<ul>
 							<li className="flex m-auto pl-7 p-2.5 border-t hover:text-indigo-600 hover:cursor-pointer">
-								<img src="settings/darkmode.png" alt="" className="h-7 mr-2.5" />
+								<SunIcon className="h-7 mr-2.5" />
 								<button>Darkmode</button>
 							</li>
 							<li className="flex m-auto pl-7 p-2.5 border-t hover:text-indigo-600 hover:cursor-pointer">
-								<img src="settings/logout.png" alt="" className="h-7 mr-2.5" />
-								<Link to="/login">Ausloggen</Link>
+								<ArrowLeftOnRectangleIcon className='h-7 mr-2.5'/>
+								<Link to="/login" className='pt-0.5'>Ausloggen</Link>
 							</li>
 						</ul>
 					</div>
