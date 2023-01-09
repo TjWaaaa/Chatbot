@@ -9,6 +9,7 @@ function Index() {
 	const [isMobile, setIsMobile] = useState(true);
 
 	useLayoutEffect(() => {
+		document.body.style.overflow = 'hidden';
 		function updateSize() {
 			setIsMobile(window.innerWidth <= 800);
 		}
