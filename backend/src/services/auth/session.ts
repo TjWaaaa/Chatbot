@@ -34,7 +34,7 @@ export function regenerateSession(
 
 		req.session.save(function (err) {
 			if (err) next(err);
-			return res.status(200).json({ message: 'Session generated' }).redirect('/');
+			return res.status(200).json({ message: 'Session generated' });
 		});
 	});
 }
@@ -47,7 +47,7 @@ export function destroySession(req: express.Request, res: express.Response, next
 
 		req.session.regenerate(function (err) {
 			if (err) next(err);
-			return res.status(200).json({ message: 'Erfolgreich abgemeldet.' }).redirect('/login');
+			return res.status(200).json({ message: 'Erfolgreich abgemeldet.' });
 		});
 	});
 }
