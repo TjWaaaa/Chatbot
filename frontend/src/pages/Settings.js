@@ -1,8 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { UserCircleIcon } from '@heroicons/react/24/solid';
 import { Link } from 'react-router-dom';
 
-export default function Settings() {
+export default function Settings(props) {
 	const [open, setOpen] = useState(false);
+
+	function handleClickOutside(event) {
+		if (event.target.closest('.list-none')) return;
+		setOpen(false);
+	  }
+	
+	  useEffect(() => {
+		document.addEventListener('click', handleClickOutside);
+		return () => {
+		  document.removeEventListener('click', handleClickOutside);
+		};
+	  }, []);
 
 	return (
 		<div>
@@ -13,11 +26,11 @@ export default function Settings() {
 						setOpen(!open);
 					}}
 				>
-					<img src="settings/account.png" alt="" />
+					<UserCircleIcon className={`flex h-12 w-12 pb-0.5 ${props.color}`} />
 				</div>
 
 				{open && (
-					<div className="absolute top-20 right-4 bg-white rounded-lg p-3 w-52 shadow-sm">
+					<div className="absolute top-20 right-4 bg-white rounded-lg p-3 w-52 shadow-lg">
 						<h3 className="w-full text-center text-sm font-small">Angemeldet als:</h3>
 						<h2 className="w-full text-center text-md font-medium pb-5">marvin.pfau@gmx.de</h2>
 						<ul>
