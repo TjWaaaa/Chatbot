@@ -1,0 +1,21 @@
+{
+    "private": true,
+    "scripts": {
+        "install": "concurrently --raw 'yarn:install:backend' 'yarn:install:frontend'",
+        "install:backend": "cd backend && yarn install",
+        "install:frontend": "cd frontend && yarn install",
+        "dev": "concurrently --raw 'yarn:dev:db' 'yarn:dev:backend' 'yarn:dev:frontend'",
+        "dev:db": "docker compose -f docker-compose.db.yml up",
+        "dev:backend": "cd backend && yarn dev",
+        "dev:frontend": "cd frontend && yarn start",
+        "migrate": "cd backend && yarn migrate",
+        "studio": "cd backend && prisma studio",
+        "generate": "cd backend && prisma generate",
+        "prettier": "concurrently --raw 'yarn:prettier:backend' 'yarn:prettier:frontend'",
+        "prettier:backend": "cd backend && yarn prettier",
+        "prettier:frontend": "cd frontend && yarn prettier"
+    },
+    "devDependencies": {
+        "concurrently": "^7.6.0"
+    }
+}
