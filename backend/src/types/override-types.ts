@@ -1,11 +1,12 @@
 import { Cookie, Session } from 'express-session';
-import { UserId } from './types/session-user-id';
+import { IncomingMessage } from 'http';
+
 declare module 'express-session' {
 	interface Session {
-		user?: UserId;
+		userId?: string;
 	}
 	interface SessionData {
-		user?: UserId;
+		userId?: string;
 	}
 }
 
@@ -15,8 +16,6 @@ declare module 'express' {
 	}
 }
 
-declare module 'http' {
-	interface IncomingMessage {
-		session: Session;
-	}
+export interface IncomingMessageWS extends IncomingMessage {
+	session: Session;
 }

@@ -1,0 +1,68 @@
+stages:
+  - setup
+  - lint
+  - typecheck
+  - test
+  # - deploy
+
+# setup:
+
+backend-node-modules:
+  image: node:19-alpine
+  stage: setup
+  script:
+    - cd ./backend/
+    - yarn install --frozen-lockfile
+  artifacts:
+    paths:
+      - ./backend/node_modules
+    expire_in: 1h
+
+frontend-node-modules:
+  image: node:19-alpine
+  stage: setup
+  script:
+    - cd ./frontend/
+    - yarn install --frozen-lockfile
+  artifacts:
+    paths:
+      - ./frontend/node_modules
+    expire_in: 1h
+
+# lint:
+
+backend-lint:
+  image: node:19-alpine
+  stage: lint
+  script:
+    - cd ./backend/
+    - yarn lint-ci
+
+frontend-lint:
+  image: node:19-alpine
+  stage: lint
+  script:
+    - cd ./frontend/
+    - yarn lint-ci
+
+  # typecheck:
+
+backend-tsc:
+  image: node:19-alpine
+  stage: typecheck
+  script:
+    - cd ./backend/
+    - yarn build
+  artifacts:
+    paths:
+      - ./backend/dist
+    expire_in: 1h
+
+  # tests:
+
+frontend-tests:
+  image: node:19-alpine
+  stage: test
+  script:
+    - cd ./frontend/
+    - yarn test
