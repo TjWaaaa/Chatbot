@@ -2,18 +2,18 @@ import { ChatBotId } from '~/enums/chat-bot-id';
 import { prisma } from '~/index';
 import logger from '~/utils/logger';
 
-export const saveMessageToDB = async (userId: any, chatId: ChatBotId, message: string, sentByUser: boolean) => {
+export const saveMessageToDB = async (userId: string, chatId: ChatBotId, message: string, sentByUser: boolean) => {
 	logger.info(`saveChats - uId: ${userId}, cId: ${chatId}, m: ${message}`);
 
 	await prisma.chat.upsert({
 		where: {
-			id: chatId.toString(),
+			id: chatId,
 		},
 		update: {},
 		create: {
 			User: {
 				connect: {
-					id: userId.toString(),
+					id: userId,
 				},
 			},
 			id: chatId,
