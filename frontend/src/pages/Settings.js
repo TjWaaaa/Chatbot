@@ -2,9 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { SunIcon, UserCircleIcon } from '@heroicons/react/24/solid';
 import { ArrowLeftOnRectangleIcon } from '@heroicons/react/24/solid';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { logoutUser } from '../utils/api';
 
 export default function Settings(props) {
 	const [open, setOpen] = useState(false);
+	const navigate = useNavigate();
 
 	function handleClickOutside(event) {
 		if (event.target.closest('.list-none')) return;
@@ -17,6 +20,15 @@ export default function Settings(props) {
 		  document.removeEventListener('click', handleClickOutside);
 		};
 	  }, []);
+
+	  function handleLogout() {
+		logoutUser()
+			.then(() => {
+				navigate('/login'); //todo reload page
+				navigate(0)
+			})
+			.catch((res) => console.log(res.response.data)); //todo handle wrong password and email not found
+	}
 
 	return (
 		<div>
@@ -41,7 +53,7 @@ export default function Settings(props) {
 							</li>
 							<li className="flex m-auto pl-7 p-2.5 border-t hover:text-indigo-600 hover:cursor-pointer">
 								<ArrowLeftOnRectangleIcon className='h-7 mr-2.5'/>
-								<Link to="/login" className='pt-0.5'>Ausloggen</Link>
+								<button onClick={() => handleLogout()}>Ausloggen</button>
 							</li>
 						</ul>
 					</div>

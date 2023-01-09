@@ -13,6 +13,7 @@ export default function SignIn() {
 		signUserIn({ email, password })
 			.then(() => {
 				navigate('/'); //todo reload page
+				navigate(0)
 			})
 			.catch((res) => console.log(res.response.data)); //todo handle wrong password and email not found
 	}

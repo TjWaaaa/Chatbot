@@ -22,3 +22,7 @@ export async function signUserUp(credentials) {
 export async function logoutUser() {
 	return await http.post(`${PATH_PREFIX_AUTH}/logout`);
 }
+
+export async function isAuthenticated() {
+	return await http.post(`${PATH_PREFIX_AUTH}/isAuthenticated`);
+}

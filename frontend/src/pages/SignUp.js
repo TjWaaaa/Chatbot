@@ -12,6 +12,7 @@ export default function SignUp(props) {
 		signUserUp({ email, password })
 			.then((res) => {
 				navigate('/'); //todo reload page
+				navigate(0)
 			})
 			.catch((res) => console.log(res.response.data)); //todo handle invalid password/email and user already exists
 	}
