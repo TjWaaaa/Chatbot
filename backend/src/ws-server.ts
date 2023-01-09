@@ -30,9 +30,9 @@ export function wsServer() {
 			logger.info('Disconnected');
 		});
 
-		socket.on('message', async ({ userId, chatBotId, message }) => {
+		socket.on('message', async ({ chatBotId, message }) => {
 			//logger.info(`ws-server: MESSAGE: ${message}, USER_ID: ${userId}, CHAT_BOT_ID: ${chatBotId}`);
-			saveMessageToDB(userId, chatBotId, message, true);
+			saveMessageToDB(socket.request.session.userId, chatBotId, message, true);
 
 			let answer: string = '';
 			switch (chatBotId) {
@@ -53,7 +53,7 @@ export function wsServer() {
 				throw new Error('Empty Answer');
 			}
 
-			saveMessageToDB(userId, chatBotId, answer, false);
+			saveMessageToDB(socket.request.session.userId, chatBotId, answer, false);
 			sendMessage(socket, answer, chatBotId);
 		});
 	});
