@@ -31,10 +31,7 @@ function Index({ chatData }) {
 		<div>
 			<NavigationAllChatsWeb />
 			<div className="flex flex-row">
-				<div
-					className="w-2xl overflow-y-scroll border-r border-slate-300"
-					style={{ height: 'calc(100vh - 60px)' }}
-				>
+				<div className="w-2xl overflow-y-scroll" style={{ height: 'calc(100vh - 60px)' }}>
 					{chatData.map((element, Index) => {
 						return (
 							<Chat
@@ -52,31 +49,49 @@ function Index({ chatData }) {
 					})}
 				</div>
 				<div className="bg-slate-100 flex-1 overflow-y-scroll" style={{ height: 'calc(100vh - 60px)' }}>
-					{currentChats.map((element) => {
-						if (element.bot) {
-							return <MessageBot img={chatData[currentChatID].img} text={element.message} />;
-						}
+					{currentChatID === -1 ? (
+						<div className="flex justify-center h-full items-center">
+							<div>
+								<div className="flex justify-center">
+									<img src="/ChatBotImage.png" alt="logo" className="max-h-60 max-w-60" />
+								</div>
+								<h2 className="text-center text-2xl font-semibold text-black mt-2 mb-2">
+									Willkommen bei CBACB
+								</h2>
+								<p className="text-center text text-black">
+									Wähle einen Chatbot und starte eine Konversation.
+								</p>
+							</div>
+						</div>
+					) : (
+						<div>
+							{currentChats.map((element) => {
+								if (element.bot) {
+									return <MessageBot img={chatData[currentChatID].img} text={element.message} />;
+								}
 
-						return <MessageUser text={element.message} />;
-					})}
-					<div className="h-16" />
-					<InputChat
-						isMobile={false}
-						sendMessage={(text) => {
-							changeChatValue([
-								{
-									bot: false,
-									message: text,
-								},
-							]);
-							// TODO muss noch angepasst werden !!!11!
-							socket.emit('message', { message: text, chatBotId: 'businessMan' });
-							setTimeout(() => {
-								scrollToBottom();
-							}, 400);
-						}}
-					/>
-					<div ref={messagesEndRef} />
+								return <MessageUser text={element.message} />;
+							})}
+							<div className="h-16" />
+							<InputChat
+								isMobile={false}
+								sendMessage={(text) => {
+									changeChatValue([
+										{
+											bot: false,
+											message: text,
+										},
+									]);
+									// TODO muss noch angepasst werden !!!11!
+									socket.emit('message', { message: text, chatBotId: 'businessMan' });
+									setTimeout(() => {
+										scrollToBottom();
+									}, 400);
+								}}
+							/>
+							<div ref={messagesEndRef} />
+						</div>
+					)}
 				</div>
 			</div>
 		</div>

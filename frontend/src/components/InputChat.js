@@ -3,26 +3,33 @@ import { PaperAirplaneIcon } from '@heroicons/react/24/solid';
 
 function Index({ sendMessage, isMobile }) {
 	const [text, setText] = useState('');
+
+	const MessageSend = () => {
+		sendMessage(text);
+		setText('');
+	};
+
+	const handleKeyDown = (event) => {
+		if (event.key === 'Enter') {
+			MessageSend();
+		}
+	};
+
 	return (
 		<div
-			className="mt-8 bg-white border-t border-slate-300 fixed bottom-0 right-0 z-50"
+			className="mt-8 bg-slate-100 fixed bottom-0 right-0 z-50"
 			style={!isMobile ? { width: 'calc(100vw - 412px)' } : { width: '100vw' }}
 		>
 			<div className="flex flex-row justify-between items-center ml-2 pt-2 pb-2">
 				<input
-					className="w-full p-2"
+					className="w-full p-2 bg-white rounded-lg border border-slate-300"
 					value={text}
 					onChange={(event) => {
 						setText(event.target.value);
 					}}
+					onKeyDown={handleKeyDown}
 				/>
-				<div
-					className="pl-4 pr-4 cursor-pointer"
-					onClick={() => {
-						sendMessage(text);
-						setText('');
-					}}
-				>
+				<div className="pl-4 pr-4 cursor-pointer" onClick={MessageSend}>
 					<PaperAirplaneIcon className="flex h-7 w-7 text-indigo-600" />
 				</div>
 			</div>
