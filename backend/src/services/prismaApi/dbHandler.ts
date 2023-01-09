@@ -1,8 +1,6 @@
-import { PrismaClient } from '@prisma/client';
 import { ChatBotId } from '~/enums/chat-bot-id';
+import { prisma } from '~/index';
 import logger from '~/utils/logger';
-
-const prisma = new PrismaClient();
 
 export const saveMessageToDB = async (userId: any, chatId: ChatBotId, message: string, sentByUser: boolean) => {
 	logger.info(`saveChats - uId: ${userId}, cId: ${chatId}, m: ${message}`);

@@ -3,9 +3,9 @@ import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcrypt';
 import logger from '~/utils/logger';
 import { regenerateSession } from './session';
+import { prisma } from '~/index';
 
 const SALT_ROUNDS = 10;
-const prisma = new PrismaClient();
 
 export default async (req: express.Request, res: express.Response, next: express.NextFunction) => {
 	const { email, password } = req.body;
