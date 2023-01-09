@@ -1,8 +1,7 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, User } from '@prisma/client';
 import { PrismaSessionStore } from '@quixo3/prisma-session-store';
 import express from 'express';
 import session from 'express-session';
-import { UserId } from '~/types/session-user-id';
 
 const ONE_WEEK = 7 * 1000 * 60 * 60 * 24;
 
@@ -21,33 +20,28 @@ export const sessionOptions = session({
 	resave: false,
 });
 
-export function regenerateSession(
-	req: express.Request,
-	res: express.Response,
-	next: express.NextFunction,
-	user: UserId,
-) {
+export function regenerateSession(req: express.Request, res: express.Response, next: express.NextFunction, user: User) {
 	req.session.regenerate(function (err) {
 		if (err) next(err);
 
-		req.session.user = user;
+		req.session.userId = user.id;
 
 		req.session.save(function (err) {
 			if (err) next(err);
-			return res.status(200).json({ message: 'Session generated' }).redirect('/');
+			return res.status(200).json({ message: 'Session generated' });
 		});
 	});
 }
 
 export function destroySession(req: express.Request, res: express.Response, next: express.NextFunction) {
-	req.session.user = undefined;
+	req.session.userId = undefined;
 
 	req.session.save(function (err) {
 		if (err) next(err);
 
 		req.session.regenerate(function (err) {
 			if (err) next(err);
-			return res.status(200).json({ message: 'Erfolgreich abgemeldet.' }).redirect('/login');
+			return res.status(200).json({ message: 'Erfolgreich abgemeldet.' });
 		});
 	});
 }
