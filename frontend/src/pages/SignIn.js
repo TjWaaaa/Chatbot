@@ -6,16 +6,22 @@ import { signUserIn } from '../utils/api';
 export default function SignIn() {
 	const [email, setEmail] = useState();
 	const [password, setPassword] = useState();
+	const [error, setError] = useState(null);
 	const navigate = useNavigate();
 
 	function handleSignIn(e) {
 		e.preventDefault();
 		signUserIn({ email, password })
 			.then(() => {
-				navigate('/'); //todo reload page
-				navigate(0)
+				navigate('/');
+				navigate(0);
+				setError(null);
 			})
-			.catch((res) => console.log(res.response.data)); //todo handle wrong password and email not found
+			.catch((res) => {
+				const errorMessage = res.response.data;
+				setError(errorMessage);
+				console.log(errorMessage);
+			});
 	}
 
 	return (
@@ -48,6 +54,17 @@ export default function SignIn() {
 							required
 						/>
 					</div>
+					{error &&
+						error.issues &&
+						error.issues.map((issue) => {
+							return (
+								<div className="bg-red-100 border border-red-400 text-red-700 px-4 mt-2 pt-2 pb-2 rounded relative ">
+									{issue.message}
+								</div>
+							);
+						})}
+
+					{error && error.message && <div className="bg-red-100 border border-red-400 text-red-700 px-4 mt-2 pt-2 pb-2 rounded relative">{error.message}</div>}
 					<button
 						onClick={handleSignIn}
 						className="w-full my-5 py-2 bg-indigo-600 shadow-lg shadow-indigo-600/50 hover:shadow-indigo-600/40 text-white font-semibold rounded-lg"

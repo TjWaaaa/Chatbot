@@ -1,20 +1,27 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { signUserUp } from '../utils/api';
+import { Link } from 'react-router-dom';
 
 export default function SignUp(props) {
 	const [email, setUserName] = useState();
 	const [password, setPassword] = useState();
+	const [error, setError] = useState(null);
 	const navigate = useNavigate();
 
 	function handleSignUp(e) {
 		e.preventDefault();
 		signUserUp({ email, password })
 			.then((res) => {
-				navigate('/'); //todo reload page
+				navigate('/');
 				navigate(0)
+				setError(null)
 			})
-			.catch((res) => console.log(res.response.data)); //todo handle invalid password/email and user already exists
+			.catch((res) => {
+				const errorMessage = res.response.data;
+				setError(errorMessage);
+				console.log(errorMessage);
+			});
 	}
 
 	return (
@@ -55,12 +62,31 @@ export default function SignUp(props) {
 							required
 						></input>
 					</div>
+					{error &&
+						error.issues &&
+						error.issues.map((issue) => {
+							return (
+								<div className="bg-red-100 border border-red-400 text-red-700 px-4 mt-2 pt-2 pb-2 rounded relative ">
+									{issue.message}
+								</div>
+							);
+						})}
+
+					{error && error.message && <div className="bg-red-100 border border-red-400 text-red-700 px-4 mt-2 pt-2 pb-2 rounded relative">{error.message}</div>}
 					<button
 						className="w-full my-5 py-2 bg-indigo-600 shadow-lg shadow-indigo-600/50 hover:shadow-indigo-600/40 text-white font-semibold rounded-lg"
 						onClick={handleSignUp}
 					>
 						Registrieren
 					</button>
+					<div className="flex justify-center ">
+						<p>
+							Schon einen Account?{' '}
+							<Link to="/login" className="text-indigo-600">
+								Hier anmelden
+							</Link>
+						</p>
+					</div>
 				</form>
 			</div>
 		</div>
