@@ -8,6 +8,9 @@ import { wsServer } from './ws-server';
 import { csrfVerification } from './middleware/csrf-token-verification';
 import { sessionConfig } from './config/session';
 import authRouter from './router/auth';
+import { PrismaClient } from '@prisma/client';
+
+export const prisma = new PrismaClient();
 
 dotenv.config();
 

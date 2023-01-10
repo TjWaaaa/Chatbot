@@ -4,9 +4,12 @@ import { ChatBotId } from './enums/chat-bot-id';
 import { httpServer } from './index';
 import { wrap } from './middleware/add-session-to-socketio';
 import { authenticationHandler } from './middleware/is-authenticated-socketio';
-import { getBusinessAdvice } from './services/business-advice/getBusinessAdvice';
+import { getBusinessAdvice } from './services/business-advice/get-business-advice';
 import { getJoke } from './services/joke/get-joke';
+import { saveMessageToDB } from './services/prismaApi/dbHandler';
+import { sendMessage } from './services/socketApi/socketHandler';
 import { getTranslation } from './services/translation/get-translation';
+import { IncomingMessageWS } from './types/override-types';
 import logger from './utils/logger';
 
 export function wsServer() {
@@ -27,22 +30,33 @@ export function wsServer() {
 			logger.info('Disconnected');
 		});
 
-		socket.on('message', ({ chatBotId, message }) => {
-			logger.info(`ws-server: MESSAGE: ${message}, CHAT_BOT_ID: ${chatBotId}`);
+		const userId = (socket.request as IncomingMessageWS).session.userId!;
 
+		socket.on('message', async ({ chatBotId, message }) => {
+			logger.info(`ws-server: MESSAGE: ${message}, USER_ID: ${userId}, CHAT_BOT_ID: ${chatBotId}`);
+			saveMessageToDB(userId, chatBotId, message, true);
+
+			let answer = '';
 			switch (chatBotId) {
 				case ChatBotId.TRANSLATOR:
-					getTranslation(message, socket);
+					answer = await getTranslation(message);
 					break;
 				case ChatBotId.BUSINESSMAN:
-					getBusinessAdvice(message, socket);
+					answer = getBusinessAdvice();
 					break;
 				case ChatBotId.JOKE:
-					getJoke(message, socket);
+					answer = await getJoke();
 					break;
 				default:
 					logger.info('no fitting ChatBotId', chatBotId);
 			}
+
+			if (answer === '') {
+				throw new Error('Empty Answer');
+			}
+
+			saveMessageToDB(userId, chatBotId, answer, false);
+			sendMessage(socket, answer, chatBotId);
 		});
 	});
 }

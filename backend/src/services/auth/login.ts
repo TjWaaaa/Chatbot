@@ -1,9 +1,8 @@
 import express from 'express';
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcrypt';
-
-const prisma = new PrismaClient();
 import { regenerateSession } from './session';
+import { prisma } from '~/index';
 
 export default async (req: express.Request, res: express.Response, next: express.NextFunction) => {
 	const { email, password } = req.body;

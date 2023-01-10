@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { socket } from './index';
 
 const App = () => {
 	const [input, setInput] = useState('');
