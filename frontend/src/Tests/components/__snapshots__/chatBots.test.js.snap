@@ -1,0 +1,55 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ChatBots matches snapshot 1`] = `
+<div
+  className="pl-4 pr-4 cursor-pointer bg-white"
+  data-testid="id1"
+  onClick={[Function]}
+>
+  <div
+    className="pt-4"
+  >
+    <div>
+      <div
+        className="flex flex-row justify-between"
+      >
+        <div
+          className="flex flex-row items-center"
+        >
+          <img
+            alt="Business Mann 42"
+            className="h-16 w-16 rounded-full"
+            src="test-image.jpg"
+          />
+          <div
+            className="ml-4 mr-4"
+          >
+            <h1
+              className="text-xl font-bold"
+            >
+              Test Name
+            </h1>
+            <h1
+              className="text max-h-12 overflow-hidden"
+            >
+              Test Text
+            </h1>
+          </div>
+        </div>
+        <div
+          className="flex flex-row items-center"
+        >
+          <h1
+            className="text"
+          >
+            Test Time
+          </h1>
+        </div>
+      </div>
+    </div>
+    <div
+      className="ml-20 mt-4 -mr-4 h-px bg-slate-300"
+    />
+  </div>
+</div>
+`;

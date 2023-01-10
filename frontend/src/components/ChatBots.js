@@ -17,6 +17,7 @@ function Index({ name, img, text, time, event, id }) {
 
 	return (
 		<div
+			data-testid="id1"
 			className={'pl-4 pr-4 cursor-pointer ' + (currentChatID === id ? 'bg-indigo-100' : 'bg-white')}
 			onClick={() => {
 				changeChatID(id);

@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot MessageBot 1`] = `
+<div
+  className="flex flex-row mt-4 items-center ml-4"
+  data-testid="id2"
+>
+  <img
+    alt="Business Mann 42"
+    className="h-8 w-8 rounded-full"
+    src="test-image.jpg"
+  />
+  <div
+    className="pl-4 pr-4 pt-2 pb-2 ml-4 mr-4 bg-white rounded-lg drop-shadow-sm"
+  >
+    <p
+      className="text text-black"
+    >
+      das ist die Nachricht von einem Bot
+    </p>
+  </div>
+</div>
+`;
+
+exports[`matches snapshot MessageUser 1`] = `
+<div
+  className="flex flex-row mt-4 items-center ml-4 justify-end"
+  data-testid="id1"
+>
+  <div
+    className="pl-4 pr-4 pt-2 pb-2 ml-4 mr-4 bg-indigo-600 rounded-lg drop-shadow-sm"
+  >
+    <p
+      className="text text-white"
+    >
+      das ist die Nachricht von einem User
+    </p>
+  </div>
+</div>
+`;

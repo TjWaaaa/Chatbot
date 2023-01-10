@@ -2,7 +2,7 @@ import { ChevronLeftIcon } from '@heroicons/react/24/solid';
 
 function Index({ name, img, event }) {
 	return (
-		<div className="pl-4 pr-4 pt-4 pb-4 bg-indigo-600 sticky top-0 z-50">
+		<div data-testid="id1" className="pl-4 pr-4 pt-4 pb-4 bg-indigo-600 sticky top-0 z-50">
 			<div className="flex flex-row justify-between items-center">
 				<div className="cursor-pointer" onClick={() => event()}>
 					<ChevronLeftIcon className="flex h-8 w-8 text-white" />

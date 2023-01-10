@@ -17,6 +17,7 @@ function Index({ sendMessage, isMobile }) {
 
 	return (
 		<div
+			data-testid="id1"
 			className="mt-8 bg-slate-100 fixed bottom-0 right-0 z-50"
 			style={!isMobile ? { width: 'calc(100vw - 412px)' } : { width: '100vw' }}
 		>
