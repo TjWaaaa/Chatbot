@@ -21,11 +21,18 @@ model Session {
   expiresAt DateTime
 }
 
+enum ChatBotType {
+  businessMan
+  joke
+  translator
+}
+
 model Chat {
-  id       String    @id @unique
-  userId   String?
-  User     User?     @relation(fields: [userId], references: [id])
-  messages Message[]
+  id          String    @id @unique @default(uuid())
+  chatBotType String
+  userId      String
+  User        User      @relation(fields: [userId], references: [id])
+  messages    Message[]
 }
 
 model Message {

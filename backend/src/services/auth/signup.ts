@@ -4,6 +4,7 @@ import bcrypt from 'bcrypt';
 import logger from '~/utils/logger';
 import { regenerateSession } from './session';
 import { prisma } from '~/index';
+import { chatIds, chatOnboardingData } from '~/chatOnboardingData';
 
 const SALT_ROUNDS = 10;
 
@@ -34,6 +35,23 @@ export default async (req: express.Request, res: express.Response, next: express
 					hashedPassword,
 				},
 			});
+
+			logger.info(newUser.id);
+
+			for (const chat of chatOnboardingData) {
+				await prisma.chat.create({
+					data: {
+						chatBotType: chat.chatBotType,
+						userId: newUser.id,
+						messages: {
+							createMany: {
+								data: chat.messages,
+							},
+						},
+					},
+				});
+			}
+
 			logger.info(`User ${newUser.id} created`);
 			regenerateSession(req, res, next, newUser);
 		});

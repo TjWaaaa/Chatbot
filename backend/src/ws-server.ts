@@ -6,7 +6,7 @@ import { wrap } from './middleware/add-session-to-socketio';
 import { authenticationHandler } from './middleware/is-authenticated-socketio';
 import { getBusinessAdvice } from './services/business-advice/get-business-advice';
 import { getJoke } from './services/joke/get-joke';
-import { saveMessageToDB } from './services/prismaApi/dbHandler';
+import { loadChatsFromDB, saveMessageToDB } from './services/prismaApi/dbHandler';
 import { sendMessage } from './services/socketApi/socketHandler';
 import { getTranslation } from './services/translation/get-translation';
 import { IncomingMessageWS } from './types/override-types';
@@ -23,8 +23,9 @@ export function wsServer() {
 	io.use(wrap(sessionConfig));
 	io.use(authenticationHandler);
 
-	io.on('connection', (socket: Socket) => {
+	io.on('connection', async (socket: Socket) => {
 		logger.info('Connected');
+		loadChatsFromDB(socket);
 
 		socket.on('disconnect', function () {
 			logger.info('Disconnected');

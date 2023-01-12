@@ -17,7 +17,7 @@ import AllChats from './pages/AllChats';
 import ErrorPage from './pages/ErrorPage';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
-import SocketHandler from './socketAPI/SocketHandler';
+import SocketHandler from './utils/socketApi';
 
 export const socket = io('http://localhost:8000/', {
 	reconnectionDelayMax: 10000,
