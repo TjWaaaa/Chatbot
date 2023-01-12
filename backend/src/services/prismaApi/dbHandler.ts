@@ -1,6 +1,8 @@
 import { ChatBotId } from '~/enums/chat-bot-id';
 import { prisma } from '~/index';
 import logger from '~/utils/logger';
+import { Socket } from 'socket.io';
+import { IncomingMessageWS } from '~/types/override-types';
 
 export const saveMessageToDB = async (userId: string, chatId: ChatBotId, message: string, sentByUser: boolean) => {
 	logger.info(`saveChats - uId: ${userId}, cId: ${chatId}, m: ${message}`);
@@ -16,7 +18,7 @@ export const saveMessageToDB = async (userId: string, chatId: ChatBotId, message
 					id: userId,
 				},
 			},
-			id: chatId,
+			chatBotType: chatId,
 		},
 	});
 
@@ -33,4 +35,34 @@ export const saveMessageToDB = async (userId: string, chatId: ChatBotId, message
 	});
 };
 
-export const loadMessagesFromDB = () => {};
+export const loadChatsFromDB = async (socket: Socket) => {
+	const user = await prisma.user.findUnique({
+		where: {
+			id: (socket.request as IncomingMessageWS).session.userId,
+		},
+		select: {
+			email: true,
+			chats: {
+				select: {
+					id: false,
+					chatBotType: true,
+					messages: {
+						select: {
+							id: false,
+							chatId: false,
+							text: true,
+							sentByUser: true,
+							timeStamp: true,
+						},
+					},
+				},
+			},
+		},
+	});
+
+	if (!user) {
+		throw new Error('Failed loading messages');
+	}
+
+	socket.emit('sendProfileData', user);
+};

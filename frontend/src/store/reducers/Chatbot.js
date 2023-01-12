@@ -1,5 +1,6 @@
 import {
 	CHAT,
+	INITIALIZE_CHAT,
 	CLEAR_CHAT,
 	CHAT_ID,
 	CONVERSATIONIST_STOPS_TYPING,
@@ -20,6 +21,9 @@ const chatReducer = (state = initialState, action) => {
 				Chats: [...state.Chats, ...action.val],
 				conversationistTyping: false,
 			};
+
+		case INITIALIZE_CHAT:
+			return { ...state, Chats: action.val };
 
 		case CLEAR_CHAT:
 			return { ...state, Chats: [] };

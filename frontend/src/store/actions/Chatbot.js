@@ -1,11 +1,16 @@
 export const CHAT = 'CHAT';
 export const CHAT_ID = 'CHAT_ID';
+export const INITIALIZE_CHAT = 'INITIALIZE_CHAT';
 export const CLEAR_CHAT = 'CLEAR_CHAT';
 export const CONVERSATIONIST_STARTS_TYPING = 'CONVERSATIONIST_STARTS_TYPING';
 export const CONVERSATIONIST_STOPS_TYPING = 'CONVERSATIONIST_STOPS_TYPING';
 
 export const AddChatValue = (val) => {
 	return { type: CHAT, val: val };
+};
+
+export const InitializeChat = (val) => {
+	return { type: INITIALIZE_CHAT, val: val };
 };
 
 export const ChangeChatID = (val) => {
