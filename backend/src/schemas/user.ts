@@ -4,13 +4,13 @@ export const userSchema = z.object({
 	body: z.object({
 		email: z
 			.string({
-				required_error: 'Email is required',
+				required_error: 'E-Mail ist erforderlich.',
 			})
-			.email({ message: 'Invalid email address' }),
+			.email({ message: 'Ungültige E-Mail Adresse.' }),
 		password: z
 			.string({
-				required_error: 'Password is required',
+				required_error: 'Passwort ist erforderlich.',
 			})
-			.min(8, 'Password must be 8 or more characters long'),
+			.min(8, 'Das Passwort muss 8 oder mehr Zeichen lang sein.'),
 	}),
 });
