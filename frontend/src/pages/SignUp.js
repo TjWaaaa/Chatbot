@@ -7,10 +7,15 @@ export default function SignUp(props) {
 	const [email, setUserName] = useState();
 	const [password, setPassword] = useState();
 	const [error, setError] = useState(null);
+	const [password2, setPassword2] = useState();
 	const navigate = useNavigate();
 
 	function handleSignUp(e) {
 		e.preventDefault();
+		if (password !== password2) {
+			setError("Passwörter stimmen nicht überein");
+			return;
+		}
 		signUserUp({ email, password })
 			.then((res) => {
 				navigate('/');
@@ -59,6 +64,7 @@ export default function SignUp(props) {
 						<input
 							className="rounded-lg mt-2 p-2 border border-gray-500 focus:border-indigo-600"
 							type="password"
+							onChange={(e) => setPassword2(e.target.value)}
 							required
 						></input>
 					</div>
@@ -73,6 +79,8 @@ export default function SignUp(props) {
 						})}
 
 					{error && error.message && <div className="bg-red-100 border border-red-400 text-red-700 px-4 mt-2 pt-2 pb-2 rounded relative">{error.message}</div>}
+					
+
 					<button
 						className="w-full my-5 py-2 bg-indigo-600 shadow-lg shadow-indigo-600/50 hover:shadow-indigo-600/40 text-white font-semibold rounded-lg"
 						onClick={handleSignUp}
