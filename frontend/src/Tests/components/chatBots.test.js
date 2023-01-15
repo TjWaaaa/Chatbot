@@ -11,15 +11,15 @@ describe('ChatBots', () => {
 	beforeEach(() => {
 		const reducer = (state, action) => {
 			switch (action.type) {
-				case 'ChangeChatID':
-					return { ...state, ChatID: action.payload };
+				case 'ChangeChatId':
+					return { ...state, ChatId: action.payload };
 				case 'ClearChat':
 					return { ...state, chat: [] };
 				default:
 					return state;
 			}
 		};
-		store = createStore(reducer, { chatState: { ChatID: 1 } });
+		store = createStore(reducer, { chatState: { ChatId: 1 } });
 	});
 
 	it('ChatBots Test', () => {

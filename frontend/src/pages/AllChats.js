@@ -1,4 +1,5 @@
 import React, { useState, useLayoutEffect, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import ChatsDesktop from '../components/ChatsDesktop';
 import ChatsMobile from '../components/ChatsMobile';
@@ -6,6 +7,8 @@ import ChatsMobile from '../components/ChatsMobile';
 import { chatData } from '../demoData/chatDemo';
 import { isAuthenticated } from '../utils/api';
 import NotSignedInPage from './NotSignedInPage';
+import { AddMessage } from '../store/actions/Chatbot';
+import { ConversationistStopsTyping } from '../store/actions/Chatbot';
 
 async function checkIsAuthenticated() {
 	try {
@@ -20,8 +23,17 @@ async function checkIsAuthenticated() {
 }
 
 function Index() {
+	const dispatch = useDispatch();
+
+	const botIsTyping = useSelector((state) => state.chatState.conversationistTyping);
+	const currentChats = useSelector((state) => state.chatState.Chats);
+	const currentChatId = useSelector((state) => state.chatState.ChatId);
 	const [isMobile, setIsMobile] = useState(true);
 	const [isLoggedIn, setIsLoggedIn] = useState(undefined);
+
+	const addMessage = (chatId, message) => {
+		dispatch(AddMessage(chatId, message));
+	};
 
 	useLayoutEffect(() => {
 		document.body.style.overflow = 'hidden';
@@ -48,7 +60,23 @@ function Index() {
 	if (isLoggedIn === undefined) {
 		return <p>Loading</p>;
 	} else if (isLoggedIn) {
-		return <>{isMobile ? <ChatsMobile chatData={chatData} /> : <ChatsDesktop chatData={chatData} />}</>;
+		return <>
+		{isMobile ? (
+			<ChatsMobile
+				chatData={currentChats}
+				addMessage={addMessage}
+				currentChatId={currentChatId}
+				botIsTyping={botIsTyping}
+			/>
+		) : (
+			<ChatsDesktop
+				chatData={currentChats}
+				addMessage={addMessage}
+				currentChatId={currentChatId}
+				botIsTyping={botIsTyping}
+			/>
+		)}
+	</>;
 	} else {
 		return <></>
 	}

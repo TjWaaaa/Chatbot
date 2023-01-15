@@ -1,31 +1,27 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Chat from './ChatBots';
 import NavigationAllChatsWeb from './NavigationAllChatsWeb';
-
 import MessageBot from './MessageBot';
 import MessageUser from './MessageUser';
-
-import InputChat from './InputChat';
-
-import { useSelector, useDispatch } from 'react-redux';
-import { AddChatValue } from '../store/actions/Chatbot';
+import MessageBotTypingAnimation from './animations/MessageBotTypingAnimation';
 import { socket } from '..';
+import InputChat from './InputChat';
+import { useDispatch } from 'react-redux';
+import { BotStartsTyping } from '../store/actions/Chatbot';
 
-function Index({ chatData }) {
-	const dispatch = useDispatch();
-
-	const currentChats = useSelector((state) => state.chatState.Chats);
-	const currentChatID = useSelector((state) => state.chatState.ChatID);
-	const [waitingForMessage, setWaitingForMessage] = useState(false);
+function Index({ chatData, addMessage, currentChatId, botIsTyping }) {
 	const messagesEndRef = useRef(null);
-
-	const changeChatValue = (number) => {
-		dispatch(AddChatValue(number));
+	const dispatch = useDispatch();
+	const botStartsTyping = () => {
+		dispatch(BotStartsTyping());
 	};
-
 	const scrollToBottom = () => {
 		messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
 	};
+
+	useEffect(() => {
+		scrollToBottom();
+	}, [currentChatId]);
 
 	return (
 		<div>
@@ -41,15 +37,14 @@ function Index({ chatData }) {
 								time={element.time}
 								id={Index}
 								event={() => {
-									changeChatValue([...element.chatData]);
+									// addMessage([...element.messages]);
 								}}
-								waitingForMessage={waitingForMessage}
 							/>
 						);
 					})}
 				</div>
 				<div className="bg-slate-100 flex-1 overflow-y-scroll" style={{ height: 'calc(100vh - 60px)' }}>
-					{currentChatID === -1 ? (
+					{currentChatId === -1 ? (
 						<div className="flex justify-center h-full items-center">
 							<div>
 								<div className="flex justify-center">
@@ -65,28 +60,34 @@ function Index({ chatData }) {
 						</div>
 					) : (
 						<div>
-							{currentChats.map((element) => {
-								if (element.bot) {
-									return <MessageBot img={chatData[currentChatID].img} text={element.message} />;
+							{chatData[currentChatId].messages.map((element) => {
+								if (!element.sentByUser) {
+									return <MessageBot img={chatData[currentChatId].img} text={element.text} />;
 								}
 
-								return <MessageUser text={element.message} />;
+								return <MessageUser text={element.text} />;
 							})}
+							{botIsTyping ? <MessageBotTypingAnimation img={chatData[currentChatId].img} /> : <></>}
 							<div className="h-16" />
 							<InputChat
 								isMobile={false}
 								sendMessage={(text) => {
-									changeChatValue([
-										{
-											bot: false,
-											message: text,
-										},
-									]);
+									botStartsTyping();
+									addMessage(currentChatId, {
+										text: text,
+										sentByUser: true,
+										timeStamp: Date.now(),
+									});
 									// TODO muss noch angepasst werden !!!11!
-									socket.emit('message', { message: text, chatBotId: 'businessMan' });
+
+									socket.emit('message', {
+										chatBotType: chatData[currentChatId].chatBotType,
+										message: text,
+									});
+
 									setTimeout(() => {
 										scrollToBottom();
-									}, 400);
+									}, 100);
 								}}
 							/>
 							<div ref={messagesEndRef} />
