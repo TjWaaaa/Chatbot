@@ -1,5 +1,5 @@
 import axios from 'axios';
-import logger from '~/utils/logger';
+import logger from '../../utils/logger';
 
 export const getTranslation = async (message: string) => {
 	logger.info(`Message: ${message}`);

@@ -60,6 +60,13 @@ backend-tsc:
 
   # tests:
 
+backend-tests:
+  image: node:19-alpine
+  stage: test
+  script:
+    - cd ./backend/
+    - yarn unit-test-ci
+
 frontend-tests:
   image: node:19-alpine
   stage: test
