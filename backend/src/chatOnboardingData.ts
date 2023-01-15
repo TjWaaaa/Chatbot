@@ -3,6 +3,8 @@ export const chatIds = ['businessMan', 'joke', 'translator'];
 export const chatOnboardingData = [
 	{
 		chatBotType: 'businessMan',
+		name: 'Business Mann 42',
+		img: 'https://sp-ao.shortpixel.ai/client/q_glossy,ret_img,w_700,h_700/https://www.corporatephotographerslondon.com/wp-content/uploads/2021/06/professional-LinkedIn-profile-photo-London-1.jpg',
 		messages: [
 			{
 				sentByUser: false,
@@ -20,6 +22,8 @@ export const chatOnboardingData = [
 	},
 	{
 		chatBotType: 'joke',
+		name: 'Der Alte',
+		img: 'https://img.fotocommunity.com/aelterer-mann-a688a83e-f251-4ffd-8b89-a7679bbb95ef.jpg?height=1000',
 		messages: [
 			{
 				sentByUser: false,
@@ -37,6 +41,8 @@ export const chatOnboardingData = [
 	},
 	{
 		chatBotType: 'translator',
+		name: 'Der andere Alte',
+		img: 'https://img.fotocommunity.com/aelterer-mann-a688a83e-f251-4ffd-8b89-a7679bbb95ef.jpg?height=1000',
 		messages: [
 			{
 				sentByUser: false,

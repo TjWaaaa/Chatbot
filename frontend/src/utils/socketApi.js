@@ -1,22 +1,20 @@
-import React from 'react';
 import { useDispatch } from 'react-redux';
-import { AddChatValue, ConversationistStartsTyping, InitializeChat } from '../store/actions/Chatbot';
+import { AddMessage, ConversationistStartsTyping, InitializeChats } from '../store/actions/Chatbot';
 import { socket } from '..';
 
 export default ({ children }) => {
 	const dispatch = useDispatch();
 
-	const changeChatValue = (number) => {
-		dispatch(AddChatValue(number));
+	const changeChatValue = (chatBotType, message) => {
+		dispatch(AddMessage(chatBotType, message));
 	};
 
-	const initializeChatValue = (chats) => {
-		dispatch(InitializeChat(chats));
+	const initializeChat = (chats) => {
+		dispatch(InitializeChats(chats));
 	};
 
 	socket.on('sendProfileData', (data) => {
-		console.log(data.email, data.chats);
-		initializeChatValue(data.chats);
+		initializeChat(data.chats);
 	});
 
 	socket.on('startsTyping', () => {
@@ -24,13 +22,11 @@ export default ({ children }) => {
 		ConversationistStartsTyping();
 	});
 
-	socket.on('answer', (answer, chatBotId) => {
-		changeChatValue([
-			{
-				bot: true,
-				message: answer,
-			},
-		]);
+	socket.on('answer', (answer, chatBotType) => {
+		changeChatValue(chatBotType, {
+			sentByUser: false,
+			text: answer,
+		});
 	});
 
 	return children;
