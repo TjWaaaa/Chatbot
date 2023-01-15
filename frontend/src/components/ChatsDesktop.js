@@ -1,17 +1,20 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Chat from './ChatBots';
 import NavigationAllChatsWeb from './NavigationAllChatsWeb';
-
 import MessageBot from './MessageBot';
 import MessageUser from './MessageUser';
-
-import InputChat from './InputChat';
+import MessageBotTypingAnimation from './animations/MessageBotTypingAnimation';
 import { socket } from '..';
+import InputChat from './InputChat';
+import { useDispatch } from 'react-redux';
+import { BotStartsTyping } from '../store/actions/Chatbot';
 
-function Index({ chatData, addMessage, currentChatId }) {
-	const [waitingForMessage] = useState(false);
+function Index({ chatData, addMessage, currentChatId, botIsTyping }) {
 	const messagesEndRef = useRef(null);
-
+	const dispatch = useDispatch();
+	const botStartsTyping = () => {
+		dispatch(BotStartsTyping());
+	};
 	const scrollToBottom = () => {
 		messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
 	};
@@ -64,23 +67,27 @@ function Index({ chatData, addMessage, currentChatId }) {
 
 								return <MessageUser text={element.text} />;
 							})}
+							{botIsTyping ? <MessageBotTypingAnimation img={chatData[currentChatId].img} /> : <></>}
 							<div className="h-16" />
 							<InputChat
 								isMobile={false}
 								sendMessage={(text) => {
+									botStartsTyping();
 									addMessage(currentChatId, {
 										text: text,
 										sentByUser: true,
 										timeStamp: Date.now(),
 									});
 									// TODO muss noch angepasst werden !!!11!
+
 									socket.emit('message', {
 										chatBotType: chatData[currentChatId].chatBotType,
 										message: text,
 									});
+
 									setTimeout(() => {
 										scrollToBottom();
-									}, 400);
+									}, 100);
 								}}
 							/>
 							<div ref={messagesEndRef} />
