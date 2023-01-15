@@ -24,7 +24,7 @@ function Index({ chatData, addMessage, currentChatId }) {
 
 	useEffect(() => {
 		scrollToBottom();
-	}, []);
+	}, [currentChatId]);
 
 	return (
 		<>
