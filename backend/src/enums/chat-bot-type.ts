@@ -1,4 +1,4 @@
-export enum ChatBotId {
+export enum ChatBotType {
 	TRANSLATOR = 'translator',
 	BUSINESSMAN = 'businessMan',
 	JOKE = 'joke',

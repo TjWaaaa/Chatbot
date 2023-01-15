@@ -6,33 +6,20 @@ import NavigationChat from './NavigationChatDetailMobile';
 import MessageBot from './MessageBot';
 import MessageUser from './MessageUser';
 import InputChat from './InputChat';
-
-import { useSelector, useDispatch } from 'react-redux';
-import { AddChatValue, ClearChat, ChangeChatID } from '../store/actions/Chatbot';
 import { socket } from '..';
+import { ChangeChatId } from '../store/actions/Chatbot';
+import { useDispatch } from 'react-redux';
 
-function Index({ chatData }) {
+function Index({ chatData, addMessage, currentChatId }) {
 	const dispatch = useDispatch();
-
-	const currentChats = useSelector((state) => state.chatState.Chats);
-	const currentChatID = useSelector((state) => state.chatState.ChatID);
-
-	const changeChatValue = (number) => {
-		dispatch(AddChatValue(number));
-	};
-
-	const clearChat = (number) => {
-		dispatch(ClearChat(number));
-	};
-
-	const changeChatID = (number) => {
-		dispatch(ChangeChatID(number));
-	};
-
 	const messagesEndRef = useRef(null);
 
 	const scrollToBottom = () => {
 		messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+	};
+
+	const changeChatId = (chatId) => {
+		dispatch(ChangeChatId(chatId));
 	};
 
 	useEffect(() => {
@@ -41,7 +28,7 @@ function Index({ chatData }) {
 
 	return (
 		<>
-			{currentChatID === -1 ? (
+			{currentChatId === -1 ? (
 				<div>
 					<NavigationAllChatsMobile />
 					{chatData.map((element, Index) => {
@@ -53,7 +40,7 @@ function Index({ chatData }) {
 								time={element.time}
 								id={Index}
 								event={() => {
-									changeChatValue([...element.chatData]);
+									// changeChatValue([...element.chatData]);
 								}}
 							/>
 						);
@@ -62,31 +49,33 @@ function Index({ chatData }) {
 			) : (
 				<div className="bg-slate-100 min-h-screen pb-24">
 					<NavigationChat
-						name={chatData[currentChatID].name}
-						img={chatData[currentChatID].img}
+						name={chatData[currentChatId].name}
+						img={chatData[currentChatId].img}
 						event={() => {
-							changeChatID(-1);
-							clearChat();
+							changeChatId(-1);
+							//clearChat();
 						}}
 					/>
-					{currentChats.map((element) => {
-						if (element.bot) {
-							return <MessageBot img={chatData[currentChatID].img} text={element.message} />;
+					{chatData[currentChatId].messages.map((element) => {
+						if (!element.sentByUser) {
+							return <MessageBot img={chatData[currentChatId].img} text={element.text} />;
 						}
 
-						return <MessageUser text={element.message} />;
+						return <MessageUser text={element.text} />;
 					})}
 					<InputChat
 						isMobile={true}
 						sendMessage={(text) => {
-							changeChatValue([
-								{
-									bot: false,
-									message: text,
-								},
-							]);
+							addMessage(currentChatId, {
+								text: text,
+								sentByUser: true,
+								timeStamp: Date.now(),
+							});
 							// TODO muss noch angepasst werden !!!11!
-							socket.emit('message', { message: text, chatBotId: 'joke' });
+							socket.emit('message', {
+								chatBotType: chatData[currentChatId].chatBotType,
+								message: text,
+							});
 							setTimeout(() => {
 								scrollToBottom();
 							}, 400);

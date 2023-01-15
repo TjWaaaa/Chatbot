@@ -1,27 +1,27 @@
 import { useSelector, useDispatch } from 'react-redux';
 
-import { ChangeChatID, ClearChat } from '../store/actions/Chatbot';
+import { ChangeChatId, ClearChat } from '../store/actions/Chatbot';
 
 function Index({ name, img, text, time, event, id }) {
 	const dispatch = useDispatch();
 
-	const currentChatID = useSelector((state) => state.chatState.ChatID);
+	const currentChatId = useSelector((state) => state.chatState.ChatId);
 
-	const changeChatID = (number) => {
-		dispatch(ChangeChatID(number));
+	const changeChatId = (number) => {
+		dispatch(ChangeChatId(number));
 	};
 
-	const clearChat = (number) => {
-		dispatch(ClearChat(number));
-	};
+	// const clearChat = (number) => {
+	// 	dispatch(ClearChat(number));
+	// };
 
 	return (
 		<div
 			data-testid="id1"
-			className={'pl-4 pr-4 cursor-pointer ' + (currentChatID === id ? 'bg-indigo-100' : 'bg-white')}
+			className={'pl-4 pr-4 cursor-pointer ' + (currentChatId === id ? 'bg-indigo-100' : 'bg-white')}
 			onClick={() => {
-				changeChatID(id);
-				clearChat();
+				changeChatId(id);
+				//clearChat();
 				event();
 			}}
 		>

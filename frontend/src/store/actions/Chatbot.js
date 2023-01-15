@@ -1,20 +1,21 @@
-export const CHAT = 'CHAT';
+export const ADD_MESSAGE = 'ADD_MESSAGE';
+export const INITIALIZE_CHATS = 'INITIALIZE_CHATS';
 export const CHAT_ID = 'CHAT_ID';
 export const INITIALIZE_CHAT = 'INITIALIZE_CHAT';
 export const CLEAR_CHAT = 'CLEAR_CHAT';
 export const CONVERSATIONIST_STARTS_TYPING = 'CONVERSATIONIST_STARTS_TYPING';
 export const CONVERSATIONIST_STOPS_TYPING = 'CONVERSATIONIST_STOPS_TYPING';
 
-export const AddChatValue = (val) => {
-	return { type: CHAT, val: val };
+export const AddMessage = (chatBotType, message) => {
+	return { type: ADD_MESSAGE, chatBotType: chatBotType, message: message };
 };
 
-export const InitializeChat = (val) => {
-	return { type: INITIALIZE_CHAT, val: val };
+export const InitializeChats = (chats) => {
+	return { type: INITIALIZE_CHATS, chats: chats };
 };
 
-export const ChangeChatID = (val) => {
-	return { type: CHAT_ID, val: val };
+export const ChangeChatId = (chatId) => {
+	return { type: CHAT_ID, chatId: chatId };
 };
 
 export const ClearChat = () => {

@@ -42,6 +42,8 @@ export default async (req: express.Request, res: express.Response, next: express
 				await prisma.chat.create({
 					data: {
 						chatBotType: chat.chatBotType,
+						name: chat.name,
+						img: chat.img,
 						userId: newUser.id,
 						messages: {
 							createMany: {

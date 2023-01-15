@@ -33,6 +33,8 @@ model Chat {
   userId      String
   User        User      @relation(fields: [userId], references: [id])
   messages    Message[]
+  img         String
+  name        String
 }
 
 model Message {
