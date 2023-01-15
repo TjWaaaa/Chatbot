@@ -4,10 +4,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import ChatsDesktop from '../components/ChatsDesktop';
 import ChatsMobile from '../components/ChatsMobile';
 import { AddMessage } from '../store/actions/Chatbot';
+import { ConversationistStopsTyping } from '../store/actions/Chatbot';
 
 function Index() {
 	const dispatch = useDispatch();
 
+	const botIsTyping = useSelector((state) => state.chatState.conversationistTyping);
 	const currentChats = useSelector((state) => state.chatState.Chats);
 	const currentChatId = useSelector((state) => state.chatState.ChatId);
 	const [isMobile, setIsMobile] = useState(true);
@@ -29,9 +31,19 @@ function Index() {
 	return (
 		<>
 			{isMobile ? (
-				<ChatsMobile chatData={currentChats} addMessage={addMessage} currentChatId={currentChatId} />
+				<ChatsMobile
+					chatData={currentChats}
+					addMessage={addMessage}
+					currentChatId={currentChatId}
+					botIsTyping={botIsTyping}
+				/>
 			) : (
-				<ChatsDesktop chatData={currentChats} addMessage={addMessage} currentChatId={currentChatId} />
+				<ChatsDesktop
+					chatData={currentChats}
+					addMessage={addMessage}
+					currentChatId={currentChatId}
+					botIsTyping={botIsTyping}
+				/>
 			)}
 		</>
 	);

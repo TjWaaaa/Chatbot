@@ -22,7 +22,6 @@ const chatReducer = (state = initialState, action) => {
 			return {
 				...state,
 				Chats: [...newChats],
-				conversationistTyping: false,
 			};
 
 		case INITIALIZE_CHATS:

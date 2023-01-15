@@ -22,10 +22,10 @@ export const ClearChat = () => {
 	return { type: CLEAR_CHAT };
 };
 
-export const ConversationistStartsTyping = () => {
+export const BotStartsTyping = () => {
 	return { type: CONVERSATIONIST_STARTS_TYPING };
 };
 
-export const ConversationistStopsTyping = () => {
+export const BotStopsTyping = () => {
 	return { type: CONVERSATIONIST_STOPS_TYPING };
 };
