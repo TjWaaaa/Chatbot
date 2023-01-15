@@ -1,7 +1,7 @@
-import logger from '~/utils/logger';
+import logger from '../../utils/logger';
 
 export const getBusinessAdvice = () => {
-	const advices = ['Advide 1', 'Advice 2', 'Advide 3'];
+	const advices = ['Advice 1', 'Advice 2', 'Advice 3'];
 
 	const answer = advices[Math.floor(Math.random() * advices.length)];
 	logger.info(`Business advice: ${answer}`);
