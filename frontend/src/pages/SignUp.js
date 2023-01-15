@@ -7,13 +7,14 @@ export default function SignUp(props) {
 	const [email, setUserName] = useState();
 	const [password, setPassword] = useState();
 	const [error, setError] = useState(null);
+	const [passwordMatchError, setPasswortMatchError] = useState(null);
 	const [password2, setPassword2] = useState();
 	const navigate = useNavigate();
 
 	function handleSignUp(e) {
 		e.preventDefault();
 		if (password !== password2) {
-			setError("Passwörter stimmen nicht überein");
+			setPasswortMatchError("Passwörter stimmen nicht überein");
 			return;
 		}
 		signUserUp({ email, password })
@@ -21,6 +22,7 @@ export default function SignUp(props) {
 				navigate('/');
 				navigate(0)
 				setError(null)
+				setPasswortMatchError(null)
 			})
 			.catch((res) => {
 				const errorMessage = res.response.data;
@@ -79,6 +81,8 @@ export default function SignUp(props) {
 						})}
 
 					{error && error.message && <div className="bg-red-100 border border-red-400 text-red-700 px-4 mt-2 pt-2 pb-2 rounded relative">{error.message}</div>}
+
+					{passwordMatchError && <div className="bg-red-100 border border-red-400 text-red-700 px-4 mt-2 pt-2 pb-2 rounded relative">{passwordMatchError}</div>}
 					
 
 					<button

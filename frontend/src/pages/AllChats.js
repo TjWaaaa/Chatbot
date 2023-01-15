@@ -6,9 +6,9 @@ import ChatsMobile from '../components/ChatsMobile';
 
 import { chatData } from '../demoData/chatDemo';
 import { isAuthenticated } from '../utils/api';
-import NotSignedInPage from './NotSignedInPage';
 import { AddMessage } from '../store/actions/Chatbot';
 import { ConversationistStopsTyping } from '../store/actions/Chatbot';
+import PageLoadingAnimation from '../components/animations/PageLoadingAnimation';
 
 async function checkIsAuthenticated() {
 	try {
@@ -58,7 +58,7 @@ function Index() {
 		}
 	}
 	if (isLoggedIn === undefined) {
-		return <p>Loading</p>;
+		return <PageLoadingAnimation/>;
 	} else if (isLoggedIn) {
 		return <>
 		{isMobile ? (
