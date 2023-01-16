@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { SunIcon, UserCircleIcon } from '@heroicons/react/24/solid';
 import { ArrowLeftOnRectangleIcon } from '@heroicons/react/24/solid';
-import { Link } from 'react-router-dom';
+
 import { useNavigate } from 'react-router-dom';
 import { logoutUser } from '../utils/api';
 
@@ -24,10 +24,10 @@ export default function Settings(props) {
 	  function handleLogout() {
 		logoutUser()
 			.then(() => {
-				navigate('/login'); //todo reload page
+				navigate('/login'); 
 				navigate(0)
 			})
-			.catch((res) => console.log(res.response.data)); //todo handle wrong password and email not found
+			.catch((res) => console.log(res.response.data));
 	}
 
 	return (
