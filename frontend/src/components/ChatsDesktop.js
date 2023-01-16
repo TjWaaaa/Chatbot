@@ -27,13 +27,14 @@ function Index({ chatData, addMessage, currentChatId, botIsTyping }) {
 		<div>
 			<NavigationAllChatsWeb />
 			<div className="flex flex-row">
-				<div className="w-2xl overflow-y-scroll" style={{ height: 'calc(100vh - 60px)' }}>
+				<div className="overflow-y-scroll w-96" style={{ height: 'calc(100vh - 60px)' }}>
 					{chatData.map((element, Index) => {
 						return (
 							<Chat
 								name={element.name}
 								img={element.img}
 								text={element.text}
+								//text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua."
 								time={element.time}
 								id={Index}
 								key={Index}
