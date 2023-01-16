@@ -29,8 +29,6 @@ test('matches snapshot MessageUser', () => {
 });
 
 test('matches snapshot MessageBot', () => {
-	const tree = renderer
-		.create(<MessageBot text="das ist die Nachricht von einem Bot" img="test-image.jpg" />)
-		.toJSON();
+	const tree = renderer.create(<MessageBot text="das ist die Nachricht von einem Bot" img="test-image.jpg" />).toJSON();
 	expect(tree).toMatchSnapshot();
 });

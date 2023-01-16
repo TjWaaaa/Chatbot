@@ -50,12 +50,8 @@ function Index({ chatData, addMessage, currentChatId, botIsTyping }) {
 								<div className="flex justify-center">
 									<img src="/ChatBotImage.png" alt="logo" className="max-h-60 max-w-60" />
 								</div>
-								<h2 className="text-center text-2xl font-semibold text-black mt-2 mb-2">
-									Willkommen bei CBACB
-								</h2>
-								<p className="text-center text text-black">
-									Wähle einen Chatbot und starte eine Konversation.
-								</p>
+								<h2 className="text-center text-2xl font-semibold text-black mt-2 mb-2">Willkommen bei CBACB</h2>
+								<p className="text-center text text-black">Wähle einen Chatbot und starte eine Konversation.</p>
 							</div>
 						</div>
 					) : (

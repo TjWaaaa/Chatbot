@@ -27,14 +27,7 @@ describe('ChatBots', () => {
 
 		render(
 			<Provider store={store}>
-				<ChatBots
-					name="Test Name"
-					img="test-image.jpg"
-					text="Test Text"
-					time="Test Time"
-					event={mockedEvent}
-					id={2}
-				/>
+				<ChatBots name="Test Name" img="test-image.jpg" text="Test Text" time="Test Time" event={mockedEvent} id={2} />
 			</Provider>,
 		);
 

@@ -15,13 +15,13 @@ Runs the server in the development mode on port 8000
 
 Use `yarn migrate` for the following scenarios:
 
--   You made changes to the prisma schema and want commit them. A new migration can then be created with this.
--   You have pulled and want to apply the changes to your database.
+- You made changes to the prisma schema and want commit them. A new migration can then be created with this.
+- You have pulled and want to apply the changes to your database.
 
 ### CSRF Token
 
 In order for the rest api endpoints to be used, an authorization header must be provided.
 For this, the following values must be set in the header:
 
--   **key**: `csrf-token`
--   **value**: `cbacb`
+- **key**: `csrf-token`
+- **value**: `cbacb`

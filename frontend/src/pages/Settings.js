@@ -9,14 +9,14 @@ export default function Settings(props) {
 	function handleClickOutside(event) {
 		if (event.target.closest('.list-none')) return;
 		setOpen(false);
-	  }
-	
-	  useEffect(() => {
+	}
+
+	useEffect(() => {
 		document.addEventListener('click', handleClickOutside);
 		return () => {
-		  document.removeEventListener('click', handleClickOutside);
+			document.removeEventListener('click', handleClickOutside);
 		};
-	  }, []);
+	}, []);
 
 	return (
 		<div>
@@ -40,8 +40,10 @@ export default function Settings(props) {
 								<button>Darkmode</button>
 							</li>
 							<li className="flex m-auto pl-7 p-2.5 border-t hover:text-indigo-600 hover:cursor-pointer">
-								<ArrowLeftOnRectangleIcon className='h-7 mr-2.5'/>
-								<Link to="/login" className='pt-0.5'>Ausloggen</Link>
+								<ArrowLeftOnRectangleIcon className="h-7 mr-2.5" />
+								<Link to="/login" className="pt-0.5">
+									Ausloggen
+								</Link>
 							</li>
 						</ul>
 					</div>

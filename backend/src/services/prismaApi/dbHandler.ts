@@ -11,9 +11,7 @@ export const saveMessageToDB = async (
 	sentByUser: boolean,
 ) => {
 	logger.info(
-		`saveChats - uId: ${
-			(socket.request as IncomingMessageWS).session.userId
-		}, cType: ${chatBotType}, m: ${message}`,
+		`saveChats - uId: ${(socket.request as IncomingMessageWS).session.userId}, cType: ${chatBotType}, m: ${message}`,
 	);
 
 	const chat = await prisma.user.findUnique({
