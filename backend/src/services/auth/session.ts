@@ -33,15 +33,12 @@ export function regenerateSession(req: express.Request, res: express.Response, n
 	});
 }
 
-export function destroySession(req: express.Request, res: express.Response, next: express.NextFunction) {
-	req.session.userId = undefined;
-
-	req.session.save(function (err) {
-		if (err) next(err);
-
-		req.session.regenerate(function (err) {
-			if (err) next(err);
+export async function destroySession(req: express.Request, res: express.Response) {
+	req.session.destroy((err) => {
+		if (err) {
+			return res.status(400).json({ message: 'Abmeldung ist fehlgeschladen.' });
+		} else {
 			return res.status(200).json({ message: 'Erfolgreich abgemeldet.' });
-		});
+		}
 	});
 }
