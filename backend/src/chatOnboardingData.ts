@@ -23,7 +23,7 @@ export const chatOnboardingData = [
 	{
 		chatBotType: 'joke',
 		name: 'Moe der Commedian',
-		img: 'https://img.freepik.com/fotos-kostenlos/lustiger-emotionaler-unrasierter-mann-im-gestreiften-hemd-das-haende-auf-seinem-gesicht-haelt-und-seinen-verstand-und-temperament-verliert-nervoeser-hipster-typ-mit-schnurrbart-der-in-panik-und-besorgnis-gestikuliert-besorgt-gestressten-blick_343059-4307.jpg?w=1480&t=st=1673875524~exp=1673876124~hmac=6355afbd5444a0f8aca8e0abb35ebb204c9696e0f7853fedb5f83bd77eadac85',
+		img: 'https://static8.depositphotos.com/1594308/1073/i/450/depositphotos_10733626-stock-photo-unhappy-fools-day.jpg',
 		messages: [
 			{
 				sentByUser: false,
