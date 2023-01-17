@@ -32,10 +32,10 @@ export default function SignUp(props) {
 	}
 
 	return (
-		<div className="grid grid-cols-1 h-screen w-full">
+		<div className="grid grid-cols-1 h-screen dark:bg-slate-600 w-full">
 			<div className="flex flex-col justify-center">
 				<form className="max-w-[400px] w-full mx-auto p-8 px-8 rounded-lg">
-					<h2 className="text-4xl dark:text-white font-bold text-center py-6">
+					<h2 className="text-4xl dark:text-white font-bold text-center py-6 dark:bg-slate-400 dark:m-10 dark:rounded-lg">
 						<div className="flex justify-center">
 							<img className="w-20 py-4" src="chatbotLogo.png" alt="" />
 						</div>
@@ -43,28 +43,28 @@ export default function SignUp(props) {
 						<span className="text-indigo-600">BOT</span>
 					</h2>
 
-					<div className="flex flex-col text-gray-800 py-2">
+					<div className="flex flex-col text-gray-800 dark:text-white py-2">
 						<label>E-Mail</label>
 						<input
-							className="rounded-lg mt-2 p-2 border border-gray-500 focus:border-indigo-600"
+							className="rounded-lg mt-2 p-2 border border-gray-500 dark:bg-slate-400 focus:border-indigo-600"
 							type="email"
 							onChange={(e) => setUserName(e.target.value)}
 							required
 						/>
 					</div>
-					<div className="flex flex-col text-gray-800 py-2">
+					<div className="flex flex-col text-gray-800 dark:text-white py-2">
 						<label>Passwort</label>
 						<input
-							className="rounded-lg mt-2 p-2 border border-gray-500 focus:border-indigo-600"
+							className="rounded-lg mt-2 p-2 border border-gray-500 dark:bg-slate-400 focus:border-indigo-600"
 							type="password"
 							onChange={(e) => setPassword(e.target.value)}
 							required
 						/>
 					</div>
-					<div className="flex flex-col text-gray-800 py-2">
+					<div className="flex flex-col text-gray-800 dark:text-white py-2">
 						<label>Passwort wiederholen</label>
 						<input
-							className="rounded-lg mt-2 p-2 border border-gray-500 focus:border-indigo-600"
+							className="rounded-lg mt-2 p-2 border border-gray-500 dark:bg-slate-400 focus:border-indigo-600"
 							type="password"
 							onChange={(e) => setPassword2(e.target.value)}
 							required
@@ -91,10 +91,10 @@ export default function SignUp(props) {
 					>
 						Registrieren
 					</button>
-					<div className="flex justify-center ">
+					<div className="flex justify-center dark:text-white ">
 						<p>
 							Schon einen Account?{' '}
-							<Link to="/login" className="text-indigo-600">
+							<Link to="/login" className="text-indigo-600 dark:text-indigo-300">
 								Hier anmelden
 							</Link>
 						</p>
