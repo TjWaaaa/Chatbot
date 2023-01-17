@@ -6,7 +6,7 @@ exports[`matches snapshot 1`] = `
   data-testid="id1"
   style={
     Object {
-      "width": "calc(100vw - 412px)",
+      "width": "calc(100vw - 384px)",
     }
   }
 >

@@ -30,7 +30,7 @@ function Index({ name, img, text, time, event, id }) {
 					<div className="flex flex-row justify-between">
 						<div className="flex flex-row items-center">
 							<img src={img} alt="Business Mann 42" className="h-16 w-16 rounded-full" />
-							<div className="ml-4 mr-4">
+							<div className="ml-4 mr-4 flex-1">
 								<h1 className="text-xl font-bold">{name}</h1>
 								<h1 className="text max-h-12 overflow-hidden">{text}</h1>
 							</div>

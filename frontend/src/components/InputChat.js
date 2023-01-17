@@ -19,7 +19,7 @@ function Index({ sendMessage, isMobile }) {
 		<div
 			data-testid="id1"
 			className="mt-8 bg-slate-100 fixed bottom-0 right-0 z-50"
-			style={!isMobile ? { width: 'calc(100vw - 412px)' } : { width: '100vw' }}
+			style={!isMobile ? { width: 'calc(100vw - 384px)' } : { width: '100vw' }}
 		>
 			<div className="flex flex-row justify-between items-center ml-2 pt-2 pb-2">
 				<input
