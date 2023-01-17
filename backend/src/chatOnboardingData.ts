@@ -3,27 +3,27 @@ export const chatIds = ['businessMan', 'joke', 'translator'];
 export const chatOnboardingData = [
 	{
 		chatBotType: 'businessMan',
-		name: 'Business Mann 42',
-		img: 'https://sp-ao.shortpixel.ai/client/q_glossy,ret_img,w_700,h_700/https://www.corporatephotographerslondon.com/wp-content/uploads/2021/06/professional-LinkedIn-profile-photo-London-1.jpg',
+		name: 'Der agressive Jan',
+		img: 'https://cdn.24.co.za/files/Cms/General/d/2866/a0094e37e2b34dabbdbdf20461f3b23b.jpg',
 		messages: [
 			{
 				sentByUser: false,
-				text: 'Hallo, ich bin Unternehmer und Geschäftsführer von 42 Firmen. Alle sind im DAX gelistet.',
+				text: 'Hallo, ich bin Jan.',
 			},
 			{
 				sentByUser: false,
-				text: 'Ok, ich weiß das nur 40 Firmen im DAX gelistet sein können, aber ich sage die Wahrheit!',
+				text: 'Halt einfach die Fresse und lass mich in Ruhe!',
 			},
 			{
 				sentByUser: false,
-				text: 'Wenn ich dir einen Rat geben soll, frag einfach. Aber bitte schnell, Zeit ist Geld und rate mal, von was ich viel hab.',
+				text: 'Ich bin hier nur, weil irgendwer gedacht hat, es wäre lustig, wenn ich mit Leuten schreibe. Spoiler: Ist es nicht. Also halt die Fresse!',
 			},
 		],
 	},
 	{
 		chatBotType: 'joke',
-		name: 'Der Alte',
-		img: 'https://img.fotocommunity.com/aelterer-mann-a688a83e-f251-4ffd-8b89-a7679bbb95ef.jpg?height=1000',
+		name: 'Moe der Commedian',
+		img: 'https://static8.depositphotos.com/1594308/1073/i/450/depositphotos_10733626-stock-photo-unhappy-fools-day.jpg',
 		messages: [
 			{
 				sentByUser: false,
@@ -41,12 +41,12 @@ export const chatOnboardingData = [
 	},
 	{
 		chatBotType: 'translator',
-		name: 'Der andere Alte',
+		name: 'Der alte Lehrer',
 		img: 'https://img.fotocommunity.com/aelterer-mann-a688a83e-f251-4ffd-8b89-a7679bbb95ef.jpg?height=1000',
 		messages: [
 			{
 				sentByUser: false,
-				text: "Hallo, ich bin ein Dolemtscher in Rente und verdiene mir ein paar Kröten als ChatBot. Frag mich nicht wie ich hier her gekommen bin, sondern was 'Chinesisch ist die einfachste Sprache' auf Japanisch heißt.",
+				text: "Hallo, ich bin ein Dolmetscher in Rente und verdiene mir ein paar Kröten als ChatBot. Frag mich nicht wie ich hier her gekommen bin, sondern was 'Chinesisch ist die einfachste Sprache' auf Japanisch heißt.",
 			},
 			{
 				sentByUser: false,
