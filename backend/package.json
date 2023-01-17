@@ -4,7 +4,9 @@
 	"main": "index.js",
 	"license": "MIT",
 	"scripts": {
-		"dev": "node-dev src/index.ts",
+		"dev": "concurrently --raw 'yarn:dev:db' 'yarn:dev:backend'",
+		"dev:backend": "node-dev src/index.ts",
+		"dev:db": "cd .. && docker-compose -f docker-compose.db.yml up",
 		"build": "tsc",
 		"start": "node dist/src",
 		"lint": "eslint src/**/*.ts --fix",
@@ -43,6 +45,7 @@
 		"@types/node": "^18.11.9",
 		"@typescript-eslint/eslint-plugin": "^5.42.1",
 		"@typescript-eslint/parser": "^5.42.1",
+		"concurrently": "^7.6.0",
 		"eslint": "^8.27.0",
 		"eslint-config-prettier": "^8.5.0",
 		"jest": "^29.3.1",
