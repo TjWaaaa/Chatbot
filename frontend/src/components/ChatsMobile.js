@@ -42,6 +42,7 @@ function Index({ chatData, addMessage, currentChatId, botIsTyping }) {
 								text={element.text}
 								time={element.time}
 								id={Index}
+								key={Index}
 								event={() => {
 									// changeChatValue([...element.chatData]);
 								}}
@@ -59,12 +60,12 @@ function Index({ chatData, addMessage, currentChatId, botIsTyping }) {
 							//clearChat();
 						}}
 					/>
-					{chatData[currentChatId].messages.map((element) => {
+					{chatData[currentChatId].messages.map((element, Index) => {
 						if (!element.sentByUser) {
-							return <MessageBot img={chatData[currentChatId].img} text={element.text} />;
+							return <MessageBot img={chatData[currentChatId].img} text={element.text} key={Index} />;
 						}
 
-						return <MessageUser text={element.text} />;
+						return <MessageUser text={element.text} key={Index} />;
 					})}
 					{botIsTyping ? <MessageBotTypingAnimation img={chatData[currentChatId].img} /> : <></>}
 					<InputChat
