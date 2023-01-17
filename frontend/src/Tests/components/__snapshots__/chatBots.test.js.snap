@@ -22,7 +22,7 @@ exports[`ChatBots matches snapshot 1`] = `
             src="test-image.jpg"
           />
           <div
-            className="ml-4 mr-4"
+            className="ml-4 mr-4 flex-1"
           >
             <h1
               className="text-xl font-bold"
