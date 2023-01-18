@@ -27,7 +27,7 @@ function Index({ chatData, addMessage, currentChatId, botIsTyping }) {
 		<div>
 			<NavigationAllChatsWeb />
 			<div className="flex flex-row">
-				<div className="overflow-y-scroll dark:overflow-auto w-96 dark:bg-slate-600" style={{ height: 'calc(100vh - 60px)' }}>
+				<div className="overflow-y-auto dark:overflow-auto w-96 dark:bg-slate-600" style={{ height: 'calc(100vh - 60px)' }}>
 					{chatData.map((element, Index) => {
 						return (
 							<Chat
