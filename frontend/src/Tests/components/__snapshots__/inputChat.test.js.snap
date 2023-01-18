@@ -2,7 +2,7 @@
 
 exports[`matches snapshot 1`] = `
 <div
-  className="mt-8 bg-slate-100 dark:bg-slate-700 fixed bottom-0 right-0 z-50 "
+  className="mt-8 bg-slate-100 dark:bg-slate-800 fixed bottom-0 right-0 z-50 "
   data-testid="id1"
   style={
     Object {

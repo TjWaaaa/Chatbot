@@ -44,7 +44,7 @@ function Index({ chatData, addMessage, currentChatId, botIsTyping }) {
 						);
 					})}
 				</div>
-				<div className="bg-slate-100 dark:bg-slate-800 flex-1 overflow-y-scroll dark:overflow-auto" style={{ height: 'calc(100vh - 60px)' }}>
+				<div className="bg-slate-100 dark:bg-slate-800 flex-1 overflow-y-scroll dark:overflow-auto scrollbar-hide" style={{ height: 'calc(100vh - 60px)' }}>
 					{currentChatId === -1 ? (
 						<div className="flex justify-center h-full items-center">
 							<div>
