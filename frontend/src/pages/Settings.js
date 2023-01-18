@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { SunIcon, UserCircleIcon } from '@heroicons/react/24/solid';
+import { UserCircleIcon } from '@heroicons/react/24/solid';
 import { ArrowLeftOnRectangleIcon } from '@heroicons/react/24/solid';
 
 import { useNavigate } from 'react-router-dom';
