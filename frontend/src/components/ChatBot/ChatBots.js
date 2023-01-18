@@ -18,7 +18,7 @@ function Index({ name, img, text, time, event, id }) {
 	return (
 		<div
 			data-testid="id1"
-			className={'pl-4 pr-4 cursor-pointer ' + (currentChatId === id ? 'bg-indigo-100 dark:bg-slate-500' : 'bg-white dark:bg-slate-700 hover:bg-slate-600')}
+			className={'pl-4 pr-4 cursor-pointer ' + (currentChatId === id ? 'bg-indigo-100 dark:bg-slate-500' : 'bg-white hover:bg-indigo-50 dark:bg-slate-700 dark:hover:bg-slate-600')}
 			onClick={() => {
 				changeChatId(id);
 				//clearChat();
