@@ -33,25 +33,27 @@ function Index({ chatData, addMessage, currentChatId, botIsTyping }) {
 		<>
 			{currentChatId === -1 ? (
 				<div>
-					<NavigationAllChatsMobile />
-					{chatData.map((element, Index) => {
-						return (
-							<Chat
-								name={element.name}
-								img={element.img}
-								text={element.messages[element.messages.length - 1].text}
-								time={element.time}
-								id={Index}
-								key={Index}
-								event={() => {
-									// changeChatValue([...element.chatData]);
-								}}
-							/>
-						);
-					})}
+					<div className="bg-slate-100 dark:bg-slate-600 min-h-screen scroll-auto">
+						<NavigationAllChatsMobile />
+						{chatData.map((element, Index) => {
+							return (
+								<Chat
+									name={element.name}
+									img={element.img}
+									text={element.messages[element.messages.length - 1].text}
+									time={element.time}
+									id={Index}
+									key={Index}
+									event={() => {
+										// changeChatValue([...element.chatData]);
+									}}
+								/>
+							);
+						})}
+					</div>
 				</div>
 			) : (
-				<div className="bg-slate-100 min-h-screen pb-24">
+				<div className="bg-slate-100 dark:bg-slate-700 min-h-screen pb-24">
 					<NavigationChat
 						name={chatData[currentChatId].name}
 						img={chatData[currentChatId].img}

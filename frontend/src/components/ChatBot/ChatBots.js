@@ -18,7 +18,7 @@ function Index({ name, img, text, time, event, id }) {
 	return (
 		<div
 			data-testid="id1"
-			className={'pl-4 pr-4 cursor-pointer ' + (currentChatId === id ? 'bg-indigo-100' : 'bg-white')}
+			className={'pl-4 pr-4 cursor-pointer ' + (currentChatId === id ? 'bg-indigo-100 dark:bg-slate-500' : 'bg-white hover:bg-indigo-50 dark:bg-slate-700 dark:hover:bg-slate-600')}
 			onClick={() => {
 				changeChatId(id);
 				//clearChat();
@@ -27,12 +27,12 @@ function Index({ name, img, text, time, event, id }) {
 		>
 			<div className="pt-4">
 				<div>
-					<div className="flex flex-row justify-between">
+					<div className="flex flex-row justify-between ">
 						<div className="flex flex-row items-center">
 							<img src={img} alt="Business Mann 42" className="h-16 w-16 rounded-full" />
 							<div className="ml-4 mr-4 flex-1">
-								<h1 className="text-xl font-bold">{name}</h1>
-								<h1 className="text max-h-12 overflow-hidden">{text}</h1>
+								<h1 className="text-xl font-bold dark:text-white">{name}</h1>
+								<h1 className="text max-h-12 overflow-hidden dark:text-white">{text}</h1>
 							</div>
 						</div>
 						<div className="flex flex-row items-center">
@@ -40,7 +40,7 @@ function Index({ name, img, text, time, event, id }) {
 						</div>
 					</div>
 				</div>
-				<div className="ml-20 mt-4 -mr-4 h-px bg-slate-300" />
+				<div className="ml-20 mt-4 -mr-4 h-px bg-slate-300 dark:bg-slate-400" />
 			</div>
 		</div>
 	);

@@ -25,10 +25,10 @@ export default function SignIn() {
 	}
 
 	return (
-		<div className="grid grid-cols-1 h-screen w-full">
+		<div className="grid grid-cols-1 dark:bg-slate-600 h-screen w-full">
 			<div className="flex flex-col justify-center">
 				<form className="max-w-[400px] w-full mx-auto p-8 px-8 rounded-lg">
-					<h2 className="text-4xl dark:text-white font-bold text-center py-6">
+					<h2 className="text-4xl dark:text-white font-bold text-center py-6 dark:bg-slate-400 dark:m-10 dark:rounded-lg">
 						<div className="flex justify-center">
 							<img className="w-20 py-4" src="chatbotLogo.png" alt="" />
 						</div>
@@ -36,19 +36,19 @@ export default function SignIn() {
 						<span className="text-indigo-600">BOT</span>
 					</h2>
 
-					<div className="flex flex-col text-gray-800 py-2">
+					<div className="flex flex-col text-gray-800 py-2 dark:text-white">
 						<label>E-Mail</label>
 						<input
-							className="rounded-lg mt-2 p-2 border border-gray-500 focus:border-indigo-600"
+							className="rounded-lg mt-2 p-2 border border-gray-500 focus:border-indigo-600 dark:bg-slate-400 dark:text-white"
 							type="email"
 							onChange={(e) => setEmail(e.target.value)}
 							required
 						/>
 					</div>
-					<div className="flex flex-col text-gray-800 py-2">
+					<div className="flex flex-col text-gray-800 py-2 dark:text-white">
 						<label>Passwort</label>
 						<input
-							className="rounded-lg mt-2 p-2 border border-gray-500 focus:border-indigo-600"
+							className="rounded-lg mt-2 p-2 border border-gray-500 focus:border-indigo-600 dark:bg-slate-400 dark:text-white"
 							type="password"
 							onChange={(e) => setPassword(e.target.value)}
 							required
@@ -71,10 +71,10 @@ export default function SignIn() {
 					>
 						Anmelden
 					</button>
-					<div className="flex justify-center ">
+					<div className="flex justify-center dark:text-white ">
 						<p>
 							Noch keinen Account?{' '}
-							<Link to="/register" className="text-indigo-600">
+							<Link to="/register" className="text-indigo-600 dark:text-indigo-300">
 								Hier registrieren
 							</Link>
 						</p>

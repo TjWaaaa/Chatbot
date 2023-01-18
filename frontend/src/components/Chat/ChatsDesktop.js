@@ -27,7 +27,7 @@ function Index({ chatData, addMessage, currentChatId, botIsTyping }) {
 		<div>
 			<NavigationAllChatsWeb />
 			<div className="flex flex-row">
-				<div className="overflow-y-scroll w-96" style={{ height: 'calc(100vh - 60px)' }}>
+				<div className="overflow-y-auto dark:overflow-auto w-96 dark:bg-slate-700" style={{ height: 'calc(100vh - 60px)' }}>
 					{chatData.map((element, Index) => {
 						return (
 							<Chat
@@ -44,17 +44,17 @@ function Index({ chatData, addMessage, currentChatId, botIsTyping }) {
 						);
 					})}
 				</div>
-				<div className="bg-slate-100 flex-1 overflow-y-scroll" style={{ height: 'calc(100vh - 60px)' }}>
+				<div className="bg-slate-100 dark:bg-slate-800 flex-1 overflow-y-scroll dark:overflow-auto scrollbar-hide" style={{ height: 'calc(100vh - 60px)' }}>
 					{currentChatId === -1 ? (
 						<div className="flex justify-center h-full items-center">
 							<div>
 								<div className="flex justify-center">
 									<img src="/ChatBotImage.png" alt="logo" className="max-h-60 max-w-60" />
 								</div>
-								<h2 className="text-center text-2xl font-semibold text-black mt-2 mb-2">
+								<h2 className="text-center text-2xl font-semibold text-black dark:text-white mt-2 mb-2">
 									Willkommen bei CBACB
 								</h2>
-								<p className="text-center text text-black">
+								<p className="text-center text text-black dark:text-white">
 									Wähle einen Chatbot und starte eine Konversation.
 								</p>
 							</div>
