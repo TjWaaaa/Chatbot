@@ -31,7 +31,7 @@ function Index({ sendMessage, isMobile }) {
 					onKeyDown={handleKeyDown}
 				/>
 				<div className="pl-4 pr-4 cursor-pointer" onClick={MessageSend}>
-					<PaperAirplaneIcon className="flex h-7 w-7 text-white" />
+					<PaperAirplaneIcon className="flex h-7 w-7 text-indigo-600 dark:text-white" />
 				</div>
 			</div>
 		</div>
