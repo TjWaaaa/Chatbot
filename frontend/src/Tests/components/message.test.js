@@ -1,7 +1,7 @@
 import { render, screen, cleanup } from '@testing-library/react';
 import renderer from 'react-test-renderer';
-import MessageUser from '../../components/MessageUser';
-import MessageBot from '../../components/MessageBot';
+import MessageUser from '../../components/ChatBot/MessageUser';
+import MessageBot from '../../components/ChatBot/MessageBot';
 
 afterEach(() => {
 	cleanup();

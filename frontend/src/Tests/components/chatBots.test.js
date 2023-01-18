@@ -3,7 +3,7 @@ import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import { render, screen } from '@testing-library/react';
 import renderer from 'react-test-renderer';
-import ChatBots from '../../components/ChatBots';
+import ChatBots from '../../components/ChatBot/ChatBots';
 
 describe('ChatBots', () => {
 	let store;
