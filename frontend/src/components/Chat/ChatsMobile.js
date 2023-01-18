@@ -1,14 +1,14 @@
 import React, { useRef, useEffect } from 'react';
-import Chat from './ChatBots';
-import NavigationAllChatsMobile from './NavigationAllChatsMobile';
+import Chat from '../ChatBot/ChatBots';
+import NavigationAllChatsMobile from '../Navigation/NavigationAllChatsMobile';
 
-import NavigationChat from './NavigationChatDetailMobile';
-import MessageBotTypingAnimation from './animations/MessageBotTypingAnimation';
-import MessageBot from './MessageBot';
-import MessageUser from './MessageUser';
-import InputChat from './InputChat';
-import { socket } from '..';
-import { ChangeChatId, BotStartsTyping } from '../store/actions/Chatbot';
+import NavigationChat from '../Navigation/NavigationChatDetailMobile';
+import MessageBotTypingAnimation from '../animations/MessageBotTypingAnimation';
+import MessageBot from '../ChatBot/MessageBot';
+import MessageUser from '../ChatBot/MessageUser';
+import InputChat from '../ChatBot/InputChat';
+import { socket } from '../..';
+import { ChangeChatId, BotStartsTyping } from '../../store/actions/Chatbot';
 import { useDispatch } from 'react-redux';
 
 function Index({ chatData, addMessage, currentChatId, botIsTyping }) {

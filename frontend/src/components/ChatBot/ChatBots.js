@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 
-import { ChangeChatId, ClearChat } from '../store/actions/Chatbot';
+import { ChangeChatId, ClearChat } from '../../store/actions/Chatbot';
 
 function Index({ name, img, text, time, event, id }) {
 	const dispatch = useDispatch();

@@ -1,8 +1,8 @@
 // import { render, screen, cleanup } from '@testing-library/react';
 // import renderer from 'react-test-renderer';
-// import NavigationChatDetailMobile from '../../components/NavigationChatDetailMobile';
-// import NavigationAllChatsMobile from '../../components/NavigationAllChatsMobile';
-// import NavigationAllChatsWeb from '../../components/NavigationAllChatsWeb';
+// import NavigationChatDetailMobile from '../../components/Navigation/NavigationChatDetailMobile';
+// import NavigationAllChatsMobile from '../../components/Navigation/NavigationAllChatsMobile';
+// import NavigationAllChatsWeb from '../../components/Navigation/NavigationAllChatsWeb';
 
 // afterEach(() => {
 // 	cleanup();
