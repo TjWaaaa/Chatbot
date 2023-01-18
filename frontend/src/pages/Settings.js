@@ -51,10 +51,6 @@ export default function Settings(props) {
 						<h2 className="w-full text-center text-md font-medium pb-5">{emailAddress}</h2>
 						<ul>
 							<li className="flex m-auto pl-7 p-2.5 border-t hover:text-indigo-600 hover:cursor-pointer">
-								<SunIcon className="h-7 mr-2.5" />
-								<button>Darkmode</button>
-							</li>
-							<li className="flex m-auto pl-7 p-2.5 border-t hover:text-indigo-600 hover:cursor-pointer">
 								<ArrowLeftOnRectangleIcon className="h-7 mr-2.5" />
 								<button onClick={() => handleLogout()}>Ausloggen</button>
 							</li>

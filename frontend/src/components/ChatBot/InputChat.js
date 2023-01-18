@@ -18,12 +18,12 @@ function Index({ sendMessage, isMobile }) {
 	return (
 		<div
 			data-testid="id1"
-			className="mt-8 bg-slate-100 dark:bg-slate-700 fixed bottom-0 right-0 z-50"
+			className="mt-8 bg-slate-100 dark:bg-slate-700 fixed bottom-0 right-0 z-50 "
 			style={!isMobile ? { width: 'calc(100vw - 384px)' } : { width: '100vw' }}
 		>
-			<div className="flex flex-row justify-between items-center ml-2 pt-2 pb-2">
+			<div className="flex flex-row justify-between items-center ml-2 pt-2 pb-2 ">
 				<input
-					className="w-full p-2 bg-white dark:bg-slate-600 rounded-lg border border-slate-300 dark:border-slate-800"
+					className="w-full p-2 bg-white dark:bg-slate-600 dark:text-white rounded-lg border border-slate-300 dark:border-slate-800"
 					value={text}
 					onChange={(event) => {
 						setText(event.target.value);

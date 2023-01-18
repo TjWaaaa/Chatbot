@@ -39,7 +39,7 @@ export default function SignIn() {
 					<div className="flex flex-col text-gray-800 py-2 dark:text-white">
 						<label>E-Mail</label>
 						<input
-							className="rounded-lg mt-2 p-2 border border-gray-500 focus:border-indigo-600 dark:bg-slate-400"
+							className="rounded-lg mt-2 p-2 border border-gray-500 focus:border-indigo-600 dark:bg-slate-400 dark:text-white"
 							type="email"
 							onChange={(e) => setEmail(e.target.value)}
 							required
@@ -48,7 +48,7 @@ export default function SignIn() {
 					<div className="flex flex-col text-gray-800 py-2 dark:text-white">
 						<label>Passwort</label>
 						<input
-							className="rounded-lg mt-2 p-2 border border-gray-500 focus:border-indigo-600 dark:bg-slate-400"
+							className="rounded-lg mt-2 p-2 border border-gray-500 focus:border-indigo-600 dark:bg-slate-400 dark:text-white"
 							type="password"
 							onChange={(e) => setPassword(e.target.value)}
 							required

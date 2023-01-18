@@ -46,7 +46,7 @@ export default function SignUp(props) {
 					<div className="flex flex-col text-gray-800 dark:text-white py-2">
 						<label>E-Mail</label>
 						<input
-							className="rounded-lg mt-2 p-2 border border-gray-500 dark:bg-slate-400 focus:border-indigo-600"
+							className="rounded-lg mt-2 p-2 border border-gray-500 dark:bg-slate-400 focus:border-indigo-600 dark:text-white"
 							type="email"
 							onChange={(e) => setUserName(e.target.value)}
 							required
@@ -55,7 +55,7 @@ export default function SignUp(props) {
 					<div className="flex flex-col text-gray-800 dark:text-white py-2">
 						<label>Passwort</label>
 						<input
-							className="rounded-lg mt-2 p-2 border border-gray-500 dark:bg-slate-400 focus:border-indigo-600"
+							className="rounded-lg mt-2 p-2 border border-gray-500 dark:bg-slate-400 focus:border-indigo-600 dark:text-white"
 							type="password"
 							onChange={(e) => setPassword(e.target.value)}
 							required
@@ -64,7 +64,7 @@ export default function SignUp(props) {
 					<div className="flex flex-col text-gray-800 dark:text-white py-2">
 						<label>Passwort wiederholen</label>
 						<input
-							className="rounded-lg mt-2 p-2 border border-gray-500 dark:bg-slate-400 focus:border-indigo-600"
+							className="rounded-lg mt-2 p-2 border border-gray-500 dark:bg-slate-400 focus:border-indigo-600 dark:text-white"
 							type="password"
 							onChange={(e) => setPassword2(e.target.value)}
 							required
