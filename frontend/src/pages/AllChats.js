@@ -1,8 +1,8 @@
 import React, { useState, useLayoutEffect, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import ChatsDesktop from '../components/ChatsDesktop';
-import ChatsMobile from '../components/ChatsMobile';
+import ChatsDesktop from '../components/Chat/ChatsDesktop';
+import ChatsMobile from '../components/Chat/ChatsMobile';
 
 import { chatData } from '../demoData/chatDemo';
 import { isAuthenticated } from '../utils/api';
@@ -58,27 +58,29 @@ function Index() {
 		}
 	}
 	if (isLoggedIn === undefined) {
-		return <PageLoadingAnimation/>;
+		return <PageLoadingAnimation />;
 	} else if (isLoggedIn) {
-		return <>
-		{isMobile ? (
-			<ChatsMobile
-				chatData={currentChats}
-				addMessage={addMessage}
-				currentChatId={currentChatId}
-				botIsTyping={botIsTyping}
-			/>
-		) : (
-			<ChatsDesktop
-				chatData={currentChats}
-				addMessage={addMessage}
-				currentChatId={currentChatId}
-				botIsTyping={botIsTyping}
-			/>
-		)}
-	</>;
+		return (
+			<>
+				{isMobile ? (
+					<ChatsMobile
+						chatData={currentChats}
+						addMessage={addMessage}
+						currentChatId={currentChatId}
+						botIsTyping={botIsTyping}
+					/>
+				) : (
+					<ChatsDesktop
+						chatData={currentChats}
+						addMessage={addMessage}
+						currentChatId={currentChatId}
+						botIsTyping={botIsTyping}
+					/>
+				)}
+			</>
+		);
 	} else {
-		return <></>
+		return <></>;
 	}
 }
 

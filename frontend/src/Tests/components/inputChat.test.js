@@ -1,6 +1,6 @@
 import { render, screen, cleanup } from '@testing-library/react';
 import renderer from 'react-test-renderer';
-import InputChat from '../../components/InputChat';
+import InputChat from '../../components/ChatBot/InputChat';
 
 afterEach(() => {
 	cleanup();
