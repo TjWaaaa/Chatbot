@@ -10,6 +10,7 @@ import {
 const initialState = {
 	Chats: [],
 	ChatId: -1,
+	Email: '',
 	conversationistTyping: false,
 };
 
@@ -25,7 +26,7 @@ const chatReducer = (state = initialState, action) => {
 			};
 
 		case INITIALIZE_CHATS:
-			return { ...state, Chats: [...action.chats] };
+			return { ...state, Email: action.email, Chats: [...action.chats] };
 
 		case CLEAR_CHAT:
 			return { ...state, Chats: [] };
