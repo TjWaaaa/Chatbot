@@ -10,8 +10,8 @@ export const AddMessage = (chatBotType, message) => {
 	return { type: ADD_MESSAGE, chatBotType: chatBotType, message: message };
 };
 
-export const InitializeChats = (chats) => {
-	return { type: INITIALIZE_CHATS, chats: chats };
+export const InitializeChats = (email, chats) => {
+	return { type: INITIALIZE_CHATS, email: email, chats: chats };
 };
 
 export const ChangeChatId = (chatId) => {
