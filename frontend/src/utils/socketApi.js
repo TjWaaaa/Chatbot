@@ -9,8 +9,8 @@ export default ({ children }) => {
 		dispatch(AddMessage(chatBotType, message));
 	};
 
-	const initializeChat = (chats) => {
-		dispatch(InitializeChats(chats));
+	const initializeProfile = (email, chats) => {
+		dispatch(InitializeChats(email, chats));
 	};
 
 	const botStopsTyping = () => {
@@ -23,7 +23,7 @@ export default ({ children }) => {
 
 	socket.on('sendProfileData', (data) => {
 		botStopsTyping();
-		initializeChat(data.chats);
+		initializeProfile(data.email, data.chats);
 	});
 
 	socket.on('startsTyping', () => {
