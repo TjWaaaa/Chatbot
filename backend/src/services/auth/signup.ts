@@ -1,10 +1,9 @@
 import express from 'express';
-import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcrypt';
 import logger from '~/utils/logger';
 import { regenerateSession } from './session';
 import { prisma } from '~/index';
-import { chatIds, chatOnboardingData } from '~/chatOnboardingData';
+import seedNewUser from '../prismaApi/seedNewUser';
 
 const SALT_ROUNDS = 10;
 
@@ -31,28 +30,12 @@ export default async (req: express.Request, res: express.Response, next: express
 
 			const newUser = await prisma.user.create({
 				data: {
-					email: req.body.email,
+					email,
 					hashedPassword,
 				},
 			});
 
-			logger.info(newUser.id);
-
-			for (const chat of chatOnboardingData) {
-				await prisma.chat.create({
-					data: {
-						chatBotType: chat.chatBotType,
-						name: chat.name,
-						img: chat.img,
-						userId: newUser.id,
-						messages: {
-							createMany: {
-								data: chat.messages,
-							},
-						},
-					},
-				});
-			}
+			seedNewUser(newUser);
 
 			logger.info(`User ${newUser.id} created`);
 			regenerateSession(req, res, next, newUser);

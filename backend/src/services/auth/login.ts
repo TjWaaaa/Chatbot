@@ -1,5 +1,4 @@
 import express from 'express';
-import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcrypt';
 import { regenerateSession } from './session';
 import { prisma } from '~/index';
