@@ -6,11 +6,11 @@ export default async (req: express.Request, res: express.Response) => {
 	if (session && session.userId) {
 		return res.status(200).json({
 			message: 'User is authenticated',
-			isLoggedIn: true
+			isLoggedIn: true,
 		});
 	}
 	return res.status(401).json({
 		message: 'User is not authenticated',
-		isLoggedIn: false
+		isLoggedIn: false,
 	});
 };
