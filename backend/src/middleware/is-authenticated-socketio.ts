@@ -1,6 +1,6 @@
 import { Socket } from 'socket.io';
-import { IncomingMessageWS } from '~/types/override-types';
-import logger from '~/utils/logger';
+import { IncomingMessageWS } from '../types/override-types';
+import logger from '../utils/logger';
 
 export function authenticationHandler(socket: Socket, next: any) {
 	const session = (socket.request as IncomingMessageWS).session;

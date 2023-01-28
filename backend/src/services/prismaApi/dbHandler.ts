@@ -1,8 +1,8 @@
-import { ChatBotType } from '~/enums/chat-bot-type';
-import { prisma } from '~/index';
-import logger from '~/utils/logger';
+import { ChatBotType } from '../../enums/chat-bot-type';
+import { prisma } from '../../index';
+import logger from '../../utils/logger';
 import { Socket } from 'socket.io';
-import { IncomingMessageWS } from '~/types/override-types';
+import { IncomingMessageWS } from '../../types/override-types';
 
 export const saveMessageToDB = async (
 	socket: Socket,

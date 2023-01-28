@@ -1,10 +1,10 @@
 import express from 'express';
-import { userSchema } from '~/schemas/user';
-import isAuthenticated from '~/services/auth/isAuthenticated';
-import login from '~/services/auth/login';
-import { destroySession } from '~/services/auth/session';
-import signup from '~/services/auth/signup';
-import { validate } from '~/utils/validate';
+import { userSchema } from '../schemas/user';
+import isAuthenticated from '../services/auth/isAuthenticated';
+import login from '../services/auth/login';
+import { destroySession } from '../services/auth/session';
+import signup from '../services/auth/signup';
+import { validate } from '../utils/validate';
 
 const authRouter: express.Router = express.Router();
 
