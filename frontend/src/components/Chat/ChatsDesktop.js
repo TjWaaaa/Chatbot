@@ -1,13 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
-import Chat from './ChatBots';
-import NavigationAllChatsWeb from './NavigationAllChatsWeb';
-import MessageBot from './MessageBot';
-import MessageUser from './MessageUser';
-import MessageBotTypingAnimation from './animations/MessageBotTypingAnimation';
-import { socket } from '..';
-import InputChat from './InputChat';
+import Chat from '../ChatBot/ChatBots';
+import NavigationAllChatsWeb from '../Navigation/NavigationAllChatsWeb';
+import MessageBot from '../ChatBot/MessageBot';
+import MessageUser from '../ChatBot/MessageUser';
+import MessageBotTypingAnimation from '../animations/MessageBotTypingAnimation';
+import { socket } from '../..';
+import InputChat from '../ChatBot/InputChat';
 import { useDispatch } from 'react-redux';
-import { BotStartsTyping } from '../store/actions/Chatbot';
+import { BotStartsTyping } from '../../store/actions/Chatbot';
 
 function Index({ chatData, addMessage, currentChatId, botIsTyping }) {
 	const messagesEndRef = useRef(null);
@@ -27,15 +27,16 @@ function Index({ chatData, addMessage, currentChatId, botIsTyping }) {
 		<div>
 			<NavigationAllChatsWeb />
 			<div className="flex flex-row">
-				<div className="w-2xl overflow-y-scroll" style={{ height: 'calc(100vh - 60px)' }}>
+				<div className="overflow-y-auto dark:overflow-auto w-96 dark:bg-slate-700" style={{ height: 'calc(100vh - 60px)' }}>
 					{chatData.map((element, Index) => {
 						return (
 							<Chat
 								name={element.name}
 								img={element.img}
-								text={element.text}
+								text={element.messages[element.messages.length - 1].text}
 								time={element.time}
 								id={Index}
+								key={Index}
 								event={() => {
 									// addMessage([...element.messages]);
 								}}
@@ -43,29 +44,31 @@ function Index({ chatData, addMessage, currentChatId, botIsTyping }) {
 						);
 					})}
 				</div>
-				<div className="bg-slate-100 flex-1 overflow-y-scroll" style={{ height: 'calc(100vh - 60px)' }}>
+				<div className="bg-slate-100 dark:bg-slate-800 flex-1 overflow-y-scroll dark:overflow-auto scrollbar-hide" style={{ height: 'calc(100vh - 60px)' }}>
 					{currentChatId === -1 ? (
 						<div className="flex justify-center h-full items-center">
 							<div>
 								<div className="flex justify-center">
 									<img src="/ChatBotImage.png" alt="logo" className="max-h-60 max-w-60" />
 								</div>
-								<h2 className="text-center text-2xl font-semibold text-black mt-2 mb-2">
+								<h2 className="text-center text-2xl font-semibold text-black dark:text-white mt-2 mb-2">
 									Willkommen bei CBACB
 								</h2>
-								<p className="text-center text text-black">
+								<p className="text-center text text-black dark:text-white">
 									Wähle einen Chatbot und starte eine Konversation.
 								</p>
 							</div>
 						</div>
 					) : (
 						<div>
-							{chatData[currentChatId].messages.map((element) => {
+							{chatData[currentChatId].messages.map((element, Index) => {
 								if (!element.sentByUser) {
-									return <MessageBot img={chatData[currentChatId].img} text={element.text} />;
+									return (
+										<MessageBot img={chatData[currentChatId].img} text={element.text} key={Index} />
+									);
 								}
 
-								return <MessageUser text={element.text} />;
+								return <MessageUser text={element.text} key={Index} />;
 							})}
 							{botIsTyping ? <MessageBotTypingAnimation img={chatData[currentChatId].img} /> : <></>}
 							<div className="h-16" />

@@ -11,10 +11,10 @@ exports[`matches snapshot MessageBot 1`] = `
     src="test-image.jpg"
   />
   <div
-    className="pl-4 pr-4 pt-2 pb-2 ml-4 mr-4 bg-white rounded-lg drop-shadow-sm"
+    className="pl-4 pr-4 pt-2 pb-2 ml-4 mr-4 bg-white dark:bg-slate-600 rounded-lg drop-shadow-sm"
   >
     <p
-      className="text text-black"
+      className="text text-black dark:text-white"
     >
       das ist die Nachricht von einem Bot
     </p>

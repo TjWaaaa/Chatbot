@@ -11,7 +11,8 @@
 		"baseUrl": ".",
 		"paths": {
 			"~/*": ["src/*"]
-		}
+		},
+		"lib": ["ES2021.String"]
 	},
 	"ts-node": {
 		"transpileOnly": true,
