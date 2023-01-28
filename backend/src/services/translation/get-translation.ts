@@ -55,7 +55,7 @@ export function removeLanguageSentence(input: string) {
 	convertedInput = convertedInput.replaceAll('?', '?🔪');
 	convertedInput = convertedInput.replaceAll('!', '!🔪');
 
-	let sentences = convertedInput.split('🔪');
+	const sentences = convertedInput.split('🔪');
 
 	let result = '';
 	for (let i = 0; i < sentences.length; i++) {

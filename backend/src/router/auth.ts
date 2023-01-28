@@ -1,7 +1,7 @@
 import express from 'express';
 import { userSchema } from '../schemas/user';
 import isAuthenticated from '../services/auth/isAuthenticated';
-import login from '../services/auth/login';
+import signin from '../services/auth/signin';
 import { destroySession } from '../services/auth/session';
 import signup from '../services/auth/signup';
 import { validate } from '../utils/validate';
@@ -50,7 +50,7 @@ authRouter.post('/signup', validate(userSchema), signup);
  * - 401 Password is wrong
  * - 404 User not found
  */
-authRouter.post('/login', validate(userSchema), login);
+authRouter.post('/signin', validate(userSchema), signin);
 
 /**
  * @api {post} /auth/logout Logout
@@ -75,6 +75,6 @@ authRouter.post('/logout', destroySession);
  * @apiError
  * - 401 User is not authenticated
  */
-authRouter.post('/isAuthenticated', isAuthenticated);
+authRouter.post('/is-authenticated', isAuthenticated);
 
 export default authRouter;

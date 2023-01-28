@@ -12,7 +12,7 @@ const http = axios.create({
 const PATH_PREFIX_AUTH = '/auth';
 
 export async function signUserIn(credentials) {
-	return await http.post(`${PATH_PREFIX_AUTH}/login`, credentials);
+	return await http.post(`${PATH_PREFIX_AUTH}/signin`, credentials);
 }
 
 export async function signUserUp(credentials) {
@@ -24,5 +24,5 @@ export async function logoutUser() {
 }
 
 export async function isAuthenticated() {
-	return await http.post(`${PATH_PREFIX_AUTH}/isAuthenticated`);
+	return await http.post(`${PATH_PREFIX_AUTH}/is-authenticated`);
 }
