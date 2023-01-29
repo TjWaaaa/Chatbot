@@ -1,5 +1,5 @@
 import { User } from '@prisma/client';
-import { chatOnboardingData } from '../../data/chatOnboardingData';
+import { chatOnboardingData } from '../../data/chatOnboarding.data';
 import { prisma } from '../../index';
 
 export async function createOnboardingMessages(newUser: User) {

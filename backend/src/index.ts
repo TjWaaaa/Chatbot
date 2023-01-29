@@ -4,11 +4,11 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import { createServer } from 'http';
 import helmet from 'helmet';
-import { wsServer } from './ws-server';
-import { csrfVerification } from './middleware/csrf-token-verification';
-import { sessionConfig } from './config/session';
-import authRouter from './router/auth';
+import wsServer from './ws-server';
+import sessionConfig from './configs/session';
+import authRouter from './routes/auth';
 import { PrismaClient } from '@prisma/client';
+import csrfVerification from './middlewares/csrf-verification';
 
 export const prisma = new PrismaClient();
 

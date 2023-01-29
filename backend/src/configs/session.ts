@@ -2,9 +2,9 @@ import { PrismaClient } from '@prisma/client';
 import { PrismaSessionStore } from '@quixo3/prisma-session-store';
 import session from 'express-session';
 
-const oneWeek = 7 * 1000 * 60 * 60 * 24;
+const ONE_WEEK = 7 * 1000 * 60 * 60 * 24;
 
-export const sessionConfig = session({
+export default session({
 	store: new PrismaSessionStore(new PrismaClient(), {
 		checkPeriod: 2 * 60 * 1000, //ms
 		dbRecordIdIsSessionId: true,
@@ -13,7 +13,7 @@ export const sessionConfig = session({
 	secret: 'thisismysecrctekeyfhrgfgrfrty84fwir767',
 	saveUninitialized: false,
 	cookie: {
-		maxAge: oneWeek,
+		maxAge: ONE_WEEK,
 		secure: false,
 	},
 	resave: false,
