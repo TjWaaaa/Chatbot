@@ -2,7 +2,7 @@ import { useDispatch } from 'react-redux';
 import { AddMessage, BotStartsTyping, BotStopsTyping, InitializeChats } from '../store/actions/Chatbot';
 import { socket } from '..';
 
-export default ({ children }) => {
+export default function SocketHandler({ children }) {
 	const dispatch = useDispatch();
 
 	const changeChatValue = (chatBotType, message) => {
@@ -40,4 +40,4 @@ export default ({ children }) => {
 	});
 
 	return children;
-};
+}
