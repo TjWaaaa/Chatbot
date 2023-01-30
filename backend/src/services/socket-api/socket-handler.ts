@@ -25,11 +25,15 @@ export const sendMessage = (socket: Socket, answer: string, chatBotType: ChatBot
 export async function getChatBotAnswer(chatBotType: ChatBotType, message: string) {
 	switch (chatBotType) {
 		case ChatBotType.TRANSLATOR:
-			return await getTranslation(message);
+			return await getTranslation(message).catch(() => {
+				return 'Etwas ist schief gegangen...\nHast du die Sprache angegeben, in welche der Text übersetzt werden soll?\nBsp.: Französisch. Ich habe hunger.';
+			});
 		case ChatBotType.BUSINESSMAN:
 			return getBusinessAdvice();
 		case ChatBotType.JOKE:
-			return await getJoke();
+			return await getJoke().catch(() => {
+				return 'Ich habe leider momentan keinen Witz parat. Frag mich bitte später noch einmal.';
+			});
 		default:
 			logger.info('no fitting ChatBotType', chatBotType);
 	}
