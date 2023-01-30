@@ -44,9 +44,6 @@ function Index({ chatData, addMessage, currentChatId, botIsTyping }) {
 									time={element.time}
 									id={Index}
 									key={Index}
-									event={() => {
-										// changeChatValue([...element.chatData]);
-									}}
 								/>
 							);
 						})}
@@ -59,7 +56,6 @@ function Index({ chatData, addMessage, currentChatId, botIsTyping }) {
 						img={chatData[currentChatId].img}
 						event={() => {
 							changeChatId(-1);
-							//clearChat();
 						}}
 					/>
 					{chatData[currentChatId].messages.map((element, Index) => {

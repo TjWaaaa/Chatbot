@@ -1,4 +1,5 @@
 import { Player, Controls } from '@lottiefiles/react-lottie-player';
+
 function Index({ img }) {
 	return (
 		<div className="flex flex-row mt-4 items-center ml-4">
