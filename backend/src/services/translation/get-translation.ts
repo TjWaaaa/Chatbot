@@ -5,7 +5,6 @@ export const getTranslation = async (message: string) => {
 	logger.info(`Message: ${message}`);
 	console.log(findLanguage(message));
 	console.log(removeLanguageSentence(message));
-
 	const body = {
 		text: [removeLanguageSentence(message)],
 		target_lang: findLanguage(message),

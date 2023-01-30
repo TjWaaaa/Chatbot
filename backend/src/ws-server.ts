@@ -37,13 +37,24 @@ export function wsServer() {
 			let answer = '';
 			switch (chatBotType) {
 				case ChatBotType.TRANSLATOR:
-					answer = await getTranslation(message);
+					try {
+						answer = await getTranslation(message);
+					} catch (e) {
+						answer =
+							'Etwas ist schief gegangen...\nHast du die Sprache angegeben, in welche der Text übersetzt werden soll?\nBsp.: Französisch. Ich habe hunger.';
+					}
+
 					break;
 				case ChatBotType.BUSINESSMAN:
 					answer = getBusinessAdvice();
 					break;
 				case ChatBotType.JOKE:
-					answer = await getJoke();
+					try {
+						answer = await getJoke();
+					} catch (e) {
+						answer = 'Ich habe leider momentan keinen Witz parat. Frag mich bitte später noch einmal.';
+					}
+
 					break;
 				default:
 					logger.info('no fitting ChatBotType', chatBotType);
