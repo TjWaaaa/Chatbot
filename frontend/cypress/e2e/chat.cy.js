@@ -1,8 +1,9 @@
-import { Server } from 'mock-socket';
-
+import { WebSocket, Server } from 'mock-socket';
+import { userData } from '../fixtures/userData';
 describe('mock socket method 1', () => {
+	const serverUrl = 'ws://localhost:8000/';
 	let mockSocket;
-	let mockServer;
+	var mockServer = new Server(serverUrl);
 	before(() => {
 		cy.intercept(
 			{
@@ -14,23 +15,34 @@ describe('mock socket method 1', () => {
 		cy.visit('localhost:3000', {
 			onBeforeLoad(win) {
 				cy.stub(win, 'WebSocket', (url) => {
-					mockServer = new Server(url).on('connection', (socket) => {
-						console.log('mock socket connected');
-						mockSocket = socket;
+					try {
+						mockServer = mockServer.on('connection', (socket) => {
+							console.log('mock socket connected ' + serverUrl);
 
-						mockSocket.on('sendProfileData', () => {
-							socket.emit('sendProfileData', {});
+							//socket.on('message', () => {});
+							//socket.on('close', () => {});
+							socket.emit(
+								'sendProfileData',
+								'{"email":"' + userData.email + '","chats":"' + userData.chats + '"}',
+							);
+							console.log('send');
+
+							mockSocket = socket;
 						});
-					});
-					if (!mockServer) return new WebSocket(url);
+
+						console.log('sendData');
+						if (!mockServer) return new WebSocket(serverUrl);
+					} catch (e) {
+						console.error(e);
+					}
 				});
 			},
 		});
 	});
 
 	after(() => {
-		mockSocket.close();
-		//mockServer.stop();
+		//mockSocket.close();
+		//mockServer.stop(() => {});
 	});
 
 	it('can visit', () => {

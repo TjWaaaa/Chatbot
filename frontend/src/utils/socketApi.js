@@ -22,6 +22,7 @@ export default ({ children }) => {
 	};
 
 	socket.on('sendProfileData', (data) => {
+		console.log(data);
 		botStopsTyping();
 		initializeProfile(data.email, data.chats);
 	});
