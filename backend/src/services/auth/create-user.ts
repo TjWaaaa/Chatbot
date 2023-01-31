@@ -3,11 +3,11 @@ import bcrypt from 'bcrypt';
 import { prisma } from '../../index';
 import logger from '../../utils/logger';
 import { createOnboardingMessages } from '../db/create-onboarding-messages';
-import regenerateSession from './regenerate-session';
+import { regenerateSession } from './regenerate-session';
 
 const SALT_ROUNDS = 10;
 
-export default function (req: express.Request, res: express.Response, next: express.NextFunction, password: string) {
+export function createUser(req: express.Request, res: express.Response, next: express.NextFunction, password: string) {
 	bcrypt.hash(password, SALT_ROUNDS, async function (err, hashedPassword: string) {
 		if (err) next(err);
 

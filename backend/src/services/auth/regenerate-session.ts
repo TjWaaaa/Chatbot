@@ -1,7 +1,7 @@
 import { User } from '@prisma/client';
 import express from 'express';
 
-export default function (req: express.Request, res: express.Response, next: express.NextFunction, user: User) {
+export function regenerateSession(req: express.Request, res: express.Response, next: express.NextFunction, user: User) {
 	req.session.regenerate(function (err) {
 		if (err) next(err);
 

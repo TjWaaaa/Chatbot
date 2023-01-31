@@ -1,9 +1,9 @@
 import express from 'express';
 import bcrypt from 'bcrypt';
 import { User } from '@prisma/client';
-import regenerateSession from './regenerate-session';
+import { regenerateSession } from './regenerate-session';
 
-export default function (
+export function signUserIn(
 	req: express.Request,
 	res: express.Response,
 	next: express.NextFunction,
