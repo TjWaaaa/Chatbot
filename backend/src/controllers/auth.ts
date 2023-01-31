@@ -1,9 +1,10 @@
 import express from 'express';
-import { createUser } from '../services/auth/create-user';
-import { signUserIn } from '../services/auth/sign-user-in';
+import { signUserUp } from '../services/auth/create-user';
+import { regenerateSession } from '../services/auth/regenerate-session';
+import { isPasswordCorrect } from '../services/auth/sign-user-in';
 import { getUserByEmail } from '../services/db/user';
 
-async function signup(req: express.Request, res: express.Response, next: express.NextFunction) {
+async function signUp(req: express.Request, res: express.Response, next: express.NextFunction) {
 	const { email, password } = req.body;
 
 	try {
@@ -15,7 +16,9 @@ async function signup(req: express.Request, res: express.Response, next: express
 			});
 		}
 
-		createUser(req, res, next, password);
+		const newUser = await signUserUp(email, password);
+
+		regenerateSession(req, res, next, newUser);
 	} catch (err) {
 		return res.status(400).json({
 			message: 'Die Registierung ist fehlgeschlagen. Versuche es erneut oder kontaktiere den Support.',
@@ -23,7 +26,7 @@ async function signup(req: express.Request, res: express.Response, next: express
 	}
 }
 
-async function signin(req: express.Request, res: express.Response, next: express.NextFunction) {
+async function signIn(req: express.Request, res: express.Response, next: express.NextFunction) {
 	const { email, password } = req.body;
 
 	try {
@@ -35,7 +38,15 @@ async function signin(req: express.Request, res: express.Response, next: express
 			});
 		}
 
-		signUserIn(req, res, next, password, user);
+		const resultPasswordCorrect = await isPasswordCorrect(password, user);
+
+		if (!resultPasswordCorrect) {
+			return res.status(400).json({
+				message: 'Das Passwort ist falsch. Bitte versuche es erneut.',
+			});
+		}
+
+		regenerateSession(req, res, next, user);
 	} catch (err) {
 		return res.status(400).json({
 			message: 'Ein Fehler beim Login ist passiert. Versuche es erneut oder kontaktiere den Support.',
@@ -47,9 +58,8 @@ async function logout(req: express.Request, res: express.Response) {
 	req.session.destroy((err) => {
 		if (err) {
 			return res.status(400).json({ message: 'Abmeldung ist fehlgeschladen.' });
-		} else {
-			return res.status(200).json({ message: 'Erfolgreich abgemeldet.' });
 		}
+		return res.status(200).json({ message: 'Erfolgreich abgemeldet.' });
 	});
 }
 
@@ -69,8 +79,8 @@ async function isAuthenticated(req: express.Request, res: express.Response) {
 }
 
 export default {
-	signup,
-	signin,
+	signup: signUp,
+	signin: signIn,
 	logout,
 	isAuthenticated,
 };
