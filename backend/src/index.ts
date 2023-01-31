@@ -17,7 +17,7 @@ dotenv.config();
 const app: Application = express();
 app.use(helmet());
 
-app.use(cors({ origin: 'http://localhost:3000', methods: ['GET', 'POST', 'OPTIONS'], credentials: true }));
+app.use(cors({ origin: process.env.ORIGIN, methods: ['GET', 'POST', 'OPTIONS'], credentials: true }));
 app.use(csrfVerification);
 
 if (app.get('env') === 'production') {
