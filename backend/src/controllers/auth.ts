@@ -1,7 +1,7 @@
 import express from 'express';
-import createUser from '../services/auth/create-user';
-import signUserIn from '../services/auth/sign-user-in';
-import getUserByEmail from '../services/db/get-user-by-email';
+import { createUser } from '../services/auth/create-user';
+import { signUserIn } from '../services/auth/sign-user-in';
+import { getUserByEmail } from '../services/db/user';
 
 async function signup(req: express.Request, res: express.Response, next: express.NextFunction) {
 	const { email, password } = req.body;

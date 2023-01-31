@@ -2,13 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { UserCircleIcon } from '@heroicons/react/24/solid';
 import { ArrowLeftOnRectangleIcon } from '@heroicons/react/24/solid';
+import { TrashIcon } from '@heroicons/react/24/outline';
 
 import { useNavigate } from 'react-router-dom';
-import { logoutUser } from '../utils/api';
+import { logoutUser, deleteAllMessages } from '../utils/api';
+import { ClearChats } from '../store/actions/Chatbot';
+import { useDispatch } from 'react-redux';
+import SettingsButton from '../components/Navigation/SettingsButton';
 
 export default function Settings(props) {
 	const [open, setOpen] = useState(false);
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
 
 	const emailAddress = useSelector((state) => state.chatState.Email);
 
@@ -33,6 +38,15 @@ export default function Settings(props) {
 			.catch((res) => console.log(res.response.data));
 	}
 
+	function handleDeleteAllMessages() {
+		deleteAllMessages()
+			.then(() => {
+				setOpen(false);
+				dispatch(ClearChats());
+			})
+			.catch((res) => console.log(res.response.data));
+	}
+
 	return (
 		<div>
 			<div className="list-none">
@@ -48,11 +62,21 @@ export default function Settings(props) {
 				{open && (
 					<div className="absolute top-20 right-4 bg-white rounded-lg p-3 w-52 shadow-lg">
 						<h3 className="w-full text-center text-sm font-small">Angemeldet als:</h3>
-						<h2 className="w-full text-center text-md font-medium pb-5">{emailAddress}</h2>
+						<h2 className="w-full text-center text-md font-medium pb-2.5">{emailAddress}</h2>
 						<ul>
-							<li className="flex m-auto pl-7 p-2.5 border-t hover:text-indigo-600 hover:cursor-pointer">
-								<ArrowLeftOnRectangleIcon className="h-7 mr-2.5" />
-								<button onClick={() => handleLogout()}>Ausloggen</button>
+							<li className="flex m-auto border-t hover:text-indigo-600 hover:cursor-pointer">
+								<SettingsButton
+									text="Verlauf löschen"
+									icon={<TrashIcon className="h-7 mr-2.5" />}
+									handleClick={handleDeleteAllMessages}
+								/>
+							</li>
+							<li className="flex m-auto border-t hover:text-indigo-600 hover:cursor-pointer">
+								<SettingsButton
+									text="Ausloggen"
+									icon={<ArrowLeftOnRectangleIcon className="h-7 mr-2.5" />}
+									handleClick={handleLogout}
+								/>
 							</li>
 						</ul>
 					</div>

@@ -1,5 +1,5 @@
 import express from 'express';
-import authController from '../controllers/auth';
+import auth from '../controllers/auth';
 import { userSchema } from '../schemas/user';
 import { validate } from '../utils/validate';
 
@@ -24,7 +24,7 @@ const authRouter = express.Router();
  * - 400 ZodError Password must be 8 or more characters long
  * - Error Prisma Unique constraint failed on the fields: (`email`)
  */
-authRouter.post('/signup', validate(userSchema), authController.signup);
+authRouter.post('/signup', validate(userSchema), auth.signup);
 
 /**
  * @api {post} /auth/login Login
@@ -47,7 +47,7 @@ authRouter.post('/signup', validate(userSchema), authController.signup);
  * - 401 Password is wrong
  * - 404 User not found
  */
-authRouter.post('/signin', validate(userSchema), authController.signin);
+authRouter.post('/signin', validate(userSchema), auth.signin);
 
 /**
  * @api {post} /auth/logout Logout
@@ -58,7 +58,7 @@ authRouter.post('/signin', validate(userSchema), authController.signin);
  * @apiSuccessExample
  * - 200 User successfully logged out
  */
-authRouter.post('/logout', authController.logout);
+authRouter.post('/logout', auth.logout);
 
 /**
  * @api {post} /auth/isAuthenticated isAuthenticated
@@ -72,6 +72,6 @@ authRouter.post('/logout', authController.logout);
  * @apiError
  * - 401 User is not authenticated
  */
-authRouter.post('/is-authenticated', authController.isAuthenticated);
+authRouter.post('/is-authenticated', auth.isAuthenticated);
 
 export default authRouter;
