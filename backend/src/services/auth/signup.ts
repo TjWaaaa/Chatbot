@@ -1,10 +1,9 @@
 import express from 'express';
-import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcrypt';
-import logger from '~/utils/logger';
 import { regenerateSession } from './session';
-import { prisma } from '~/index';
-import { chatIds, chatOnboardingData } from '~/chatOnboardingData';
+import { prisma } from '../../index';
+import logger from '../../utils/logger';
+import { chatOnboardingData } from '../../chatOnboardingData';
 
 const SALT_ROUNDS = 10;
 

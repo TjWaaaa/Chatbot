@@ -1,5 +1,5 @@
 import { Socket } from 'socket.io';
-import { ChatBotType } from '~/enums/chat-bot-type';
+import { ChatBotType } from '../../enums/chat-bot-type';
 
 export const sendMessage = (socket: Socket, answer: string, chatBotType: ChatBotType) => {
 	let chatId = -1;
