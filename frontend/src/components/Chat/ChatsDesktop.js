@@ -27,13 +27,16 @@ function Index({ chatData, addMessage, currentChatId, botIsTyping }) {
 		<div>
 			<NavigationAllChatsWeb />
 			<div className="flex flex-row">
-				<div className="overflow-y-auto dark:overflow-auto w-96 dark:bg-slate-700" style={{ height: 'calc(100vh - 60px)' }}>
+				<div
+					className="overflow-y-auto dark:overflow-auto w-96 dark:bg-slate-700"
+					style={{ height: 'calc(100vh - 60px)' }}
+				>
 					{chatData.map((element, Index) => {
 						return (
 							<Chat
 								name={element.name}
 								img={element.img}
-								text={element.messages[element.messages.length - 1].text}
+								text={element.messages[element.messages.length - 1]?.text}
 								time={element.time}
 								id={Index}
 								key={Index}
@@ -44,7 +47,10 @@ function Index({ chatData, addMessage, currentChatId, botIsTyping }) {
 						);
 					})}
 				</div>
-				<div className="bg-slate-100 dark:bg-slate-800 flex-1 overflow-y-scroll dark:overflow-auto scrollbar-hide" style={{ height: 'calc(100vh - 60px)' }}>
+				<div
+					className="bg-slate-100 dark:bg-slate-800 flex-1 overflow-y-scroll dark:overflow-auto scrollbar-hide"
+					style={{ height: 'calc(100vh - 60px)' }}
+				>
 					{currentChatId === -1 ? (
 						<div className="flex justify-center h-full items-center">
 							<div>

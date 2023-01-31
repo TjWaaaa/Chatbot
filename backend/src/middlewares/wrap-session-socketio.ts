@@ -1,5 +1,6 @@
+import { RequestHandler } from 'express';
 import { Socket } from 'socket.io';
 
-export function wrap(sessionMiddleware: any) {
+export default function wrapSessionSocketio(sessionMiddleware: any) {
 	return (socket: Socket, next: any) => sessionMiddleware(socket.request, {}, next);
 }

@@ -32,7 +32,7 @@ model Chat {
   id          String    @id @unique @default(uuid())
   chatBotType String
   userId      String
-  User        User      @relation(fields: [userId], references: [id])
+  User        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   messages    Message[]
   img         String
   name        String
@@ -44,5 +44,5 @@ model Message {
   timeStamp  DateTime @default(now())
   chatId     String?
   sentByUser Boolean
-  Chat       Chat?    @relation(fields: [chatId], references: [id])
+  Chat       Chat?    @relation(fields: [chatId], references: [id], onDelete: Cascade)
 }
