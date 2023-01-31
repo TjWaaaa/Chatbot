@@ -20,11 +20,7 @@ const app: Application = express();
 app.use(helmet());
 
 app.use(
-	cors({
-		origin: 'http://localhost:3000',
-		methods: ['GET', 'POST', 'OPTIONS', 'DELETE', 'PATCH'],
-		credentials: true,
-	}),
+	cors({ origin: process.env.ORIGIN, methods: ['GET', 'POST', 'OPTIONS', 'DELETE', 'PATCH'], credentials: true }),
 );
 app.use(csrfVerification);
 
