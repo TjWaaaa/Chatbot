@@ -9,6 +9,10 @@ export const getTranslation = async (message: string) => {
 		target_lang: findLanguage(message),
 	};
 
+	if (!body.target_lang) {
+		throw new Error('Language not found');
+	}
+
 	const headers = {
 		headers: {
 			Authorization: process.env.DEEPL_AUTH_KEY,
