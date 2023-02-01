@@ -16,11 +16,14 @@ export default function SignUp(props) {
 
 	function handleSignUp(e) {
 		e.preventDefault();
+
 		if (password !== password2) {
+			setError(null)
 			setPasswortMatchError("Passwörter stimmen nicht überein");
 			return;
-		}
-		signUserUp({ email, password })
+		}else{
+			setPasswortMatchError(null)
+			signUserUp({ email, password })
 			.then((res) => {
 				navigate('/');
 				navigate(0)
@@ -32,6 +35,7 @@ export default function SignUp(props) {
 				setError(errorMessage);
 				console.log(errorMessage);
 			});
+		}	
 	}
 
 	return (
