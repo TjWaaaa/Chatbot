@@ -36,7 +36,7 @@ function Index({ chatData, addMessage, currentChatId, botIsTyping }) {
 							<Chat
 								name={element.name}
 								img={element.img}
-								text={element.messages[element.messages.length - 1].text}
+								text={element.messages[element.messages.length - 1]?.text}
 								time={element.time}
 								id={Index}
 								key={Index}

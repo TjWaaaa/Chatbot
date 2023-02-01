@@ -1,27 +1,22 @@
 import { Server, Socket } from 'socket.io';
-import { sessionConfig } from './config/session';
-import { ChatBotType } from './enums/chat-bot-type';
+import sessionConfig from './configs/session';
 import { httpServer } from './index';
-import { wrap } from './middleware/add-session-to-socketio';
-import { authenticationHandler } from './middleware/is-authenticated-socketio';
-import { getBusinessAdvice } from './services/business-advice/get-business-advice';
-import { getJoke } from './services/joke/get-joke';
-import { loadChatsFromDB, saveMessageToDB } from './services/prismaApi/dbHandler';
-import { sendMessage } from './services/socketApi/socketHandler';
-import { getTranslation } from './services/translation/get-translation';
-import { IncomingMessageWS } from './types/override-types';
+import socketioAuthenticationHandler from './middlewares/socketio-authentication-handler';
+import wrapSessionSocketio from './middlewares/wrap-session-socketio';
+import { loadChatsFromDB, saveMessageToDB } from './services/db/db-handler';
+import { getChatBotAnswer, sendMessage } from './services/socket-api/socket-handler';
 import logger from './utils/logger';
 
-export function wsServer() {
+export default function wsServer() {
 	const io = new Server(httpServer, {
 		cors: {
-			origin: 'http://localhost:3000',
+			origin: process.env.ORIGIN,
 			credentials: true,
 		},
 	});
 
-	io.use(wrap(sessionConfig));
-	io.use(authenticationHandler);
+	io.use(wrapSessionSocketio(sessionConfig));
+	io.use(socketioAuthenticationHandler);
 
 	io.on('connection', async (socket: Socket) => {
 		logger.info('Connected');
@@ -34,20 +29,7 @@ export function wsServer() {
 		socket.on('message', async ({ chatBotType, message }) => {
 			saveMessageToDB(socket, chatBotType, message, true);
 
-			let answer = '';
-			switch (chatBotType) {
-				case ChatBotType.TRANSLATOR:
-					answer = await getTranslation(message);
-					break;
-				case ChatBotType.BUSINESSMAN:
-					answer = getBusinessAdvice();
-					break;
-				case ChatBotType.JOKE:
-					answer = await getJoke();
-					break;
-				default:
-					logger.info('no fitting ChatBotType', chatBotType);
-			}
+			const answer = await getChatBotAnswer(chatBotType, message);
 
 			if (answer === '') {
 				throw new Error('Empty Answer');

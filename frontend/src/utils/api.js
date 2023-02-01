@@ -10,9 +10,10 @@ const http = axios.create({
 });
 
 const PATH_PREFIX_AUTH = '/auth';
+const PATH_PREFIX_MESSAGES = '/messages';
 
 export async function signUserIn(credentials) {
-	return await http.post(`${PATH_PREFIX_AUTH}/login`, credentials);
+	return await http.post(`${PATH_PREFIX_AUTH}/signin`, credentials);
 }
 
 export async function signUserUp(credentials) {
@@ -24,5 +25,9 @@ export async function logoutUser() {
 }
 
 export async function isAuthenticated() {
-	return await http.post(`${PATH_PREFIX_AUTH}/isAuthenticated`);
+	return await http.post(`${PATH_PREFIX_AUTH}/is-authenticated`);
+}
+
+export async function deleteAllMessages() {
+	return await http.delete(`${PATH_PREFIX_MESSAGES}`);
 }

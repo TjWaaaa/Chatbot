@@ -1,7 +1,7 @@
 import {
 	ADD_MESSAGE,
 	INITIALIZE_CHATS,
-	CLEAR_CHAT,
+	CLEAR_CHATS,
 	CHAT_ID,
 	CONVERSATIONIST_STOPS_TYPING,
 	CONVERSATIONIST_STARTS_TYPING,
@@ -28,8 +28,14 @@ const chatReducer = (state = initialState, action) => {
 		case INITIALIZE_CHATS:
 			return { ...state, Email: action.email, Chats: [...action.chats] };
 
-		case CLEAR_CHAT:
-			return { ...state, Chats: [] };
+		case CLEAR_CHATS:
+			const chats = state.Chats;
+			chats.map((chat) => (chat.messages = []));
+
+			return {
+				...state,
+				Chats: [...chats],
+			};
 
 		case CHAT_ID:
 			return { ...state, ChatId: action.chatId };

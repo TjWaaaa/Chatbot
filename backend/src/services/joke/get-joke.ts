@@ -7,7 +7,6 @@ export const getJoke = async () => {
 		.then((res) => {
 			const answer = res.data[0].text;
 			logger.info(`Joke: ${answer}`);
-			//socket.emit('answer', answer, ChatBotId.JOKE);
 			return answer;
 		})
 		.catch((err) => {

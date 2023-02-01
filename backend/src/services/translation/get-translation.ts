@@ -3,8 +3,6 @@ import logger from '../../utils/logger';
 
 export const getTranslation = async (message: string) => {
 	logger.info(`Message: ${message}`);
-	console.log(findLanguage(message));
-	console.log(removeLanguageSentence(message));
 
 	const body = {
 		text: [removeLanguageSentence(message)],
@@ -55,7 +53,7 @@ export function removeLanguageSentence(input: string) {
 	convertedInput = convertedInput.replaceAll('?', '?🔪');
 	convertedInput = convertedInput.replaceAll('!', '!🔪');
 
-	let sentences = convertedInput.split('🔪');
+	const sentences = convertedInput.split('🔪');
 
 	let result = '';
 	for (let i = 0; i < sentences.length; i++) {

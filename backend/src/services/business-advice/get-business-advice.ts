@@ -15,6 +15,5 @@ export const getBusinessAdvice = () => {
 
 	const answer = advices[Math.floor(Math.random() * advices.length)];
 	logger.info(`Business advice: ${answer}`);
-	//socket.emit('answer', answer, ChatBotId.BUSINESSMAN);
 	return answer;
 };
