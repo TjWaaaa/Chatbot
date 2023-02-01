@@ -4,10 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import ChatsDesktop from '../components/Chat/ChatsDesktop';
 import ChatsMobile from '../components/Chat/ChatsMobile';
 
-import { chatData } from '../demoData/chatDemo';
 import { isAuthenticated } from '../utils/api';
 import { AddMessage } from '../store/actions/Chatbot';
-import { ConversationistStopsTyping } from '../store/actions/Chatbot';
 import PageLoadingAnimation from '../components/animations/PageLoadingAnimation';
 
 async function checkIsAuthenticated() {
@@ -22,7 +20,7 @@ async function checkIsAuthenticated() {
 	}
 }
 
-function Index() {
+function AllChats() {
 	const dispatch = useDispatch();
 
 	const botIsTyping = useSelector((state) => state.chatState.conversationistTyping);
@@ -44,9 +42,11 @@ function Index() {
 		updateSize();
 		return () => window.removeEventListener('resize', updateSize);
 	}, []);
+
 	useEffect(() => {
 		checkAccess();
 	}, []);
+
 	async function checkAccess() {
 		const status = await checkIsAuthenticated();
 		console.log(status);
@@ -84,4 +84,4 @@ function Index() {
 	}
 }
 
-export default Index;
+export default AllChats;

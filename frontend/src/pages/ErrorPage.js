@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-function Index() {
+function ErrorPage() {
 	const [color, setColor] = useState('text-black');
 
 	function handleClick() {
@@ -27,7 +27,9 @@ function Index() {
 				<h1 className={`text-3xl font-bold ${color} dark:text-white`} onClick={handleClick}>
 					Error 404
 				</h1>
-				<h2 className="text-lg font-semibold pt-3 pb-5 dark:text-white">Entschuldigung, diese Seite existiert nicht.</h2>
+				<h2 className="text-lg font-semibold pt-3 pb-5 dark:text-white">
+					Entschuldigung, diese Seite existiert nicht.
+				</h2>
 				<Link
 					className="my-5 py-2 p-5 bg-indigo-600 shadow-lg shadow-indigo-600/50 hover:shadow-indigo-600/40 text-white font-semibold rounded-lg"
 					to="/"
@@ -39,4 +41,4 @@ function Index() {
 	);
 }
 
-export default Index;
+export default ErrorPage;

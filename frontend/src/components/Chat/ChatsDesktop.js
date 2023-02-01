@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import Chat from '../ChatBot/ChatBots';
 import NavigationAllChatsWeb from '../Navigation/NavigationAllChatsWeb';
 import MessageBot from '../ChatBot/MessageBot';
@@ -40,9 +40,6 @@ function Index({ chatData, addMessage, currentChatId, botIsTyping }) {
 								time={element.time}
 								id={Index}
 								key={Index}
-								event={() => {
-									// addMessage([...element.messages]);
-								}}
 							/>
 						);
 					})}
@@ -87,7 +84,6 @@ function Index({ chatData, addMessage, currentChatId, botIsTyping }) {
 										sentByUser: true,
 										timeStamp: Date.now(),
 									});
-									// TODO muss noch angepasst werden !!!11!
 
 									socket.emit('message', {
 										chatBotType: chatData[currentChatId].chatBotType,
