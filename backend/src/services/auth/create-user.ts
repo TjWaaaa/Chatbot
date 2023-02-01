@@ -1,25 +1,24 @@
-import express from 'express';
+import { User } from '@prisma/client';
 import bcrypt from 'bcrypt';
-import { prisma } from '../../index';
 import logger from '../../utils/logger';
 import { createOnboardingMessages } from '../db/create-onboarding-messages';
-import { regenerateSession } from './regenerate-session';
+import { createUser } from '../db/user';
 
 const SALT_ROUNDS = 10;
 
-export function createUser(req: express.Request, res: express.Response, next: express.NextFunction, password: string) {
-	bcrypt.hash(password, SALT_ROUNDS, async function (err, hashedPassword: string) {
-		if (err) next(err);
+export async function signUserUp(email: string, password: string): Promise<User> {
+	try {
+		const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
 
-		const newUser = await prisma.user.create({
-			data: {
-				email: req.body.email,
-				hashedPassword,
-			},
-		});
-		await createOnboardingMessages(newUser);
+		const newUser = await createUser(email, hashedPassword);
 
 		logger.info(`User ${newUser.id} created`);
-		regenerateSession(req, res, next, newUser);
-	});
+
+		createOnboardingMessages(newUser);
+
+		return newUser;
+	} catch (err) {
+		logger.error(err);
+		throw new Error();
+	}
 }

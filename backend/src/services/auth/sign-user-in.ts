@@ -1,23 +1,12 @@
-import express from 'express';
 import bcrypt from 'bcrypt';
 import { User } from '@prisma/client';
-import { regenerateSession } from './regenerate-session';
+import logger from '../../utils/logger';
 
-export function signUserIn(
-	req: express.Request,
-	res: express.Response,
-	next: express.NextFunction,
-	password: string,
-	user: User,
-) {
-	bcrypt.compare(password, user.hashedPassword, function (err, result) {
-		if (err) next(err);
-
-		if (!result) {
-			return res.status(401).json({
-				message: 'Passwort ist falsch.',
-			});
-		}
-		regenerateSession(req, res, next, user);
-	});
+export async function isPasswordCorrect(password: string, user: User): Promise<boolean> {
+	try {
+		return await bcrypt.compare(password, user.hashedPassword);
+	} catch (err) {
+		logger.error(err);
+		throw new Error('Ein Fehler beim Login ist passiert. Versuche es erneut oder kontaktiere den Support.');
+	}
 }
