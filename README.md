@@ -1,62 +1,48 @@
-# TypeScript Next.js example
+# CBACB - Chat Bot Aller Chat Bots
 
-## Usage
+## Members
 
-### Production
+| Student | Kürzel | Matrikel-Nr. |
+| ------ | ------ | ------ |
+| Marcel Willie | mw232 | 39965 |
+| Timo Waldherr | tw086 | 40093 |
+| Philipp Zimmerman | pz016 | 40140 |
+| Marvin Pfau | mp159 | 40550 |
+| Christos Kafkalis | ck188 | 40551 |
+| Jens Schlegel | js414 | 40572 |
 
-`docker compose up` in the root directory of this project
+## Abstract
 
+This (Mobile) Web Application ressembles a chat bot version of messengers like WhatsApp. The user is able to select a chat with a certain chat bot and write with it.
 
-<details><summary>Click to expand</summary>
+## Getting started
 
+### How to started
 
-
-
-
-
-This is a really simple project that shows the usage of Next.js with TypeScript.
-
-## Deploy your own
-
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example) or preview live with [StackBlitz](https://stackblitz.com/github/vercel/next.js/tree/canary/examples/with-typescript)
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-typescript&project-name=with-typescript&repository-name=with-typescript)
-
-## How to use it?
-
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init), [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/), or [pnpm](https://pnpm.io) to bootstrap the example:
-
-```bash
-npx create-next-app --example with-typescript with-typescript-app
+Run in the root directory:
+```
+docker compose up
 ```
 
-```bash
-yarn create next-app --example with-typescript with-typescript-app
+### Generate Demo Data
+
+After starting the whole application:
+
+1. Enter the backend container
+2. Run the following command
+```
+yarn seed:prod
 ```
 
-```bash
-pnpm create next-app --example with-typescript with-typescript-app
+### Where to open
+
+Open your browser and visit at:
+```
+localhost:8080
 ```
 
-Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
+### How to log in
 
-## Notes
-
-This example shows how to integrate the TypeScript type system into Next.js. Since TypeScript is supported out of the box with Next.js, all we have to do is to install TypeScript.
-
-```
-npm install --save-dev typescript
-```
-
-To enable TypeScript's features, we install the type declarations for React and Node.
-
-```
-npm install --save-dev @types/react @types/react-dom @types/node
-```
-
-When we run `next dev` the next time, Next.js will start looking for any `.ts` or `.tsx` files in our project and builds it. It even automatically creates a `tsconfig.json` file for our project with the recommended settings.
-
-Next.js has built-in TypeScript declarations, so we'll get autocompletion for Next.js' modules straight away.
-
-A `type-check` script is also added to `package.json`, which runs TypeScript's `tsc` CLI in `noEmit` mode to run type-checking separately. You can then include this, for example, in your `test` scripts.
-</details>
+After generating demo data:
+- E-Mail: `admin@chatbot.de`
+- Password: `chatbot123`
