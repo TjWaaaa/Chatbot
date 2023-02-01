@@ -12,12 +12,14 @@
 		"lint": "eslint src/**/*.ts --fix",
 		"lint-ci": "eslint src/**/*.ts",
 		"prettier": "prettier --write .",
-		"seed": "ts-node prisma/seed.ts",
-		"studio": "prisma studio",
+		"studio": "dotenv -e .env.local -- prisma studio",
 		"generate": "prisma generate",
-		"migrate": "prisma migrate dev",
+		"migrate:dev": "dotenv -e .env.local -- prisma migrate dev",
+		"migrate:deploy": "dotenv -e .env.prod -- prisma migrate deploy",
 		"unit-test": "jest --coverage --watchAll --coverageReporters=html",
-		"unit-test-ci": "jest --coverage"
+		"unit-test-ci": "jest --coverage",
+		"seed:local": "dotenv -e .env.local -- ts-node prisma/seed.ts",
+		"seed:prod": "dotenv -e .env.prod -- ts-node prisma/seed.ts"
 	},
 	"dependencies": {
 		"@prisma/client": "^4.8.0",
