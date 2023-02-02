@@ -18,7 +18,6 @@ const chatReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case ADD_MESSAGE:
 			const newChats = state.Chats;
-			console.log(action);
 			newChats[action.chatBotType].messages = [...state.Chats[action.chatBotType].messages, action.message];
 
 			return {

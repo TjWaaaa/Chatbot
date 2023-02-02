@@ -54,14 +54,14 @@ mockedSocket.onServer('message', ({ chatBotType, message }) => {
 	let chatId;
 
 	switch (chatBotType) {
-		case 'translator':
+		case 'businessMan':
 			chatId = 0;
 			break;
-		case 'businessMan':
-			chatId = 1;
-			break;
 		case 'joke':
+			chatId = 1;
+		case 'translator':
 			chatId = 2;
+			break;
 	}
 	setTimeout(() => {
 		mockedSocket.emitServer('answer', ['Test Answer! Here is your input: ' + message, chatId]);

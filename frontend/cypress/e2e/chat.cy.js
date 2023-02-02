@@ -71,7 +71,30 @@ describe('Test Chat overview', () => {
 
 		cy.get('#lottie').should('not.exist');
 		cy.get('#chatInputField').type('Hello, World');
+		cy.get('.chatBotMessage').contains('Here is your input: Hello World').should('not.exist');
 		cy.get('#sendMessageButton').click();
 		cy.get('#lottie').should('be.visible');
+		cy.get('.chatBotMessage').contains('Test Answer! Here is your input: ').should('be.visible');
+		cy.get('#lottie').should('not.exist');
+	});
+	it('written messages are stored', () => {
+		cy.visit('localhost:3000');
+		cy.get('#chatInputField').should('not.exist');
+		cy.get('#chatBot0').click();
+		cy.get('#chatInputField').should('be.visible');
+		cy.get('.chatBotMessage').should('be.visible');
+
+		cy.get('#lottie').should('not.exist');
+		cy.get('#chatInputField').type('Hello, World');
+		cy.get('.chatBotMessage').contains('Here is your input: Hello World').should('not.exist');
+		cy.get('#sendMessageButton').click();
+		cy.get('#lottie').should('be.visible');
+		cy.get('.chatBotMessage').contains('Test Answer! Here is your input: ').should('be.visible');
+		cy.get('#lottie').should('not.exist');
+
+		cy.get('#chatBot2').click();
+		cy.get('.chatBotMessage').contains('Test Answer! Here is your input: ').should('not.exist');
+		cy.get('#chatBot0').click();
+		cy.get('.chatBotMessage').contains('Test Answer! Here is your input: ').should('be.visible');
 	});
 });
