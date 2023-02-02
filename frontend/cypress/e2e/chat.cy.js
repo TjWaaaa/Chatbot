@@ -68,5 +68,10 @@ describe('Test Chat overview', () => {
 		cy.get('#chatBot0').click();
 		cy.get('#chatInputField').should('be.visible');
 		cy.get('.chatBotMessage').should('be.visible');
+
+		cy.get('#lottie').should('not.exist');
+		cy.get('#chatInputField').type('Hello, World');
+		cy.get('#sendMessageButton').click();
+		cy.get('#lottie').should('be.visible');
 	});
 });

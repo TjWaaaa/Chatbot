@@ -22,7 +22,6 @@ function Index({ chatData, addMessage, currentChatId, botIsTyping }) {
 	useEffect(() => {
 		scrollToBottom();
 	}, [currentChatId]);
-	console.log(chatData);
 	return (
 		<div>
 			<NavigationAllChatsWeb />

@@ -1,4 +1,3 @@
-import SocketMock from 'socket.io-mock';
 import { userData } from '../demoData/userData';
 
 class MockSocket {
@@ -16,7 +15,11 @@ class MockSocket {
 		this.clientListeners
 			.filter((o) => o.eventName === eventName)
 			.map((listener) => {
-				listener.callback(data);
+				if (data.length) {
+					listener.callback(...data);
+				} else {
+					listener.callback(data);
+				}
 			});
 	}
 
@@ -36,7 +39,7 @@ class MockSocket {
 	connect(url) {}
 
 	reset() {
-		this.listeners = [];
+		this.clientListeners = [];
 	}
 }
 
@@ -47,7 +50,21 @@ mockedSocket.onServer('connection', (obj) => {
 		mockedSocket.emitServer('sendProfileData', userData);
 	}, 500);
 });
-mockedSocket.onServer('message', (message) => {
-	console.log('message recieved');
+mockedSocket.onServer('message', ({ chatBotType, message }) => {
+	let chatId;
+
+	switch (chatBotType) {
+		case 'translator':
+			chatId = 0;
+			break;
+		case 'businessMan':
+			chatId = 1;
+			break;
+		case 'joke':
+			chatId = 2;
+	}
+	setTimeout(() => {
+		mockedSocket.emitServer('answer', ['Test Answer! Here is your input: ' + message, chatId]);
+	}, 500);
 });
 export const mockedSocketClient = mockedSocket;

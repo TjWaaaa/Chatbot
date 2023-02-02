@@ -33,6 +33,7 @@ export default ({ children }) => {
 	});
 
 	socket.on('answer', (answer, chatBotType) => {
+		console.log(chatBotType + ' ' + answer);
 		botStopsTyping();
 		changeChatValue(chatBotType, {
 			sentByUser: false,
