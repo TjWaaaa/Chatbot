@@ -1,10 +1,6 @@
-import { WebSocket, Server } from 'mock-socket';
-import { userData } from '../fixtures/userData';
-describe('mock socket method 1', () => {
-	const serverUrl = 'ws://localhost:8000/';
-	let mockSocket;
-	var mockServer = new Server(serverUrl);
-	before(() => {
+import { mockedSocketClient } from '../../src/utils/mocked-socket';
+describe('Test Chat overview', () => {
+	beforeEach(() => {
 		cy.intercept(
 			{
 				method: 'POST', // Route all GET requests
@@ -12,40 +8,65 @@ describe('mock socket method 1', () => {
 			},
 			{ status: 200 }, // and force the response to be: []
 		).as('isAuthenticated'); // and assign an alias
-		cy.visit('localhost:3000', {
-			onBeforeLoad(win) {
-				cy.stub(win, 'WebSocket', (url) => {
-					try {
-						mockServer = mockServer.on('connection', (socket) => {
-							console.log('mock socket connected ' + serverUrl);
-
-							//socket.on('message', () => {});
-							//socket.on('close', () => {});
-							socket.emit(
-								'sendProfileData',
-								'{"email":"' + userData.email + '","chats":"' + userData.chats + '"}',
-							);
-							console.log('send');
-
-							mockSocket = socket;
-						});
-
-						console.log('sendData');
-						if (!mockServer) return new WebSocket(serverUrl);
-					} catch (e) {
-						console.error(e);
-					}
-				});
-			},
-		});
 	});
 
-	after(() => {
-		//mockSocket.close();
-		//mockServer.stop(() => {});
+	afterEach(() => {
+		mockedSocketClient.reset();
 	});
 
-	it('can visit', () => {
+	it('chats are loaded', () => {
 		cy.visit('localhost:3000');
+		cy.get('#chatBot0').should('be.visible');
+		cy.get('#chatBot1').should('be.visible');
+		cy.get('#chatBot2').should('be.visible');
+	});
+	it('navigation to chat is possibile', () => {
+		cy.visit('localhost:3000');
+		cy.get('#chatInputField').should('not.exist');
+		cy.get('.chatBotMessage').should('not.exist');
+		cy.get('#chatBot0').click();
+		cy.get('#chatInputField').should('be.visible');
+		cy.get('.chatBotMessage').should('be.visible');
+		cy.get('.chatBotMessage').contains('Hallo, ich bin Jan.');
+	});
+	it('navigation between chats is possibile and messages are switching', () => {
+		cy.visit('localhost:3000');
+		cy.get('.chatBotMessage').should('not.exist');
+		cy.get('#chatInputField').should('not.exist');
+		cy.get('#chatBot0').click();
+		cy.get('.chatBotMessage').should('be.visible');
+		cy.get('#chatInputField').should('be.visible');
+		cy.get('.chatBotMessage').contains('Hallo, ich bin Jan.');
+
+		cy.get('.chatBotMessage').contains('Frag mich nach nem Witz.').should('not.exist');
+		cy.get('#chatBot1').click();
+		cy.get('.chatBotMessage').should('be.visible');
+		cy.get('#chatInputField').should('be.visible');
+		cy.get('.chatBotMessage').contains('Frag mich nach nem Witz.').should('be.visible');
+		cy.get('.chatBotMessage').contains('Hallo, ich bin Jan.').should('not.exist');
+
+		cy.get('.chatBotMessage')
+			.contains('Frag mich einfach: Übersetze mir das ins Englische: Guten Tag.')
+			.should('not.exist');
+		cy.get('#chatBot2').click();
+		cy.get('.chatBotMessage').should('be.visible');
+		cy.get('#chatInputField').should('be.visible');
+		cy.get('.chatBotMessage')
+			.contains('Frag mich einfach: Übersetze mir das ins Englische: Guten Tag.')
+			.should('be.visible');
+		cy.get('.chatBotMessage').contains('Frag mich nach nem Witz.').should('not.exist');
+		cy.get('.chatBotMessage').contains('Hallo, ich bin Jan.').should('not.exist');
+
+		cy.get('#chatBot1').click();
+		cy.get('.chatBotMessage').should('be.visible');
+		cy.get('.chatBotMessage').contains('Frag mich nach nem Witz.').should('be.visible');
+		cy.get('.chatBotMessage').contains('Hallo, ich bin Jan.').should('not.exist');
+	});
+	it('writing messages is possible', () => {
+		cy.visit('localhost:3000');
+		cy.get('#chatInputField').should('not.exist');
+		cy.get('#chatBot0').click();
+		cy.get('#chatInputField').should('be.visible');
+		cy.get('.chatBotMessage').should('be.visible');
 	});
 });

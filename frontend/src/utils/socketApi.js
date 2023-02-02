@@ -22,7 +22,7 @@ export default ({ children }) => {
 	};
 
 	socket.on('sendProfileData', (data) => {
-		console.log(data);
+		console.log('profile Data recieved');
 		botStopsTyping();
 		initializeProfile(data.email, data.chats);
 	});
