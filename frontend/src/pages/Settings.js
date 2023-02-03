@@ -62,7 +62,7 @@ export default function Settings(props) {
 				{open && (
 					<div className="absolute top-20 right-4 bg-white rounded-lg p-3 w-52 shadow-lg">
 						<h3 className="w-full text-center text-sm font-small">Angemeldet als:</h3>
-						<h2 className="w-full text-center text-md font-medium pb-2.5">{emailAddress}</h2>
+						<h2 className="w-full text-center text-md font-medium pb-2.5 truncate">{emailAddress}</h2>
 						<ul>
 							<li className="flex m-auto border-t hover:text-indigo-600 hover:cursor-pointer">
 								<SettingsButton
