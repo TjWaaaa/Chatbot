@@ -6,13 +6,10 @@ import { createServer } from 'http';
 import helmet from 'helmet';
 import wsServer from './ws-server';
 import sessionConfig from './configs/session';
-import authRouter from './routes/auth';
-import { PrismaClient } from '@prisma/client';
+import authRouter from './router/routes/auth';
 import csrfVerification from './middlewares/csrf-verification';
-import userRouter from './routes/user';
-import messageRouter from './routes/message';
-
-export const prisma = new PrismaClient();
+import userRouter from './router/routes/user';
+import messageRouter from './router/routes/message';
 
 dotenv.config();
 

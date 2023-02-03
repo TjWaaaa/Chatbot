@@ -1,11 +1,14 @@
 import { Server, Socket } from 'socket.io';
 import sessionConfig from './configs/session';
+import { saveMessage } from './router/routeHandler/message';
 import { httpServer } from './index';
 import socketioAuthenticationHandler from './middlewares/socketio-authentication-handler';
 import wrapSessionSocketio from './middlewares/wrap-session-socketio';
-import { loadChatsFromDB, saveMessageToDB } from './services/db/db-handler';
 import { getChatBotAnswer, sendMessage } from './services/socket-api/socket-handler';
 import logger from './utils/logger';
+import { IncomingMessageWS } from './types/override-types';
+import { getUserById } from './services/db/queries/user';
+import prismaContext from './configs/prisma';
 
 export default function wsServer() {
 	const io = new Server(httpServer, {
@@ -20,14 +23,15 @@ export default function wsServer() {
 
 	io.on('connection', async (socket: Socket) => {
 		logger.info('Connected');
-		loadChatsFromDB(socket);
+		const user = await getUserById((socket.request as IncomingMessageWS).session.userId!, prismaContext);
+		socket.emit('sendProfileData', user);
 
 		socket.on('disconnect', function () {
 			logger.info('Disconnected');
 		});
 
 		socket.on('message', async ({ chatBotType, message }) => {
-			saveMessageToDB(socket, chatBotType, message, true);
+			saveMessage(socket, chatBotType, message, true);
 
 			const answer = await getChatBotAnswer(chatBotType, message);
 
@@ -35,7 +39,7 @@ export default function wsServer() {
 				throw new Error('Empty Answer');
 			}
 
-			saveMessageToDB(socket, chatBotType, answer, false);
+			saveMessage(socket, chatBotType, answer, false);
 			sendMessage(socket, answer, chatBotType);
 		});
 	});
