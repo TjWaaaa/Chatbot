@@ -51,20 +51,8 @@ mockedSocket.onServer('connection', (obj) => {
 	}, 500);
 });
 mockedSocket.onServer('message', ({ chatBotType, message }) => {
-	let chatId;
-
-	switch (chatBotType) {
-		case 'businessMan':
-			chatId = 0;
-			break;
-		case 'joke':
-			chatId = 1;
-		case 'translator':
-			chatId = 2;
-			break;
-	}
 	setTimeout(() => {
-		mockedSocket.emitServer('answer', ['Test Answer! Here is your input: ' + message, chatId]);
+		mockedSocket.emitServer('answer', ['Test Answer! Here is your input: ' + message, chatBotType]);
 	}, 500);
 });
 export const mockedSocketClient = mockedSocket;
