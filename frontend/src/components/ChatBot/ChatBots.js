@@ -22,7 +22,9 @@ function Index({ name, img, text, time, event, id }) {
 			}
 			onClick={() => {
 				changeChatId(id);
-				event();
+				if (event != undefined) {
+					event();
+				}
 			}}
 		>
 			<div className="pt-4">

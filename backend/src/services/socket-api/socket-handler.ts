@@ -6,20 +6,7 @@ import { getJoke } from '../joke/get-joke';
 import { getTranslation } from '../translation/get-translation';
 
 export const sendMessage = (socket: Socket, answer: string, chatBotType: ChatBotType) => {
-	let chatId = -1;
-	switch (chatBotType) {
-		case ChatBotType.BUSINESSMAN:
-			chatId = 0;
-			break;
-		case ChatBotType.JOKE:
-			chatId = 1;
-			break;
-		case ChatBotType.TRANSLATOR:
-			chatId = 2;
-			break;
-	}
-
-	socket.emit('answer', answer, chatId);
+	socket.emit('answer', answer, chatBotType);
 };
 
 export async function getChatBotAnswer(chatBotType: ChatBotType, message: string) {
