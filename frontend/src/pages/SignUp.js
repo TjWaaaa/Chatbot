@@ -9,23 +9,25 @@ import ErrorMessage from '../components/Login/ErrorMessage';
 export default function SignUp(props) {
 	const [email, setUserName] = useState();
 	const [password, setPassword] = useState();
-	const [error, setError] = useState(null);
-	const [passwordMatchError, setPasswortMatchError] = useState(null);
+	const [error, setError] = useState([]);
+	const [passwordMatchError, setPasswortMatchError] = useState('');
 	const [password2, setPassword2] = useState();
 	const navigate = useNavigate();
 
 	function handleSignUp(e) {
 		e.preventDefault();
+		setError([]);
+		setPasswortMatchError('');
+
 		if (password !== password2) {
-			setPasswortMatchError("Passwörter stimmen nicht überein");
+			setPasswortMatchError('Passwörter stimmen nicht überein');
 			return;
 		}
+
 		signUserUp({ email, password })
 			.then((res) => {
 				navigate('/');
-				navigate(0)
-				setError(null)
-				setPasswortMatchError(null)
+				navigate(0);
 			})
 			.catch((res) => {
 				const errorMessage = res.response.data;
@@ -38,22 +40,23 @@ export default function SignUp(props) {
 		<div className="grid grid-cols-1 h-screen dark:bg-slate-600 w-full">
 			<div className="flex flex-col justify-center">
 				<form className="max-w-[400px] w-full mx-auto p-8 px-8 rounded-lg">
-					<LogoHeading/>
-					<Input label="E-Mail" type="email" onChange={(e) => setUserName(e.target.value)}/>
-					<Input label="Passwort" type="password" onChange={(e) => setPassword(e.target.value)}/>
-					<Input label="Passwort wiederholen" type="password" onChange={(e) => setPassword2(e.target.value)}/>
+					<LogoHeading />
+					<Input label="E-Mail" type="email" onChange={(e) => setUserName(e.target.value)} />
+					<Input label="Passwort" type="password" onChange={(e) => setPassword(e.target.value)} />
+					<Input
+						label="Passwort wiederholen"
+						type="password"
+						onChange={(e) => setPassword2(e.target.value)}
+					/>
 					{error &&
 						error.issues &&
 						error.issues.map((issue) => {
-							return (
-								<ErrorMessage message={issue.message}/>
-							);
+							return <ErrorMessage message={issue.message} />;
 						})}
 
-					{error && error.message && <ErrorMessage message={error.message}/>}
+					{error && error.message && <ErrorMessage message={error.message} />}
 
-					{passwordMatchError && <ErrorMessage message={passwordMatchError}/>}
-					
+					{passwordMatchError && <ErrorMessage message={passwordMatchError} />}
 
 					<button
 						className="w-full my-5 py-2 bg-indigo-600 shadow-lg shadow-indigo-600/50 hover:shadow-indigo-600/40 text-white font-semibold rounded-lg"
