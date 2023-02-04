@@ -5,8 +5,11 @@ import { createUser, deleteUserById, readUserByEmail, updateUserEmail } from '..
 async function getUser(req: express.Request, res: express.Response) {
 	const { email } = req.body;
 
+	console.log(email);
 	try {
+		console.log('GET USER');
 		const user = await readUserByEmail(email, prismaContext);
+		console.log('AFTER GET USER');
 
 		if (!user) {
 			return res.status(400).json({
@@ -30,7 +33,6 @@ async function getUser(req: express.Request, res: express.Response) {
 async function postUser(req: express.Request, res: express.Response) {
 	const { email, password } = req.body;
 
-	console.log(email);
 	try {
 		if (await readUserByEmail(email, prismaContext)) {
 			return res.status(400).json({

@@ -13,7 +13,7 @@ import messageRouter from './router/routes/message';
 
 dotenv.config();
 
-const app: Application = express();
+export const app: Application = express();
 app.use(helmet());
 
 app.use(

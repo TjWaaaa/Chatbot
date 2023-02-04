@@ -7,6 +7,7 @@
 		"dev": "concurrently --raw 'yarn:dev:db' 'yarn:dev:backend'",
 		"dev:backend": "dotenv -e .env.local -- node-dev src/index.ts",
 		"dev:db": "cd .. && docker-compose -f docker-compose.db.yml up",
+		"dev:dbtest": "cd .. && docker-compose -f docker-compose.dbtests.yml up",
 		"build": "tsc",
 		"start": "dotenv -e .env.prod -- node dist/src",
 		"lint": "eslint src/**/*.ts --fix",
@@ -15,8 +16,9 @@
 		"studio": "dotenv -e .env.local -- prisma studio",
 		"generate": "prisma generate",
 		"migrate:dev": "dotenv -e .env.local -- prisma migrate dev",
+		"migrate:test": "dotenv -e .env.test -- prisma migrate dev",
 		"migrate:deploy": "dotenv -e .env.prod -- prisma migrate deploy",
-		"unit-test": "dotenv -e .env.local jest --coverage --watchAll --coverageReporters=html",
+		"unit-test": "dotenv -e .env.test jest -i --coverage --watchAll --coverageReporters=html",
 		"unit-test-ci": "jest --coverage",
 		"seed:local": "dotenv -e .env.local -- ts-node prisma/seed.ts",
 		"seed:prod": "dotenv -e .env.prod -- ts-node prisma/seed.ts"
