@@ -5,7 +5,7 @@ function Index({ sendMessage, isMobile }) {
 	const [text, setText] = useState('');
 
 	const MessageSend = () => {
-		if (text !== '') {
+		if (text) {
 			sendMessage(text);
 			setText('');
 		}
@@ -33,7 +33,7 @@ function Index({ sendMessage, isMobile }) {
 					onKeyDown={handleKeyDown}
 				/>
 				<div className="pl-4 pr-4 cursor-pointer" onClick={MessageSend}>
-					<PaperAirplaneIcon className={`flex h-7 w-7 text-indigo-600 dark:text-white ${text === '' ? 'opacity-30' : ''}`}/>
+					<PaperAirplaneIcon className={`flex h-7 w-7 text-indigo-600 dark:text-white ${text ? '' : 'opacity-30'}`}/>
 				</div>
 			</div>
 		</div>
