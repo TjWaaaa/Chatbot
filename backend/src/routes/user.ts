@@ -1,13 +1,13 @@
 import express from 'express';
-import user from '../routeHandler/user';
-import { emailSchema } from '../../schemas/email';
-import { validate } from '../../utils/validate';
+import user from '../controllers/user';
+import { emailSchema } from '../schemas/email';
+import { validate } from '../utils/validate';
 
 const userRouter: express.Router = express.Router();
 
-userRouter.get('/', user.getUser);
-
 userRouter.post('/', user.postUser);
+
+userRouter.get('/', user.getUser);
 
 /**
  * @api {patch} /users/:id
@@ -21,7 +21,7 @@ userRouter.post('/', user.postUser);
  * @apiError
  * - 400 User not found
  *  */
-userRouter.patch('/:id', validate(emailSchema), user.patchUser);
+userRouter.patch('/:id', validate(emailSchema), user.updateUserEmail);
 
 /**
  * @api {delete} /users/:id

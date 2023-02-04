@@ -1,7 +1,7 @@
 import express from 'express';
-import message from '../routeHandler/message';
-import { messageSchema } from '../../schemas/message';
-import { validate } from '../../utils/validate';
+import message from '../controllers/message';
+import { messageSchema } from '../schemas/message';
+import { validate } from '../utils/validate';
 
 const messageRouter: express.Router = express.Router();
 
