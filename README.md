@@ -2,14 +2,14 @@
 
 ## Members
 
-| Student | Kürzel | Matrikel-Nr. |
-| ------ | ------ | ------ |
-| Marcel Willie | mw232 | 39965 |
-| Timo Waldherr | tw086 | 40093 |
-| Philipp Zimmerman | pz016 | 40140 |
-| Marvin Pfau | mp159 | 40550 |
-| Christos Kafkalis | ck188 | 40551 |
-| Jens Schlegel | js414 | 40572 |
+| Student           | Kürzel | Matrikel-Nr. |
+| ----------------- | ------ | ------------ |
+| Marcel Willie     | mw232  | 39965        |
+| Timo Waldherr     | tw086  | 40093        |
+| Philipp Zimmerman | pz016  | 40140        |
+| Marvin Pfau       | mp159  | 40550        |
+| Christos Kafkalis | ck188  | 40551        |
+| Jens Schlegel     | js414  | 40572        |
 
 ## Abstract
 
@@ -17,19 +17,28 @@ This (Mobile) Web Application ressembles a chat bot version of messengers like W
 
 ## Getting started
 
-### How to started
+### How to start
 
-Run in the root directory:
+1. Run in the root directory
+
 ```
 docker compose up
 ```
 
-### Generate Demo Data
+2. Open a new terminal window and enter the backend container
 
-After starting the whole application:
+```
+docker exec -it cbacb-backend bash
+```
 
-1. Enter the backend container
-2. Run the following command
+3. Create the database tables
+
+```
+yarn migrate:deploy
+```
+
+4. Seed demo data
+
 ```
 yarn seed:prod
 ```
@@ -37,12 +46,12 @@ yarn seed:prod
 ### Where to open
 
 Open your browser and visit at:
-```
-localhost:8080
-```
+
+[http://localhost:8080](http://localhost:8080)
 
 ### How to log in
 
 After generating demo data:
-- E-Mail: `admin@chatbot.de`
-- Password: `chatbot123`
+
+-   E-Mail: `admin@chatbot.de`
+-   Password: `chatbot123`
