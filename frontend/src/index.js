@@ -19,7 +19,7 @@ import SignUp from './pages/SignUp';
 import SocketHandler from './utils/socketApi';
 
 export const socket =
-	!process.env.NODE_ENV || process.env.NODE_ENV === 'development'
+	process.env.REACT_APP_ENV === 'TESTING'
 		? mockedSocketClient
 		: io('http://localhost:8000/', {
 				reconnectionDelayMax: 10000,
@@ -28,7 +28,7 @@ export const socket =
 const rootReducer = combineReducers({
 	chatState: chatReducer,
 });
-if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+if (process.env.REACT_APP_ENV === 'TESTING') {
 	mockedSocketClient.emit('connection', '');
 }
 

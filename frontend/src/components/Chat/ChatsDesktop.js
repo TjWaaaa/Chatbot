@@ -81,12 +81,11 @@ function Index({ chatData, addMessage, currentChatId, botIsTyping }) {
 								isMobile={false}
 								sendMessage={(text) => {
 									botStartsTyping();
-									addMessage(currentChatId, {
+									addMessage(chatData[currentChatId].chatBotType, {
 										text: text,
 										sentByUser: true,
 										timeStamp: Date.now(),
 									});
-									// TODO muss noch angepasst werden !!!11!
 
 									socket.emit('message', {
 										chatBotType: chatData[currentChatId].chatBotType,
