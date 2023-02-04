@@ -5,9 +5,7 @@ function Index({ sendMessage, isMobile }) {
 	const [text, setText] = useState('');
 
 	const MessageSend = () => {
-		if (text === '') {
-			return;
-		} else {
+		if (text !== '') {
 			sendMessage(text);
 			setText('');
 		}
