@@ -73,6 +73,7 @@ describe('Test Chat overview', () => {
 		cy.get('#chatInputField').type('Hello, World');
 		cy.get('.chatBotMessage').contains('Here is your input: Hello World').should('not.exist');
 		cy.get('#sendMessageButton').click();
+		cy.get('.userMessage').contains('Hello, World').should('be.visible');
 		cy.get('#lottie').should('be.visible');
 		cy.get('.chatBotMessage').contains('Test Answer! Here is your input: ').should('be.visible');
 		cy.get('#lottie').should('not.exist');

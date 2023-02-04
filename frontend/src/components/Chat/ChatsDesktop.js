@@ -81,7 +81,7 @@ function Index({ chatData, addMessage, currentChatId, botIsTyping }) {
 								isMobile={false}
 								sendMessage={(text) => {
 									botStartsTyping();
-									addMessage(currentChatId, {
+									addMessage(chatData[currentChatId].chatBotType, {
 										text: text,
 										sentByUser: true,
 										timeStamp: Date.now(),
