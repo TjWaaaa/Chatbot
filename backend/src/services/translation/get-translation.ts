@@ -51,11 +51,9 @@ export function findLanguage(input: string) {
 
 	for (let i = 0; i < languages.length; i++) {
 		if (input.includes(languages[i])) {
-			logger.info(`Language: ${languages[i]}`);
 			return languageCodes[i];
 		}
 	}
-	logger.info(`Language: undefined`);
 	return undefined;
 }
 export function removeLanguageSentence(input: string) {
