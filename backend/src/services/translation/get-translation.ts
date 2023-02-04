@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { LANGUAGE_NOT_FOUND, TEXT_NOT_FOUND } from '../../const/errorCodes';
+import { LANGUAGE_NOT_FOUND, TEXT_NOT_FOUND } from '../../consts/errorCodes';
 import logger from '../../utils/logger';
 
 export const getTranslation = async (message: string) => {

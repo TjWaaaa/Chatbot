@@ -1,5 +1,5 @@
 import { Socket } from 'socket.io';
-import { TEXT_NOT_FOUND } from '../../const/errorCodes';
+import { TEXT_NOT_FOUND } from '../../consts/errorCodes';
 import { ChatBotType } from '../../enums/chat-bot-type';
 import logger from '../../utils/logger';
 import { getBusinessAdvice } from '../business-advice/get-business-advice';
