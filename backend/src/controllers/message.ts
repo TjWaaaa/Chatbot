@@ -1,38 +1,11 @@
 import express from 'express';
-import { Socket } from 'socket.io';
-import { ChatBotType } from '../../enums/chat-bot-type';
-import { createMessage, deleteAllMessages, getMessageById, updateMessageById } from '../../services/db/message';
-import logger from '../../utils/logger';
-import { IncomingMessageWS } from '../../types/override-types';
-import prismaContext from '../../configs/prisma';
-import { getChat } from '../../services/db/chat';
-
-export const saveMessage = async (socket: Socket, chatBotType: ChatBotType, message: string, sentByUser: boolean) => {
-	logger.info(
-		`saveChats - uId: ${
-			(socket.request as IncomingMessageWS).session.userId
-		}, cType: ${chatBotType}, m: ${message}`,
-	);
-
-	const chat = await getChat((socket.request as IncomingMessageWS).session.userId!, chatBotType, prismaContext);
-
-	if (!chat?.chats[0].id) return;
-
-	createMessage(
-		{
-			sentByUser: sentByUser,
-			text: message,
-			chatId: chat?.chats[0].id,
-		},
-		prismaContext,
-	);
-};
+import { deleteAllMessages, getMessageById, updateMessageById } from '../services/db/message';
 
 async function getMessage(req: express.Request, res: express.Response) {
 	const id = req.params.id;
 
 	try {
-		const message = await getMessageById(id, prismaContext);
+		const message = await getMessageById(id);
 
 		if (!message) {
 			return res.status(400).json({
@@ -56,7 +29,7 @@ async function updateMessage(req: express.Request, res: express.Response) {
 	const { text } = req.body;
 
 	try {
-		const message = await getMessageById(id, prismaContext);
+		const message = await getMessageById(id);
 
 		if (!message) {
 			return res.status(400).json({
@@ -64,7 +37,7 @@ async function updateMessage(req: express.Request, res: express.Response) {
 			});
 		}
 
-		await updateMessageById(id, text, prismaContext);
+		await updateMessageById(id, text);
 
 		return res.status(200).json({
 			message: 'Nachricht geändert',
@@ -87,7 +60,7 @@ async function deleteAll(req: express.Request, res: express.Response) {
 	}
 
 	try {
-		await deleteAllMessages(userId, prismaContext);
+		await deleteAllMessages(userId);
 
 		return res.status(200).json({
 			message: 'Nachrichten gelöscht',

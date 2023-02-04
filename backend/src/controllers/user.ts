@@ -1,6 +1,27 @@
 import express from 'express';
-import prismaContext from '../../configs/prisma';
-import { createUser, deleteUserById, readUserByEmail, updateUserEmail } from '../../services/controllers/user';
+import { deleteUserById, getUserById, updateUserEmailById } from '../services/db/user';
+
+async function postUser(req: express.Request, res: express.Response) {
+	const { email, password } = req.body;
+
+	console.log(email);
+	try {
+		if (await readUserByEmail(email, prismaContext)) {
+			return res.status(400).json({
+				message: 'Es existiert bereits ein Benutzer mit dieser Email Adresse.',
+			});
+		} else {
+			await createUser(email, password, prismaContext);
+			return res.status(200).json({
+				message: 'User created',
+			});
+		}
+	} catch (err) {
+		return res.status(400).json({
+			message: 'Ein Fehler beim Anlegen des Users ist passiert. Versuche es erneut oder kontaktiere den Support.',
+		});
+	}
+}
 
 async function getUser(req: express.Request, res: express.Response) {
 	const { email } = req.body;
@@ -27,28 +48,6 @@ async function getUser(req: express.Request, res: express.Response) {
 	}
 }
 
-async function postUser(req: express.Request, res: express.Response) {
-	const { email, password } = req.body;
-
-	console.log(email);
-	try {
-		if (await readUserByEmail(email, prismaContext)) {
-			return res.status(400).json({
-				message: 'Es existiert bereits ein Benutzer mit dieser Email Adresse.',
-			});
-		} else {
-			await createUser(email, password, prismaContext);
-			return res.status(200).json({
-				message: 'User created',
-			});
-		}
-	} catch (err) {
-		return res.status(400).json({
-			message: 'Ein Fehler beim Anlegen des Users ist passiert. Versuche es erneut oder kontaktiere den Support.',
-		});
-	}
-}
-
 async function patchUser(req: express.Request, res: express.Response) {
 	const id = req.params.id;
 	const { email } = req.body;
@@ -58,11 +57,11 @@ async function patchUser(req: express.Request, res: express.Response) {
 			return res.status(400).json({
 				message: 'Es existiert kein Benutzer mit dieser ID. Bitte registriere dich zuerst.',
 			});
-		} else {
-			return res.status(200).json({
-				message: 'User updated',
-			});
 		}
+
+		return res.status(200).json({
+			message: 'User updated',
+		});
 	} catch (err) {
 		return res.status(400).json({
 			message: 'Ein Fehler beim Updaten des Users ist passiert. Versuche es erneut oder kontaktiere den Support.',
@@ -77,11 +76,11 @@ async function deleteUser(req: express.Request, res: express.Response) {
 			return res.status(400).json({
 				message: 'Es existiert kein Benutzer mit dieser ID. Bitte registriere dich zuerst.',
 			});
-		} else {
-			return res.status(200).json({
-				message: 'User deleted',
-			});
 		}
+
+		return res.status(200).json({
+			message: 'User deleted',
+		});
 	} catch (err) {
 		return res.status(400).json({
 			message: 'Ein Fehler beim Löschen des Users ist passiert. Versuche es erneut oder kontaktiere den Support.',
@@ -90,8 +89,8 @@ async function deleteUser(req: express.Request, res: express.Response) {
 }
 
 export default {
-	getUser,
 	postUser,
+	getUser,
 	patchUser,
 	deleteUser,
 };
