@@ -1,14 +1,14 @@
 import express from 'express';
-import { signUserUp } from '../services/auth/create-user';
-import { regenerateSession } from '../services/auth/regenerate-session';
-import { isPasswordCorrect } from '../services/auth/sign-user-in';
-import { getUserByEmail } from '../services/db/user';
+import prismaContext from '../../configs/prisma';
+import { regenerateSession } from '../../services/auth/regenerate-session';
+import { isPasswordCorrect } from '../../services/auth/sign-user-in';
+import { createUser, readUserByEmail } from '../../services/controllers/user';
 
 async function signUp(req: express.Request, res: express.Response, next: express.NextFunction) {
 	const { email, password } = req.body;
 
 	try {
-		const user = await getUserByEmail(email);
+		const user = await readUserByEmail(email, prismaContext);
 
 		if (user) {
 			return res.status(400).json({
@@ -16,7 +16,7 @@ async function signUp(req: express.Request, res: express.Response, next: express
 			});
 		}
 
-		const newUser = await signUserUp(email, password);
+		const newUser = await createUser(email, password, prismaContext);
 
 		regenerateSession(req, res, next, newUser);
 	} catch (err) {
@@ -30,7 +30,7 @@ async function signIn(req: express.Request, res: express.Response, next: express
 	const { email, password } = req.body;
 
 	try {
-		const user = await getUserByEmail(email);
+		const user = await readUserByEmail(email, prismaContext);
 
 		if (!user) {
 			return res.status(400).json({
@@ -38,9 +38,7 @@ async function signIn(req: express.Request, res: express.Response, next: express
 			});
 		}
 
-		const resultPasswordCorrect = await isPasswordCorrect(password, user);
-
-		if (!resultPasswordCorrect) {
+		if (!(await isPasswordCorrect(password, user))) {
 			return res.status(400).json({
 				message: 'Das Passwort ist falsch. Bitte versuche es erneut.',
 			});
@@ -79,8 +77,8 @@ async function isAuthenticated(req: express.Request, res: express.Response) {
 }
 
 export default {
-	signup: signUp,
-	signin: signIn,
+	signUp,
+	signIn,
 	logout,
 	isAuthenticated,
 };

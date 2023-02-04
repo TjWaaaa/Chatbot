@@ -1,8 +1,8 @@
 import { User } from '@prisma/client';
-import { prisma } from '../..';
+import prisma, { Context } from '../../configs/prisma';
 
-export async function createUser(email: string, hashedPassword: string): Promise<User> {
-	return await prisma.user.create({
+export async function createUser(email: string, hashedPassword: string, ctx: Context): Promise<User> {
+	return await ctx.prisma.user.create({
 		data: {
 			email,
 			hashedPassword,
@@ -10,37 +10,74 @@ export async function createUser(email: string, hashedPassword: string): Promise
 	});
 }
 
-export async function getUserByEmail(email: string): Promise<User | null> {
-	return await prisma.user.findUnique({
+export async function getUserById(userId: string, ctx: Context) {
+	return await ctx.prisma.user.findUnique({
+		where: {
+			id: userId,
+		},
+		select: {
+			email: true,
+			chats: {
+				select: {
+					id: false,
+					chatBotType: true,
+					name: true,
+					img: true,
+					messages: {
+						select: {
+							id: false,
+							chatId: false,
+							text: true,
+							sentByUser: true,
+							timeStamp: true,
+						},
+					},
+				},
+			},
+		},
+	});
+}
+
+export async function getUserByEmail(email: string, ctx: Context): Promise<User | null> {
+	return await ctx.prisma.user.findUnique({
 		where: {
 			email,
 		},
 	});
 }
 
-export async function getUserById(id: string): Promise<User | null> {
-	return await prisma.user.findUnique({
-		where: {
-			id,
-		},
-	});
+interface UpdateUserEmailById {
+	id: string;
+	newEmail: string;
 }
 
-export async function updateUserEmailById(id: string, email: string) {
-	await prisma.user.update({
+export async function updateUserEmailById(userData: UpdateUserEmailById, ctx: Context) {
+	await ctx.prisma.user.update({
 		where: {
-			id,
+			id: userData.id,
 		},
 		data: {
-			email,
+			email: userData.newEmail,
 		},
 	});
 }
 
-export async function deleteUserById(id: string) {
-	await prisma.user.delete({
-		where: {
-			id,
-		},
-	});
+export async function deleteUserById(id: string, ctx: Context): Promise<boolean> {
+	if (
+		await ctx.prisma.user.delete({
+			where: {
+				id,
+			},
+		})
+	)
+		return true;
+	else return false;
 }
+
+export default {
+	createUser,
+	getUserById,
+	getUserByEmail,
+	updateUserEmailById,
+	deleteUserById,
+};

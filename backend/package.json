@@ -16,7 +16,7 @@
 		"generate": "prisma generate",
 		"migrate:dev": "dotenv -e .env.local -- prisma migrate dev",
 		"migrate:deploy": "dotenv -e .env.prod -- prisma migrate deploy",
-		"unit-test": "jest --coverage --watchAll --coverageReporters=html",
+		"unit-test": "dotenv -e .env.local jest --coverage --watchAll --coverageReporters=html",
 		"unit-test-ci": "jest --coverage",
 		"seed:local": "dotenv -e .env.local -- ts-node prisma/seed.ts",
 		"seed:prod": "dotenv -e .env.prod -- ts-node prisma/seed.ts"
@@ -33,6 +33,7 @@
 		"express": "^4.18.2",
 		"express-session": "^1.17.3",
 		"helmet": "^6.0.1",
+		"jest-mock-extended": "2.0.4",
 		"pino": "^8.8.0",
 		"socket.io": "^4.5.3",
 		"supertest": "^6.3.3",
