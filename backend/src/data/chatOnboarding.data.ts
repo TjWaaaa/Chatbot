@@ -46,7 +46,7 @@ export const chatOnboardingData = [
 		messages: [
 			{
 				sentByUser: false,
-				text: "Hallo, ich bin ein Dolmetscher in Rente und verdiene mir ein paar Kröten als ChatBot. Frag mich nicht wie ich hier her gekommen bin, sondern was 'Chinesisch ist die einfachste Sprache' auf Japanisch heißt.",
+				text: "Hallo, ich bin ein Dolmetscher in Rente und verdiene mir ein paar Kröten als ChatBot. Frag mich nicht wie ich hier her gekommen bin, sondern was 'Englisch ist die einfachste Sprache' auf Chinesisch heißt.",
 			},
 			{
 				sentByUser: false,
