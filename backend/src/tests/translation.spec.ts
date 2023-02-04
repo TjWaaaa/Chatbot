@@ -7,7 +7,8 @@ jest.mock('../utils/logger', () => ({
 	info: jest.fn(),
 }));
 
-const mockedTranslation = 'Why was the math book sad? It had too many problems.';
+const translate = 'Englisch: Hallo Welt!';
+const mockedTranslation = 'Hello World!';
 const mockedAxiosResponse = { data: { translations: [{ text: mockedTranslation }] } };
 
 describe('getTranslation', () => {
@@ -20,12 +21,12 @@ describe('getTranslation', () => {
 	});
 
 	it('should send the translation to the socket', async () => {
-		const result = await getTranslation('translate pls');
+		const result = await getTranslation(translate);
 		expect(result).toEqual(mockedTranslation);
 	});
 
 	it('should log the translation', async () => {
-		await getTranslation('translation pls');
+		await getTranslation(translate);
 		expect(logger.info).toHaveBeenCalledWith(`Translation: ${mockedTranslation}`);
 	});
 });

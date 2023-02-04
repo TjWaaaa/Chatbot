@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { LANGUAGE_NOT_FOUND, TEXT_NOT_FOUND } from '../../consts/errorCodes';
 import logger from '../../utils/logger';
 
 export const getTranslation = async (message: string) => {
@@ -8,6 +9,14 @@ export const getTranslation = async (message: string) => {
 		text: [removeLanguageSentence(message)],
 		target_lang: findLanguage(message),
 	};
+
+	if (!body.target_lang) {
+		throw new Error(LANGUAGE_NOT_FOUND);
+	}
+
+	if (JSON.stringify(body.text) == JSON.stringify([''])) {
+		throw new Error(TEXT_NOT_FOUND);
+	}
 
 	const headers = {
 		headers: {
