@@ -1,6 +1,6 @@
 import { User } from '@prisma/client';
-import prisma, { Context } from '../../../configs/prisma';
-import { chatOnboardingData } from '../../../data/chatOnboarding.data';
+import { Context } from '../../configs/prisma';
+import { chatOnboardingData } from '../../data/chatOnboarding.data';
 
 interface CreateMessage {
 	text: string;

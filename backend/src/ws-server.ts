@@ -7,7 +7,7 @@ import wrapSessionSocketio from './middlewares/wrap-session-socketio';
 import { getChatBotAnswer, sendMessage } from './services/socket-api/socket-handler';
 import logger from './utils/logger';
 import { IncomingMessageWS } from './types/override-types';
-import { getUserById } from './services/db/queries/user';
+import { getUserById } from './services/db/user';
 import prismaContext from './configs/prisma';
 
 export default function wsServer() {

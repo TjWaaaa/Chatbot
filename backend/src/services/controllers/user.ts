@@ -1,9 +1,9 @@
-import userQueries from '../queries/user';
+import userQueries from '../db/user';
 import { User } from '@prisma/client';
 import bcrypt from 'bcrypt';
-import logger from '../../../utils/logger';
-import { createOnboardingMessages } from '../queries/message';
-import { Context } from '../../../configs/prisma';
+import logger from '../../utils/logger';
+import { createOnboardingMessages } from '../db/message';
+import { Context } from '../../configs/prisma';
 
 const SALT_ROUNDS = 10;
 

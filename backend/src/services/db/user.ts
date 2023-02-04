@@ -1,5 +1,5 @@
 import { User } from '@prisma/client';
-import prisma, { Context } from '../../../configs/prisma';
+import prisma, { Context } from '../../configs/prisma';
 
 export async function createUser(email: string, hashedPassword: string, ctx: Context): Promise<User> {
 	return await ctx.prisma.user.create({

@@ -1,11 +1,11 @@
 import express from 'express';
 import { Socket } from 'socket.io';
 import { ChatBotType } from '../../enums/chat-bot-type';
-import { createMessage, deleteAllMessages, getMessageById, updateMessageById } from '../../services/db/queries/message';
+import { createMessage, deleteAllMessages, getMessageById, updateMessageById } from '../../services/db/message';
 import logger from '../../utils/logger';
 import { IncomingMessageWS } from '../../types/override-types';
 import prismaContext from '../../configs/prisma';
-import { getChat } from '../../services/db/queries/chat';
+import { getChat } from '../../services/db/chat';
 
 export const saveMessage = async (socket: Socket, chatBotType: ChatBotType, message: string, sentByUser: boolean) => {
 	logger.info(

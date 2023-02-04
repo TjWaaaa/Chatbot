@@ -4,7 +4,7 @@ import {
 	readUserByEmail,
 	readUserById,
 	updateUserEmail,
-} from '../../services/db/actions/user';
+} from '../../services/controllers/user';
 import { Context, createMockContext, MockContext } from '../../configs/prisma';
 
 let mockCtx: MockContext;

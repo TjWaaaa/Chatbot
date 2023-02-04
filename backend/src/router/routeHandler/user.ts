@@ -1,6 +1,6 @@
 import express from 'express';
 import prismaContext from '../../configs/prisma';
-import { createUser, deleteUserById, readUserByEmail, updateUserEmail } from '../../services/db/actions/user';
+import { createUser, deleteUserById, readUserByEmail, updateUserEmail } from '../../services/controllers/user';
 
 async function getUser(req: express.Request, res: express.Response) {
 	const { email } = req.body;

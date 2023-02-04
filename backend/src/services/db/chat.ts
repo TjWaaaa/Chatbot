@@ -1,5 +1,5 @@
-import { Context } from '../../../configs/prisma';
-import { ChatBotType } from '../../../enums/chat-bot-type';
+import { Context } from '../../configs/prisma';
+import { ChatBotType } from '../../enums/chat-bot-type';
 
 export async function getChat(userId: string, chatBotType: ChatBotType, ctx: Context) {
 	return await ctx.prisma.user.findUnique({
