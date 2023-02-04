@@ -1,4 +1,5 @@
 import { Socket } from 'socket.io';
+import { TEXT_NOT_FOUND } from '../../const/errorCodes';
 import { ChatBotType } from '../../enums/chat-bot-type';
 import logger from '../../utils/logger';
 import { getBusinessAdvice } from '../business-advice/get-business-advice';
@@ -25,7 +26,10 @@ export const sendMessage = (socket: Socket, answer: string, chatBotType: ChatBot
 export async function getChatBotAnswer(chatBotType: ChatBotType, message: string) {
 	switch (chatBotType) {
 		case ChatBotType.TRANSLATOR:
-			return await getTranslation(message).catch(() => {
+			return await getTranslation(message).catch((err) => {
+				if (err.message === TEXT_NOT_FOUND) {
+					return 'Etwas ist schief gegangen...\nHast du nach der Sprache ein Satzzeichen angegeben?\nBsp.: Französisch. Ich habe hunger.';
+				}
 				return 'Etwas ist schief gegangen...\nHast du die Sprache angegeben, in welche der Text übersetzt werden soll?\nBsp.: Französisch. Ich habe hunger.';
 			});
 		case ChatBotType.BUSINESSMAN:
