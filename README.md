@@ -52,6 +52,22 @@ Open your browser and visit at:
 ### How to log in
 
 After generating demo data:
+- E-Mail: `admin@chatbot.de`
+- Password: `chatbot123`
 
--   E-Mail: `admin@chatbot.de`
--   Password: `chatbot123`
+### How to run frontend e2e tests
+
+1. Enter frontend directory
+```
+cd ./frontend
+```
+
+2. Start frontend with the following command
+```
+yarn start
+```
+
+3. Start testing with following command
+```
+yarn run cypress run
+```
