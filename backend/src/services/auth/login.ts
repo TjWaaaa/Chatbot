@@ -2,7 +2,7 @@ import express from 'express';
 import bcrypt from 'bcrypt';
 import { regenerateSession } from './session';
 import prismaContext from '../../configs/prisma';
-import { getUserByEmail } from '../db/queries/user';
+import { getUserByEmail } from '../db/user';
 
 export default async (req: express.Request, res: express.Response, next: express.NextFunction) => {
 	const { email, password } = req.body;
