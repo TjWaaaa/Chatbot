@@ -29,8 +29,8 @@ function AllChats() {
 	const [isMobile, setIsMobile] = useState(true);
 	const [isLoggedIn, setIsLoggedIn] = useState(undefined);
 
-	const addMessage = (chatId, message) => {
-		dispatch(AddMessage(chatId, message));
+	const addMessage = (chatBotType, message) => {
+		dispatch(AddMessage(chatBotType, message));
 	};
 
 	useLayoutEffect(() => {
