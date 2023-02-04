@@ -1,6 +1,12 @@
 import logger from '../../utils/logger';
 
-export const getBusinessAdvice = () => {
+function delay(milliseconds: number){
+    return new Promise(resolve => {
+        setTimeout(resolve, milliseconds);
+    });
+}
+
+export const getBusinessAdvice = async () => {
 	const advices = [
 		'Ich hab keine Lust mir dir zu reden. Du FISCH!',
 		'Lass mich in Ruhe!',
@@ -12,6 +18,8 @@ export const getBusinessAdvice = () => {
 		'Ich bin grade auf dem Klo, lass mich jetzt scheissen und verpiss dich!',
 		'Du hast schon keine Hobbies wenn du mir die ganze Zeit schreibst oder?!',
 	];
+
+	await delay(500)
 
 	const answer = advices[Math.floor(Math.random() * advices.length)];
 	logger.info(`Business advice: ${answer}`);

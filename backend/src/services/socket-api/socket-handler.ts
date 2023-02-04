@@ -16,7 +16,7 @@ export async function getChatBotAnswer(chatBotType: ChatBotType, message: string
 				return 'Etwas ist schief gegangen...\nHast du die Sprache angegeben, in welche der Text übersetzt werden soll?\nBsp.: Französisch. Ich habe hunger.';
 			});
 		case ChatBotType.BUSINESSMAN:
-			return getBusinessAdvice();
+			return await getBusinessAdvice();
 		case ChatBotType.JOKE:
 			return await getJoke().catch(() => {
 				return 'Ich habe leider momentan keinen Witz parat. Frag mich bitte später noch einmal.';
