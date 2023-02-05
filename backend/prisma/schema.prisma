@@ -22,12 +22,6 @@ model Session {
   expiresAt DateTime
 }
 
-enum ChatBotType {
-  businessMan
-  joke
-  translator
-}
-
 model Chat {
   id          String    @id @unique @default(uuid())
   chatBotType String

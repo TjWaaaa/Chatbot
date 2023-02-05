@@ -2,14 +2,13 @@ import { User } from '@prisma/client';
 import bcrypt from 'bcrypt';
 import { Context } from '../../configs/prisma';
 import logger from '../../utils/logger';
-import { createOnboardingMessages } from '../db/create-onboarding-messages';
+import { createOnboardingMessages } from '../db/chat';
 import { createUser, getUserByEmail } from '../db/user';
 
 const SALT_ROUNDS = 10;
 
 export async function signUserUp(email: string, password: string, ctx: Context): Promise<User> {
 	try {
-		// readUserByEmail;
 		const user = await getUserByEmail(email, ctx);
 
 		if (user) {
@@ -22,7 +21,7 @@ export async function signUserUp(email: string, password: string, ctx: Context):
 
 		logger.info(`User ${newUser.id} created`);
 
-		createOnboardingMessages(newUser);
+		createOnboardingMessages(newUser, ctx);
 
 		return newUser;
 	} catch (err) {

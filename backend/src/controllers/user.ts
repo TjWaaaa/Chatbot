@@ -1,12 +1,15 @@
 import express from 'express';
-import { deleteUserById, getUserById, updateUserEmailById } from '../services/db/user';
+import prismaContext from '../configs/prisma';
+import { USER_DOES_NOT_EXIST } from '../consts/error-messages';
+import { createUser, getUserByEmail, getUserById } from '../services/db/user';
+import { deleteUser } from '../services/user/delete-user';
+import { updateUserEmail } from '../services/user/update-user';
 
 async function postUser(req: express.Request, res: express.Response) {
 	const { email, password } = req.body;
 
-	console.log(email);
 	try {
-		if (await readUserByEmail(email, prismaContext)) {
+		if (await getUserByEmail(email, prismaContext)) {
 			return res.status(400).json({
 				message: 'Es existiert bereits ein Benutzer mit dieser Email Adresse.',
 			});
@@ -24,23 +27,22 @@ async function postUser(req: express.Request, res: express.Response) {
 }
 
 async function getUser(req: express.Request, res: express.Response) {
-	const { email } = req.body;
+	const id = req.params.id;
 
 	try {
-		const user = await readUserByEmail(email, prismaContext);
+		const user = await getUserById(id, prismaContext);
 
 		if (!user) {
 			return res.status(400).json({
-				message: 'Es existiert kein Benutzer mit dieser ID. Bitte registriere dich zuerst.',
-			});
-		} else {
-			return res.status(200).json({
-				user: {
-					id: user.id,
-					email: user.email,
-				},
+				message: USER_DOES_NOT_EXIST,
 			});
 		}
+		return res.status(200).json({
+			user: {
+				id: user.id,
+				email: user.email,
+			},
+		});
 	} catch (err) {
 		return res.status(400).json({
 			message: 'Ein Fehler beim Lesen des Users ist passiert. Versuche es erneut oder kontaktiere den Support.',
@@ -53,37 +55,41 @@ async function patchUser(req: express.Request, res: express.Response) {
 	const { email } = req.body;
 
 	try {
-		if (!updateUserEmail(id, email, prismaContext)) {
-			return res.status(400).json({
-				message: 'Es existiert kein Benutzer mit dieser ID. Bitte registriere dich zuerst.',
-			});
-		}
+		await updateUserEmail(id, email, prismaContext);
 
 		return res.status(200).json({
 			message: 'User updated',
 		});
-	} catch (err) {
+	} catch (err: Error | any) {
+		let message =
+			'Ein Fehler beim Updaten des Users ist passiert. Versuche es erneut oder kontaktiere den Support.';
+		if (err.message === USER_DOES_NOT_EXIST) {
+			message = USER_DOES_NOT_EXIST;
+		}
+
 		return res.status(400).json({
-			message: 'Ein Fehler beim Updaten des Users ist passiert. Versuche es erneut oder kontaktiere den Support.',
+			message,
 		});
 	}
 }
 
-async function deleteUser(req: express.Request, res: express.Response) {
+async function deleteU(req: express.Request, res: express.Response) {
 	const id = req.params.id;
 	try {
-		if (!(await deleteUserById(id, prismaContext))) {
-			return res.status(400).json({
-				message: 'Es existiert kein Benutzer mit dieser ID. Bitte registriere dich zuerst.',
-			});
-		}
+		await deleteUser(id, prismaContext);
 
 		return res.status(200).json({
 			message: 'User deleted',
 		});
-	} catch (err) {
+	} catch (err: Error | any) {
+		let message =
+			'Ein Fehler beim Löschen des Users ist passiert. Versuche es erneut oder kontaktiere den Support.';
+		if (err.message === USER_DOES_NOT_EXIST) {
+			message = USER_DOES_NOT_EXIST;
+		}
+
 		return res.status(400).json({
-			message: 'Ein Fehler beim Löschen des Users ist passiert. Versuche es erneut oder kontaktiere den Support.',
+			message,
 		});
 	}
 }
@@ -92,5 +98,5 @@ export default {
 	postUser,
 	getUser,
 	patchUser,
-	deleteUser,
+	deleteU,
 };

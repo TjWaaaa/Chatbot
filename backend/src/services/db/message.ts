@@ -1,6 +1,4 @@
-import { User } from '@prisma/client';
 import { Context } from '../../configs/prisma';
-import { chatOnboardingData } from '../../data/chatOnboarding.data';
 
 interface CreateMessage {
 	text: string;
@@ -40,23 +38,5 @@ export async function updateMessageById(id: string, text: string, ctx: Context) 
 		data: {
 			text,
 		},
-	});
-}
-
-export async function createOnboardingMessages(newUser: User, ctx: Context) {
-	chatOnboardingData.forEach(async (chat) => {
-		await ctx.prisma.chat.create({
-			data: {
-				chatBotType: chat.chatBotType,
-				name: chat.name,
-				img: chat.img,
-				userId: newUser.id,
-				messages: {
-					createMany: {
-						data: chat.messages,
-					},
-				},
-			},
-		});
 	});
 }

@@ -24,7 +24,7 @@ const authRouter = express.Router();
  * - 400 ZodError Password must be 8 or more characters long
  * - Error Prisma Unique constraint failed on the fields: (`email`)
  */
-authRouter.post('/signup', validate(userSchema), auth.signup);
+authRouter.post('/signup', validate(userSchema), auth.signUp);
 
 /**
  * @api {post} /auth/login Login
@@ -47,7 +47,7 @@ authRouter.post('/signup', validate(userSchema), auth.signup);
  * - 401 Password is wrong
  * - 404 User not found
  */
-authRouter.post('/signin', validate(userSchema), auth.signin);
+authRouter.post('/signin', validate(userSchema), auth.signIn);
 
 /**
  * @api {post} /auth/logout Logout

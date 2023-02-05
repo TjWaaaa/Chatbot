@@ -1,8 +1,6 @@
 import express from 'express';
 import prismaContext from '../configs/prisma';
-import { signUserUp } from '../services/auth/create-user';
-import { regenerateSession } from '../services/auth/regenerate-session';
-import { isPasswordCorrect } from '../services/auth/sign-user-in';
+import { isPasswordCorrect, regenerateSession, signUserUp } from '../services/auth';
 import { getUserByEmail } from '../services/db/user';
 
 async function signUp(req: express.Request, res: express.Response, next: express.NextFunction) {
@@ -29,7 +27,6 @@ async function signIn(req: express.Request, res: express.Response, next: express
 	const { email, password } = req.body;
 
 	try {
-		// readUserByEmail;
 		const user = await getUserByEmail(email, prismaContext);
 
 		if (!user) {
@@ -79,8 +76,8 @@ async function isAuthenticated(req: express.Request, res: express.Response) {
 }
 
 export default {
-	signup: signUp,
-	signin: signIn,
+	signUp,
+	signIn,
 	logout,
 	isAuthenticated,
 };

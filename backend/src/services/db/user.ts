@@ -1,5 +1,5 @@
 import { User } from '@prisma/client';
-import prisma, { Context } from '../../configs/prisma';
+import { Context } from '../../configs/prisma';
 
 export async function createUser(email: string, hashedPassword: string, ctx: Context): Promise<User> {
 	return await ctx.prisma.user.create({
@@ -10,7 +10,7 @@ export async function createUser(email: string, hashedPassword: string, ctx: Con
 	});
 }
 
-export async function getUserById(userId: string, ctx: Context) {
+export async function getUserMessages(userId: string, ctx: Context) {
 	return await ctx.prisma.user.findUnique({
 		where: {
 			id: userId,
@@ -46,38 +46,29 @@ export async function getUserByEmail(email: string, ctx: Context): Promise<User 
 	});
 }
 
-interface UpdateUserEmailById {
-	id: string;
-	newEmail: string;
-}
-
-export async function updateUserEmailById(userData: UpdateUserEmailById, ctx: Context) {
-	await ctx.prisma.user.update({
+export async function getUserById(id: string, ctx: Context): Promise<User | null> {
+	return await ctx.prisma.user.findUnique({
 		where: {
-			id: userData.id,
-		},
-		data: {
-			email: userData.newEmail,
+			id,
 		},
 	});
 }
 
-export async function deleteUserById(id: string, ctx: Context): Promise<boolean> {
-	if (
-		await ctx.prisma.user.delete({
-			where: {
-				id,
-			},
-		})
-	)
-		return true;
-	else return false;
+export async function updateUserEmailById(id: string, email: string, ctx: Context) {
+	return await ctx.prisma.user.update({
+		where: {
+			id,
+		},
+		data: {
+			email,
+		},
+	});
 }
 
-export default {
-	createUser,
-	getUserById,
-	getUserByEmail,
-	updateUserEmailById,
-	deleteUserById,
-};
+export async function deleteUserById(id: string, ctx: Context) {
+	return await ctx.prisma.user.delete({
+		where: {
+			id,
+		},
+	});
+}

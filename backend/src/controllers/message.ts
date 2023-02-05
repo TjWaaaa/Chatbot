@@ -1,11 +1,12 @@
 import express from 'express';
+import prismaContext from '../configs/prisma';
 import { deleteAllMessages, getMessageById, updateMessageById } from '../services/db/message';
 
 async function getMessage(req: express.Request, res: express.Response) {
 	const id = req.params.id;
 
 	try {
-		const message = await getMessageById(id);
+		const message = await getMessageById(id, prismaContext);
 
 		if (!message) {
 			return res.status(400).json({
@@ -29,7 +30,7 @@ async function updateMessage(req: express.Request, res: express.Response) {
 	const { text } = req.body;
 
 	try {
-		const message = await getMessageById(id);
+		const message = await getMessageById(id, prismaContext);
 
 		if (!message) {
 			return res.status(400).json({
@@ -37,7 +38,7 @@ async function updateMessage(req: express.Request, res: express.Response) {
 			});
 		}
 
-		await updateMessageById(id, text);
+		await updateMessageById(id, text, prismaContext);
 
 		return res.status(200).json({
 			message: 'Nachricht geändert',
@@ -60,7 +61,7 @@ async function deleteAll(req: express.Request, res: express.Response) {
 	}
 
 	try {
-		await deleteAllMessages(userId);
+		await deleteAllMessages(userId, prismaContext);
 
 		return res.status(200).json({
 			message: 'Nachrichten gelöscht',
