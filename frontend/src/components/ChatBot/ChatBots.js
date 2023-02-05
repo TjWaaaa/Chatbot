@@ -14,6 +14,7 @@ function Index({ name, img, text, time, event, id }) {
 	return (
 		<div
 			data-testid="id1"
+			id={'chatBot' + id}
 			className={
 				'pl-4 pr-4 cursor-pointer ' +
 				(currentChatId === id

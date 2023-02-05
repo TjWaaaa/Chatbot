@@ -15,12 +15,14 @@ exports[`matches snapshot 1`] = `
   >
     <input
       className="w-full p-2 bg-white dark:bg-slate-600 dark:text-white rounded-lg border border-slate-300 dark:border-slate-800"
+      id="chatInputField"
       onChange={[Function]}
       onKeyDown={[Function]}
       value=""
     />
     <div
       className="pl-4 pr-4 cursor-pointer"
+      id="sendMessageButton"
       onClick={[Function]}
     >
       <svg

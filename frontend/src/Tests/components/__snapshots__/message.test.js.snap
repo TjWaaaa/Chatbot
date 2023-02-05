@@ -2,7 +2,7 @@
 
 exports[`matches snapshot MessageBot 1`] = `
 <div
-  className="flex flex-row mt-4 items-center ml-4"
+  className="flex flex-row mt-4 items-center ml-4 chatBotMessage"
   data-testid="id2"
 >
   <img
@@ -24,7 +24,7 @@ exports[`matches snapshot MessageBot 1`] = `
 
 exports[`matches snapshot MessageUser 1`] = `
 <div
-  className="flex flex-row mt-4 items-center ml-4 justify-end"
+  className="flex flex-row mt-4 items-center ml-4 justify-end userMessage"
   data-testid="id1"
 >
   <div
