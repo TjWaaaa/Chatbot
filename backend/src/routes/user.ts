@@ -40,7 +40,7 @@ userRouter.post('/', validate(userSchema), user.postUser);
  * @apiError
  * - 400 User not found
  * */
-userRouter.get('/', user.getUser);
+userRouter.get('/:id', user.getUser);
 
 /**
  * @api {patch} /users/:id
