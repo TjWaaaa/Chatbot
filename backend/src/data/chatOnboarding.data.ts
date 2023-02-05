@@ -46,7 +46,7 @@ export const chatOnboardingData = [
 		messages: [
 			{
 				sentByUser: false,
-				text: "Hallo, ich bin ein Dolmetscher in Rente und verdiene mir ein paar Kröten als ChatBot. Frag mich nicht wie ich hier her gekommen bin, sondern was 'Englisch ist die einfachste Sprache' auf Chinesisch heißt.",
+				text: "Hallo, ich bin ein Dolmetscher in Rente und verdiene mir ein paar Kröten als ChatBot. Frag mich nicht wie ich hier her gekommen bin, sondern was 'Englisch ist die einfachste Sprache' auf Portugiesisch heißt.",
 			},
 			{
 				sentByUser: false,
@@ -55,6 +55,10 @@ export const chatOnboardingData = [
 			{
 				sentByUser: false,
 				text: 'Wenn dir das zu umständlich ist schreib einfach: Spanisch. Ich mag Pizza!',
+			},
+			{
+				sentByUser: false,
+				text: 'Ich kann Deutsch, Englisch, Französisch, Spanisch, Italienisch und Portugiesisch übersetzen.',
 			},
 		],
 	},

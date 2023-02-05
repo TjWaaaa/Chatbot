@@ -41,13 +41,11 @@ export function findLanguage(input: string) {
 		'deutsch',
 		'englisch',
 		'französisch',
-		'chinesisch',
 		'spanisch',
 		'italienisch',
-		'griechisch',
-		'portugisisch',
+		'portugiesisch'
 	];
-	const languageCodes = ['DE', 'EN', 'FR', 'CN', 'ES', 'IT', 'GR', 'PT'];
+	const languageCodes = ['DE', 'EN', 'FR', 'ES', 'IT', 'PT'];
 
 	for (let i = 0; i < languages.length; i++) {
 		if (input.includes(languages[i])) {
