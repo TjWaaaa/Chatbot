@@ -1,4 +1,3 @@
-import { Socket } from 'socket.io';
 import {
 	NO_JOKE_AVAIBLE,
 	TRANSLATION_LANGUAGE_MISSING,
@@ -9,10 +8,6 @@ import logger from '../../utils/logger';
 import { getBusinessAdvice } from '../business-advice/get-business-advice';
 import { getJoke } from '../joke/get-joke';
 import { getTranslation } from '../translation/get-translation';
-
-export const sendMessage = (socket: Socket, answer: string, chatBotType: ChatBotType) => {
-	socket.emit('answer', answer, chatBotType);
-};
 
 export async function getChatBotAnswer(chatBotType: ChatBotType, message: string) {
 	switch (chatBotType) {
