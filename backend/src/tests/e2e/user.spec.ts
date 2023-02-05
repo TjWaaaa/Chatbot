@@ -2,7 +2,6 @@ import request from 'supertest';
 import { app } from '../..';
 import chat from '../../services/db/chat';
 import userDb from '../../services/db/user';
-// import chat from '../../services/db/chat';
 
 describe('User Endpoints', () => {
 	const getUserById = jest.spyOn(userDb, 'getUserById');
@@ -20,33 +19,9 @@ describe('User Endpoints', () => {
 			chats: [],
 		};
 
-		const onboardingMessages = [
-			{
-				id: '977e3358-8821-41c5-96c0-58e42e9b4fb7',
-				chatBotType: 'businessMan',
-				userId: '11c880af-666a-41bd-b81b-8345bf849cd8',
-				img: 'https://cdn.24.co.za/files/Cms/General/d/2866/a0094e37e2b34dabbdbdf20461f3b23b.jpg',
-				name: 'Der agressive Jan',
-			},
-			{
-				id: '260d0835-e21a-45ce-94b0-3f80061b3cfe',
-				chatBotType: 'joke',
-				userId: '11c880af-666a-41bd-b81b-8345bf849cd8',
-				img: 'https://static8.depositphotos.com/1594308/1073/i/450/depositphotos_10733626-stock-photo-unhappy-fools-day.jpg',
-				name: 'Moe der Commedian',
-			},
-			{
-				id: '58f2102a-4d11-4bcb-953b-d203f45bac75',
-				chatBotType: 'translator',
-				userId: '11c880af-666a-41bd-b81b-8345bf849cd8',
-				img: 'https://img.fotocommunity.com/aelterer-mann-a688a83e-f251-4ffd-8b89-a7679bbb95ef.jpg?height=1000',
-				name: 'Der alte Lehrer',
-			},
-		];
-
 		getUserByEmail.mockResolvedValue(null);
 		createUser.mockResolvedValue(user1);
-		// createOnboardingMessages.mockResolvedValue(onboardingMessages);
+		createOnboardingMessages.mockResolvedValue([]);
 
 		const response = await request(app)
 			.post('/users')
@@ -95,7 +70,7 @@ describe('User Endpoints', () => {
 		expect(response.text).toContain('Benutzer geändert');
 	});
 
-	it('should delete user with email e2e@testc.de', async () => {
+	it('should delete user with email e2e@test.de', async () => {
 		const user1 = {
 			id: '1',
 			email: 'test@test.de',
