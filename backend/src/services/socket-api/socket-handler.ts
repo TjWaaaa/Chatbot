@@ -1,5 +1,9 @@
 import { Socket } from 'socket.io';
-import { TEXT_NOT_FOUND } from '../../consts/errorCodes';
+import {
+	NO_JOKE_AVAIBLE,
+	TRANSLATION_LANGUAGE_MISSING,
+	TRANSLATION_PUNCTUATION_MISSING,
+} from '../../consts/error-messages';
 import { ChatBotType } from '../../enums/chat-bot-type';
 import logger from '../../utils/logger';
 import { getBusinessAdvice } from '../business-advice/get-business-advice';
@@ -14,18 +18,18 @@ export async function getChatBotAnswer(chatBotType: ChatBotType, message: string
 	switch (chatBotType) {
 		case ChatBotType.TRANSLATOR:
 			return await getTranslation(message).catch((err) => {
-				if (err.message === TEXT_NOT_FOUND) {
-					return 'Etwas ist schief gegangen...\nHast du nach der Sprache ein Satzzeichen angegeben?\nBsp.: Französisch. Ich habe hunger.';
+				if (err.message === TRANSLATION_PUNCTUATION_MISSING) {
+					return err.message;
 				}
-				return 'Etwas ist schief gegangen...\nHast du die Sprache angegeben, in welche der Text übersetzt werden soll?\nBsp.: Französisch. Ich habe hunger.';
+				return TRANSLATION_LANGUAGE_MISSING;
 			});
 		case ChatBotType.BUSINESSMAN:
 			return await getBusinessAdvice();
 		case ChatBotType.JOKE:
 			return await getJoke().catch(() => {
-				return 'Ich habe leider momentan keinen Witz parat. Frag mich bitte später noch einmal.';
+				return NO_JOKE_AVAIBLE;
 			});
 		default:
-			logger.info('no fitting ChatBotType', chatBotType);
+			logger.warn('no fitting ChatBotType', chatBotType);
 	}
 }
