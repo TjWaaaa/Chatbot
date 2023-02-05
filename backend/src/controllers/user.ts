@@ -68,7 +68,7 @@ async function patchUser(req: express.Request, res: express.Response) {
 		await updateUserEmail(id, email, prismaContext);
 
 		return res.status(200).json({
-			message: 'BEutzer geändert',
+			message: 'Benutzer geändert',
 		});
 	} catch (err: Error | any) {
 		let message = USER_UPDATE_ERROR;
