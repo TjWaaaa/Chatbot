@@ -11,11 +11,10 @@ import PageLoadingAnimation from '../components/animations/PageLoadingAnimation'
 async function checkIsAuthenticated() {
 	try {
 		let response = await isAuthenticated();
-		console.log(response);
 		return response.status;
 	} catch (e) {
 		const errorMessage = e.response.data;
-		console.log(errorMessage);
+		console.error(errorMessage);
 		return 401;
 	}
 }
