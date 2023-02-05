@@ -25,6 +25,7 @@ function Index({ sendMessage, isMobile }) {
 		>
 			<div className="flex flex-row justify-between items-center ml-2 pt-2 pb-2 ">
 				<input
+					id="chatInputField"
 					className="w-full p-2 bg-white dark:bg-slate-600 dark:text-white rounded-lg border border-slate-300 dark:border-slate-800"
 					value={text}
 					onChange={(event) => {
@@ -32,8 +33,10 @@ function Index({ sendMessage, isMobile }) {
 					}}
 					onKeyDown={handleKeyDown}
 				/>
-				<div className="pl-4 pr-4 cursor-pointer" onClick={MessageSend}>
-					<PaperAirplaneIcon className={`flex h-7 w-7 text-indigo-600 dark:text-white ${text ? '' : 'opacity-30'}`}/>
+				<div className="pl-4 pr-4 cursor-pointer" id="sendMessageButton" onClick={MessageSend}>
+					<PaperAirplaneIcon
+						className={`flex h-7 w-7 text-indigo-600 dark:text-white ${text ? '' : 'opacity-30'}`}
+					/>
 				</div>
 			</div>
 		</div>

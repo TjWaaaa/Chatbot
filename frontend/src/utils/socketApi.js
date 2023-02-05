@@ -22,6 +22,7 @@ export default function SocketHandler({ children }) {
 	};
 
 	socket.on('sendProfileData', (data) => {
+		console.log('profile Data recieved');
 		botStopsTyping();
 		initializeProfile(data.email, data.chats);
 	});
@@ -32,6 +33,7 @@ export default function SocketHandler({ children }) {
 	});
 
 	socket.on('answer', (answer, chatBotType) => {
+		console.log(chatBotType + ' ' + answer);
 		botStopsTyping();
 		changeChatValue(chatBotType, {
 			sentByUser: false,

@@ -1,6 +1,6 @@
 function Index({ text }) {
 	return (
-		<div data-testid="id1" className="flex flex-row mt-4 items-center ml-4 justify-end">
+		<div data-testid="id1" className="flex flex-row mt-4 items-center ml-4 justify-end userMessage">
 			<div className="pl-4 pr-4 pt-2 pb-2 ml-4 mr-4 bg-indigo-600 rounded-lg drop-shadow-sm">
 				<p className="text text-white">{text}</p>
 			</div>

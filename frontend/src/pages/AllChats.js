@@ -49,7 +49,6 @@ function AllChats() {
 
 	async function checkAccess() {
 		const status = await checkIsAuthenticated();
-		console.log(status);
 		if (status === 200) {
 			setIsLoggedIn(true);
 		} else {
