@@ -45,7 +45,6 @@ class MockSocket {
 
 let mockedSocket = new MockSocket();
 mockedSocket.onServer('connection', (obj) => {
-	console.log('connected');
 	setTimeout(() => {
 		mockedSocket.emitServer('sendProfileData', userData);
 	}, 500);

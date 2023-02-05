@@ -32,7 +32,6 @@ export default function SignUp(props) {
 			.catch((res) => {
 				const errorMessage = res.response.data;
 				setError(errorMessage);
-				console.log(errorMessage);
 			});
 	}
 

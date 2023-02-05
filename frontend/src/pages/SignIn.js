@@ -23,7 +23,6 @@ export default function SignIn() {
 			.catch((res) => {
 				const errorMessage = res.response.data;
 				setError(errorMessage);
-				console.log(errorMessage);
 			});
 	}
 
