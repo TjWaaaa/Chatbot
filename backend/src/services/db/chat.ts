@@ -24,7 +24,7 @@ export async function getChat(userId: string, chatBotType: ChatBotType, ctx: Con
 }
 
 export async function createOnboardingMessages(newUser: User, ctx: Context) {
-	const onboarding = await Promise.all(
+	return await Promise.all(
 		chatOnboardingData.map(async (chat) => {
 			return ctx.prisma.chat.create({
 				data: {
@@ -41,9 +41,6 @@ export async function createOnboardingMessages(newUser: User, ctx: Context) {
 			});
 		}),
 	);
-
-	console.log(onboarding);
-	return onboarding;
 }
 
 export default {
