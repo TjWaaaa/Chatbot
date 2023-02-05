@@ -6,7 +6,7 @@ import wrapSessionSocketio from './middlewares/wrap-session-socketio';
 import { getChatBotAnswer } from './services/socket-api/get-chat-bot-answer';
 import logger from './utils/logger';
 import { IncomingMessageWS } from './types/override-types';
-import { getUserMessages } from './services/db/user';
+import userDb from './services/db/user';
 import prismaContext from './configs/prisma';
 import { saveMessage } from './services/db/db-handler';
 
@@ -24,7 +24,7 @@ export default function wsServer() {
 	io.on('connection', async (socket: Socket) => {
 		logger.info('Connected');
 		const userId = (socket.request as IncomingMessageWS).session.userId!;
-		const userMessages = await getUserMessages(userId, prismaContext);
+		const userMessages = await userDb.getUserMessages(userId, prismaContext);
 
 		if (!userMessages) {
 			socket.emit('sendProfileData', 'Nachrichten konnten nicht geladen werden');

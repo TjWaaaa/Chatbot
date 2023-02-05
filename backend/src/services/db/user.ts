@@ -1,7 +1,7 @@
 import { User } from '@prisma/client';
 import { Context } from '../../configs/prisma';
 
-export async function createUser(email: string, hashedPassword: string, ctx: Context): Promise<User> {
+async function createUser(email: string, hashedPassword: string, ctx: Context): Promise<User> {
 	return await ctx.prisma.user.create({
 		data: {
 			email,
@@ -10,7 +10,7 @@ export async function createUser(email: string, hashedPassword: string, ctx: Con
 	});
 }
 
-export async function getUserMessages(userId: string, ctx: Context) {
+async function getUserMessages(userId: string, ctx: Context) {
 	return await ctx.prisma.user.findUnique({
 		where: {
 			id: userId,
@@ -38,7 +38,7 @@ export async function getUserMessages(userId: string, ctx: Context) {
 	});
 }
 
-export async function getUserByEmail(email: string, ctx: Context): Promise<User | null> {
+async function getUserByEmail(email: string, ctx: Context): Promise<User | null> {
 	return await ctx.prisma.user.findUnique({
 		where: {
 			email,
@@ -46,7 +46,7 @@ export async function getUserByEmail(email: string, ctx: Context): Promise<User 
 	});
 }
 
-export async function getUserById(id: string, ctx: Context): Promise<User | null> {
+async function getUserById(id: string, ctx: Context): Promise<User | null> {
 	return await ctx.prisma.user.findUnique({
 		where: {
 			id,
@@ -54,7 +54,7 @@ export async function getUserById(id: string, ctx: Context): Promise<User | null
 	});
 }
 
-export async function updateUserEmailById(id: string, email: string, ctx: Context) {
+async function updateUserEmailById(id: string, email: string, ctx: Context) {
 	return await ctx.prisma.user.update({
 		where: {
 			id,
@@ -65,10 +65,12 @@ export async function updateUserEmailById(id: string, email: string, ctx: Contex
 	});
 }
 
-export async function deleteUserById(id: string, ctx: Context) {
+async function deleteUserById(id: string, ctx: Context) {
 	return await ctx.prisma.user.delete({
 		where: {
 			id,
 		},
 	});
 }
+
+export default { createUser, getUserByEmail, getUserById, updateUserEmailById, deleteUserById, getUserMessages };

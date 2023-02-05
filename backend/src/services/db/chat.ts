@@ -24,19 +24,29 @@ export async function getChat(userId: string, chatBotType: ChatBotType, ctx: Con
 }
 
 export async function createOnboardingMessages(newUser: User, ctx: Context) {
-	chatOnboardingData.forEach(async (chat) => {
-		await ctx.prisma.chat.create({
-			data: {
-				chatBotType: chat.chatBotType,
-				name: chat.name,
-				img: chat.img,
-				userId: newUser.id,
-				messages: {
-					createMany: {
-						data: chat.messages,
+	const onboarding = await Promise.all(
+		chatOnboardingData.map(async (chat) => {
+			return ctx.prisma.chat.create({
+				data: {
+					chatBotType: chat.chatBotType,
+					name: chat.name,
+					img: chat.img,
+					userId: newUser.id,
+					messages: {
+						createMany: {
+							data: chat.messages,
+						},
 					},
 				},
-			},
-		});
-	});
+			});
+		}),
+	);
+
+	console.log(onboarding);
+	return onboarding;
 }
+
+export default {
+	getChat,
+	createOnboardingMessages,
+};

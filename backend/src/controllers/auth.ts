@@ -9,7 +9,7 @@ import {
 	USER_EMAIL_NOT_EXISTS,
 } from '../consts/error-messages';
 import { isPasswordCorrect, regenerateSession, signUserUp } from '../services/auth';
-import { getUserByEmail } from '../services/db/user';
+import userDb from '../services/db/user';
 
 async function signUp(req: express.Request, res: express.Response, next: express.NextFunction) {
 	const { email, password } = req.body;
@@ -35,7 +35,7 @@ async function signIn(req: express.Request, res: express.Response, next: express
 	const { email, password } = req.body;
 
 	try {
-		const user = await getUserByEmail(email, prismaContext);
+		const user = await userDb.getUserByEmail(email, prismaContext);
 
 		if (!user) {
 			return res.status(400).json({
