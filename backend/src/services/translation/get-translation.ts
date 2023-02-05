@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { LANGUAGE_NOT_FOUND, TEXT_NOT_FOUND } from '../../consts/errorCodes';
+import { TRANSLATION_LANGUAGE_MISSING, TRANSLATION_PUNCTUATION_MISSING } from '../../consts/error-messages';
 import logger from '../../utils/logger';
 
 export const getTranslation = async (message: string) => {
@@ -11,11 +11,11 @@ export const getTranslation = async (message: string) => {
 	};
 
 	if (!body.target_lang) {
-		throw new Error(LANGUAGE_NOT_FOUND);
+		throw new Error(TRANSLATION_LANGUAGE_MISSING);
 	}
 
 	if (JSON.stringify(body.text) == JSON.stringify([''])) {
-		throw new Error(TEXT_NOT_FOUND);
+		throw new Error(TRANSLATION_PUNCTUATION_MISSING);
 	}
 
 	const headers = {

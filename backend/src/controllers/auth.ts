@@ -1,5 +1,13 @@
 import express from 'express';
 import prismaContext from '../configs/prisma';
+import {
+	LOGOUT_FAILED,
+	PASSWORD_IS_INCORRECT,
+	SIGN_IN_ERROR,
+	SIGN_UP_ERROR,
+	USER_EMAIL_ALREADY_EXISTS,
+	USER_EMAIL_NOT_EXISTS,
+} from '../consts/error-messages';
 import { isPasswordCorrect, regenerateSession, signUserUp } from '../services/auth';
 import { getUserByEmail } from '../services/db/user';
 
@@ -11,10 +19,10 @@ async function signUp(req: express.Request, res: express.Response, next: express
 
 		regenerateSession(req, res, next, newUser);
 	} catch (err: Error | any) {
-		let message = 'Die Registierung ist fehlgeschlagen. Versuche es erneut oder kontaktiere den Support.';
+		let message = SIGN_UP_ERROR;
 
-		if (err.message === 'Ein Benutzer mit dieser E-Mail Adresse existiert bereits. Bitte melde dich an.') {
-			message = 'Ein Benutzer mit dieser E-Mail Adresse existiert bereits. Bitte melde dich an.';
+		if (err.message === USER_EMAIL_ALREADY_EXISTS) {
+			message = err.message;
 		}
 
 		return res.status(400).json({
@@ -31,7 +39,7 @@ async function signIn(req: express.Request, res: express.Response, next: express
 
 		if (!user) {
 			return res.status(400).json({
-				message: 'Es existiert kein Benutzer mit dieser E-Mail Adresse. Bitte registriere dich zuerst.',
+				message: USER_EMAIL_NOT_EXISTS,
 			});
 		}
 
@@ -39,14 +47,14 @@ async function signIn(req: express.Request, res: express.Response, next: express
 
 		if (!resultPasswordCorrect) {
 			return res.status(400).json({
-				message: 'Das Passwort ist falsch. Bitte versuche es erneut.',
+				message: PASSWORD_IS_INCORRECT,
 			});
 		}
 
 		regenerateSession(req, res, next, user);
 	} catch (err) {
 		return res.status(400).json({
-			message: 'Ein Fehler beim Login ist passiert. Versuche es erneut oder kontaktiere den Support.',
+			message: SIGN_IN_ERROR,
 		});
 	}
 }
@@ -54,7 +62,7 @@ async function signIn(req: express.Request, res: express.Response, next: express
 async function logout(req: express.Request, res: express.Response) {
 	req.session.destroy((err) => {
 		if (err) {
-			return res.status(400).json({ message: 'Abmeldung ist fehlgeschladen.' });
+			return res.status(400).json({ message: LOGOUT_FAILED });
 		}
 		return res.status(200).json({ message: 'Erfolgreich abgemeldet.' });
 	});
@@ -65,12 +73,12 @@ async function isAuthenticated(req: express.Request, res: express.Response) {
 
 	if (session && session.userId) {
 		return res.status(200).json({
-			message: 'User is authenticated',
+			message: 'Benutzer ist authentifiziert',
 			isLoggedIn: true,
 		});
 	}
 	return res.status(401).json({
-		message: 'User is not authenticated',
+		message: 'Benutzer ist nicht authentifiziert',
 		isLoggedIn: false,
 	});
 }

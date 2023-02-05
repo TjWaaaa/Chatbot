@@ -3,7 +3,7 @@ import sessionConfig from './configs/session';
 import { httpServer } from './index';
 import socketioAuthenticationHandler from './middlewares/socketio-authentication-handler';
 import wrapSessionSocketio from './middlewares/wrap-session-socketio';
-import { getChatBotAnswer, sendMessage } from './services/socket-api/socket-handler';
+import { getChatBotAnswer } from './services/socket-api/get-chat-bot-answer';
 import logger from './utils/logger';
 import { IncomingMessageWS } from './types/override-types';
 import { getUserMessages } from './services/db/user';
@@ -46,7 +46,7 @@ export default function wsServer() {
 			}
 
 			saveMessage(socket, chatBotType, answer, false);
-			sendMessage(socket, answer, chatBotType);
+			socket.emit('answer', answer, chatBotType);
 		});
 	});
 }

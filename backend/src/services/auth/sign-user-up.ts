@@ -1,6 +1,7 @@
 import { User } from '@prisma/client';
 import bcrypt from 'bcrypt';
 import { Context } from '../../configs/prisma';
+import { USER_EMAIL_ALREADY_EXISTS } from '../../consts/error-messages';
 import logger from '../../utils/logger';
 import { createOnboardingMessages } from '../db/chat';
 import { createUser, getUserByEmail } from '../db/user';
@@ -12,7 +13,7 @@ export async function signUserUp(email: string, password: string, ctx: Context):
 		const user = await getUserByEmail(email, ctx);
 
 		if (user) {
-			throw new Error('Ein Benutzer mit dieser E-Mail Adresse existiert bereits. Bitte melde dich an.');
+			throw new Error(USER_EMAIL_ALREADY_EXISTS);
 		}
 
 		const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);

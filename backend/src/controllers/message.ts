@@ -1,5 +1,12 @@
 import express from 'express';
 import prismaContext from '../configs/prisma';
+import {
+	IS_NOT_LOGGED_IN,
+	MESSAGE_DELETE_ERROR,
+	MESSAGE_ID_NOT_EXISTS,
+	MESSAGE_READ_ERROR,
+	MESSAGE_UPDATE_ERROR,
+} from '../consts/error-messages';
 import { deleteAllMessages, getMessageById, updateMessageById } from '../services/db/message';
 
 async function getMessage(req: express.Request, res: express.Response) {
@@ -10,7 +17,7 @@ async function getMessage(req: express.Request, res: express.Response) {
 
 		if (!message) {
 			return res.status(400).json({
-				message: 'Es existiert keine Nachricht mit dieser ID. Bitte erstelle eine Nachricht.',
+				message: MESSAGE_ID_NOT_EXISTS,
 			});
 		}
 
@@ -19,8 +26,7 @@ async function getMessage(req: express.Request, res: express.Response) {
 		});
 	} catch (err) {
 		return res.status(400).json({
-			message:
-				'Ein Fehler beim Abrufen der Nachricht ist passiert. Versuche es erneut oder kontaktiere den Support.',
+			message: MESSAGE_READ_ERROR,
 		});
 	}
 }
@@ -34,7 +40,7 @@ async function updateMessage(req: express.Request, res: express.Response) {
 
 		if (!message) {
 			return res.status(400).json({
-				message: 'Es existiert keine Nachricht mit dieser ID. Bitte erstelle eine Nachricht.',
+				message: MESSAGE_ID_NOT_EXISTS,
 			});
 		}
 
@@ -45,8 +51,7 @@ async function updateMessage(req: express.Request, res: express.Response) {
 		});
 	} catch (err) {
 		return res.status(400).json({
-			message:
-				'Ein Fehler beim Updaten der Nachricht ist passiert. Versuche es erneut oder kontaktiere den Support.',
+			message: MESSAGE_UPDATE_ERROR,
 		});
 	}
 }
@@ -56,7 +61,7 @@ async function deleteAll(req: express.Request, res: express.Response) {
 
 	if (!userId) {
 		return res.status(400).json({
-			message: 'Du musst eingeloggt sein, um Nachrichten zu löschen.',
+			message: IS_NOT_LOGGED_IN,
 		});
 	}
 
@@ -68,8 +73,7 @@ async function deleteAll(req: express.Request, res: express.Response) {
 		});
 	} catch (err) {
 		return res.status(400).json({
-			message:
-				'Ein Fehler beim Löschen der Nachrichten ist passiert. Versuche es erneut oder kontaktiere den Support.',
+			message: MESSAGE_DELETE_ERROR,
 		});
 	}
 }

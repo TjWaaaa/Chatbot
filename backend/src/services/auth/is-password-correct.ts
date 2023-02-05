@@ -7,6 +7,6 @@ export async function isPasswordCorrect(password: string, user: User): Promise<b
 		return await bcrypt.compare(password, user.hashedPassword);
 	} catch (err) {
 		logger.error(err);
-		throw new Error('Ein Fehler beim Login ist passiert. Versuche es erneut oder kontaktiere den Support.');
+		throw err;
 	}
 }
