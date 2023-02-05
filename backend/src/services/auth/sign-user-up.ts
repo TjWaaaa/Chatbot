@@ -4,13 +4,12 @@ import { Context } from '../../configs/prisma';
 import { USER_EMAIL_ALREADY_EXISTS } from '../../consts/error-messages';
 import logger from '../../utils/logger';
 import { createOnboardingMessages } from '../db/chat';
-import { createUser, getUserByEmail } from '../db/user';
-
+import userDb from '../db/user';
 const SALT_ROUNDS = 10;
 
 export async function signUserUp(email: string, password: string, ctx: Context): Promise<User> {
 	try {
-		const user = await getUserByEmail(email, ctx);
+		const user = await userDb.getUserByEmail(email, ctx);
 
 		if (user) {
 			throw new Error(USER_EMAIL_ALREADY_EXISTS);
@@ -18,7 +17,7 @@ export async function signUserUp(email: string, password: string, ctx: Context):
 
 		const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
 
-		const newUser = await createUser(email, hashedPassword, ctx);
+		const newUser = await userDb.createUser(email, hashedPassword, ctx);
 
 		logger.info(`User ${newUser.id} created`);
 

@@ -1,9 +1,9 @@
 import logger from '../../utils/logger';
 
-function delay(milliseconds: number){
-    return new Promise(resolve => {
-        setTimeout(resolve, milliseconds);
-    });
+function delay(milliseconds: number) {
+	return new Promise((resolve) => {
+		setTimeout(resolve, milliseconds);
+	});
 }
 
 export const getBusinessAdvice = async () => {
@@ -19,7 +19,7 @@ export const getBusinessAdvice = async () => {
 		'Du hast schon keine Hobbies wenn du mir die ganze Zeit schreibst oder?!',
 	];
 
-	await delay(500)
+	await delay(500);
 
 	const answer = advices[Math.floor(Math.random() * advices.length)];
 	logger.info(`Business advice: ${answer}`);

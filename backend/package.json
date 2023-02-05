@@ -16,8 +16,8 @@
 		"generate": "prisma generate",
 		"migrate:dev": "dotenv -e .env.local -- prisma migrate dev",
 		"migrate:deploy": "dotenv -e .env.prod -- prisma migrate deploy",
-		"unit-test": "dotenv -e .env.local jest --coverage --watchAll --coverageReporters=html",
-		"unit-test-ci": "jest --coverage",
+		"unit-test": "dotenv -e .env.local -- jest --coverage --watchAll --coverageReporters=html",
+		"unit-test-ci": "dotenv -e .env.local -- jest --coverage",
 		"seed:local": "dotenv -e .env.local -- ts-node prisma/seed.ts",
 		"seed:prod": "dotenv -e .env.prod -- ts-node prisma/seed.ts"
 	},

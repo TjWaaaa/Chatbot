@@ -1,8 +1,9 @@
 import { Context, createMockContext, MockContext } from '../../configs/prisma';
 import { USER_DOES_NOT_EXIST } from '../../consts/error-messages';
 import { signUserUp } from '../../services/auth/sign-user-up';
-import { getUserByEmail, getUserById } from '../../services/db/user';
-import { deleteUser, updateUserEmail } from '../../services/user';
+import userDb from '../../services/db/user';
+import { deleteUser } from '../../services/user/delete-user';
+import { updateUserEmail } from '../../services/user/update-user';
 
 let mockCtx: MockContext;
 let ctx: Context;
@@ -55,7 +56,7 @@ describe('db actions user - updateUser', () => {
 
 		mockCtx.prisma.user.findUnique.mockResolvedValue(user);
 
-		await expect(getUserByEmail(user.email, ctx)).resolves.toMatchObject({
+		await expect(userDb.getUserByEmail(user.email, ctx)).resolves.toMatchObject({
 			email: user.email,
 		});
 	});
@@ -70,7 +71,7 @@ describe('db actions user - updateUser', () => {
 
 		mockCtx.prisma.user.findUnique.mockResolvedValue(user);
 
-		await expect(getUserById(user.id, ctx)).resolves.toMatchObject({
+		await expect(userDb.getUserById(user.id, ctx)).resolves.toMatchObject({
 			id: user.id,
 		});
 	});

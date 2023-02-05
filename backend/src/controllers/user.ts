@@ -8,15 +8,15 @@ import {
 	USER_READ_ERROR,
 	USER_UPDATE_ERROR,
 } from '../consts/error-messages';
-import { createUser, getUserByEmail, getUserById } from '../services/db/user';
 import { deleteUser } from '../services/user/delete-user';
 import { updateUserEmail } from '../services/user/update-user';
+import userDb from '../services/db/user';
 
 async function postUser(req: express.Request, res: express.Response) {
 	const { email, password } = req.body;
 
 	try {
-		const user = await getUserByEmail(email, prismaContext);
+		const user = await userDb.getUserByEmail(email, prismaContext);
 
 		if (user) {
 			return res.status(400).json({
@@ -24,7 +24,7 @@ async function postUser(req: express.Request, res: express.Response) {
 			});
 		}
 
-		await createUser(email, password, prismaContext);
+		await userDb.createUser(email, password, prismaContext);
 
 		return res.status(200).json({
 			message: 'Benutzer erstellt',
@@ -40,7 +40,7 @@ async function getUser(req: express.Request, res: express.Response) {
 	const id = req.params.id;
 
 	try {
-		const user = await getUserById(id, prismaContext);
+		const user = await userDb.getUserById(id, prismaContext);
 
 		if (!user) {
 			return res.status(400).json({
