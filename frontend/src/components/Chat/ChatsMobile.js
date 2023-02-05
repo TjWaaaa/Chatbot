@@ -33,7 +33,7 @@ function Index({ chatData, addMessage, currentChatId, botIsTyping }) {
 		<>
 			{currentChatId === -1 ? (
 				<div>
-					<div className="bg-slate-100 dark:bg-slate-600 min-h-screen scroll-auto">
+					<div className="bg-slate-100 dark:bg-slate-700 min-h-screen scroll-auto">
 						<NavigationAllChatsMobile />
 						{chatData.map((element, Index) => {
 							return (
