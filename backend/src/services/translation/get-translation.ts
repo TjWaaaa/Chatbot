@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { TRANSLATION_LANGUAGE_MISSING, TRANSLATION_PUNCTUATION_MISSING } from '../../consts/error-messages';
+import { delay } from '../../utils/delay';
 import logger from '../../utils/logger';
 
 export const getTranslation = async (message: string) => {
@@ -11,10 +12,12 @@ export const getTranslation = async (message: string) => {
 	};
 
 	if (!body.target_lang) {
+		await delay(500);
 		throw new Error(TRANSLATION_LANGUAGE_MISSING);
 	}
 
 	if (JSON.stringify(body.text) == JSON.stringify([''])) {
+		await delay(500);
 		throw new Error(TRANSLATION_PUNCTUATION_MISSING);
 	}
 

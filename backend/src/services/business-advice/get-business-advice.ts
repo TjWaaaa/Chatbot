@@ -1,14 +1,9 @@
+import { delay } from '../../utils/delay';
 import logger from '../../utils/logger';
-
-function delay(milliseconds: number) {
-	return new Promise((resolve) => {
-		setTimeout(resolve, milliseconds);
-	});
-}
 
 export const getBusinessAdvice = async () => {
 	const advices = [
-		'Ich hab keine Lust mir dir zu reden. Du FISCH!',
+		'Ich hab keine Lust mit dir zu reden. Du FISCH!',
 		'Lass mich in Ruhe!',
 		'Halt die Fresse! Ich will schlafen',
 		'Weißt du wie nervig du eigentlich bist?',
