@@ -1,7 +1,7 @@
 import express from 'express';
-import auth from '../routeHandler/auth';
-import { userSchema } from '../../schemas/user';
-import { validate } from '../../utils/validate';
+import auth from '../controllers/auth';
+import { userSchema } from '../schemas/user';
+import { validate } from '../utils/validate';
 
 const authRouter = express.Router();
 

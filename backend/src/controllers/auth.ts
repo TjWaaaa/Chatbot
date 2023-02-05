@@ -1,27 +1,24 @@
 import express from 'express';
-import prismaContext from '../../configs/prisma';
-import { regenerateSession } from '../../services/auth/regenerate-session';
-import { isPasswordCorrect } from '../../services/auth/sign-user-in';
-import { createUser, readUserByEmail } from '../../services/controllers/user';
+import prismaContext from '../configs/prisma';
+import { isPasswordCorrect, regenerateSession, signUserUp } from '../services/auth';
+import { getUserByEmail } from '../services/db/user';
 
 async function signUp(req: express.Request, res: express.Response, next: express.NextFunction) {
 	const { email, password } = req.body;
 
 	try {
-		const user = await readUserByEmail(email, prismaContext);
-
-		if (user) {
-			return res.status(400).json({
-				message: 'Ein Benutzer mit dieser E-Mail Adresse existiert bereits. Bitte melde dich an.',
-			});
-		}
-
-		const newUser = await createUser(email, password, prismaContext);
+		const newUser = await signUserUp(email, password, prismaContext);
 
 		regenerateSession(req, res, next, newUser);
-	} catch (err) {
+	} catch (err: Error | any) {
+		let message = 'Die Registierung ist fehlgeschlagen. Versuche es erneut oder kontaktiere den Support.';
+
+		if (err.message === 'Ein Benutzer mit dieser E-Mail Adresse existiert bereits. Bitte melde dich an.') {
+			message = 'Ein Benutzer mit dieser E-Mail Adresse existiert bereits. Bitte melde dich an.';
+		}
+
 		return res.status(400).json({
-			message: 'Die Registierung ist fehlgeschlagen. Versuche es erneut oder kontaktiere den Support.',
+			message,
 		});
 	}
 }
@@ -30,7 +27,7 @@ async function signIn(req: express.Request, res: express.Response, next: express
 	const { email, password } = req.body;
 
 	try {
-		const user = await readUserByEmail(email, prismaContext);
+		const user = await getUserByEmail(email, prismaContext);
 
 		if (!user) {
 			return res.status(400).json({
@@ -38,7 +35,9 @@ async function signIn(req: express.Request, res: express.Response, next: express
 			});
 		}
 
-		if (!(await isPasswordCorrect(password, user))) {
+		const resultPasswordCorrect = await isPasswordCorrect(password, user);
+
+		if (!resultPasswordCorrect) {
 			return res.status(400).json({
 				message: 'Das Passwort ist falsch. Bitte versuche es erneut.',
 			});

@@ -1,11 +1,8 @@
-import {
-	createUser,
-	deleteUserById,
-	readUserByEmail,
-	readUserById,
-	updateUserEmail,
-} from '../../services/controllers/user';
 import { Context, createMockContext, MockContext } from '../../configs/prisma';
+import { USER_DOES_NOT_EXIST } from '../../consts/error-messages';
+import { signUserUp } from '../../services/auth/sign-user-up';
+import { getUserByEmail, getUserById } from '../../services/db/user';
+import { deleteUser, updateUserEmail } from '../../services/user';
 
 let mockCtx: MockContext;
 let ctx: Context;
@@ -26,7 +23,7 @@ describe('db actions User - createUser', () => {
 
 		mockCtx.prisma.user.create.mockResolvedValue(user);
 
-		await expect(createUser(user.email, user.hashedPassword, ctx)).resolves.toMatchObject({
+		await expect(signUserUp(user.email, user.hashedPassword, ctx)).resolves.toMatchObject({
 			email: 'test@test.de',
 		});
 	});
@@ -41,8 +38,8 @@ describe('db actions User - createUser', () => {
 
 		mockCtx.prisma.user.findUnique.mockResolvedValue(user);
 
-		await expect(createUser(user.email, user.hashedPassword, ctx)).rejects.toThrowError(
-			new Error('User already exists'),
+		await expect(signUserUp(user.email, user.hashedPassword, ctx)).rejects.toThrowError(
+			new Error('Ein Benutzer mit dieser E-Mail Adresse existiert bereits. Bitte melde dich an.'),
 		);
 	});
 });
@@ -58,7 +55,7 @@ describe('db actions user - updateUser', () => {
 
 		mockCtx.prisma.user.findUnique.mockResolvedValue(user);
 
-		await expect(readUserByEmail(user.email, ctx)).resolves.toMatchObject({
+		await expect(getUserByEmail(user.email, ctx)).resolves.toMatchObject({
 			email: user.email,
 		});
 	});
@@ -73,7 +70,7 @@ describe('db actions user - updateUser', () => {
 
 		mockCtx.prisma.user.findUnique.mockResolvedValue(user);
 
-		await expect(readUserById(user.id, ctx)).resolves.toMatchObject({
+		await expect(getUserById(user.id, ctx)).resolves.toMatchObject({
 			id: user.id,
 		});
 	});
@@ -88,10 +85,15 @@ describe('db actions user - updateUser', () => {
 			chats: [],
 		};
 
-		mockCtx.prisma.user.findUnique.mockResolvedValue(user);
-		mockCtx.prisma.user.update.mockResolvedValue({ ...user, email: 'hello@test.de' });
+		const updateEmail = 'hello@test.de';
 
-		await expect(updateUserEmail(user.id, 'hello@test.de', ctx)).resolves.toEqual(true);
+		mockCtx.prisma.user.findUnique.mockResolvedValue(user);
+		mockCtx.prisma.user.update.mockResolvedValue({ ...user, email: updateEmail });
+
+		await expect(updateUserEmail(user.id, 'hello@test.de', ctx)).resolves.toMatchObject({
+			...user,
+			email: updateEmail,
+		});
 	});
 
 	it('should deny update user email because user with email cannot be found', async () => {
@@ -105,7 +107,9 @@ describe('db actions user - updateUser', () => {
 		mockCtx.prisma.user.findUnique.mockResolvedValue(null);
 		mockCtx.prisma.user.update.mockResolvedValue(user);
 
-		await expect(updateUserEmail(user.id, 'hello@test.de', ctx)).resolves.toEqual(false);
+		await expect(updateUserEmail(user.id, 'hello@test.de', ctx)).rejects.toThrowError(
+			new Error(USER_DOES_NOT_EXIST),
+		);
 	});
 });
 
@@ -119,10 +123,14 @@ describe('db actions user - deleteUser', () => {
 		};
 
 		mockCtx.prisma.user.findUnique.mockResolvedValue(user);
+		mockCtx.prisma.user.delete.mockResolvedValue(user);
 
-		await expect(deleteUserById(user.id, ctx)).resolves.toEqual(true);
+		await expect(deleteUser(user.id, ctx)).resolves.toMatchObject({
+			id: '1',
+			email: 'test@test.de',
+			hashedPassword: 'testtest',
+		});
 	});
-
 	it('should deny delete user because user id doesnt exist', async () => {
 		const user = {
 			id: '1',
@@ -133,6 +141,6 @@ describe('db actions user - deleteUser', () => {
 
 		mockCtx.prisma.user.findUnique.mockResolvedValue(null);
 
-		await expect(deleteUserById(user.id, ctx)).resolves.toEqual(false);
+		await expect(deleteUser(user.id, ctx)).rejects.toThrowError(new Error(USER_DOES_NOT_EXIST));
 	});
 });
